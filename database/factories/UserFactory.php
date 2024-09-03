@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Department;
+use App\Models\Position;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -24,11 +27,18 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'id' => fake()->randomNumber(8, true),
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
+            'department_id' => Department::inRandomOrder()->first(),
+            'position_id' => Position::inRandomOrder()->first(),
+            'phone_number' => fake()->regexify('\+628[1-9]{1}[0-9]{7,10}'),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 
@@ -37,7 +47,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }

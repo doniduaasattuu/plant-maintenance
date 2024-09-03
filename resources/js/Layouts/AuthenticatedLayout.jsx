@@ -1,125 +1,365 @@
-import { useState } from 'react';
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import Dropdown from '@/Components/Dropdown';
-import NavLink from '@/Components/NavLink';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link } from '@inertiajs/react';
+import ModalConfirm from "@/Components/ModalConfirm";
+import Toastify from "@/Components/Toastify";
+import { Link, router, usePage } from "@inertiajs/react";
+import { useState } from "react";
+import { useEffect } from "react";
+import { themeChange } from "theme-change";
+import toast from "react-hot-toast";
 
 export default function Authenticated({ user, header, children }) {
-    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+    const page = usePage();
+
+    useEffect(() => {
+        themeChange(false);
+    }, []);
+
+    router.on("start", (event) => {
+        toast.remove();
+    });
+
+    function setTheme(button) {
+        controllers = document.getElementsByClassName("theme-controller");
+
+        for (let btn of controllers) {
+            btn.firstChild.classList.add("hidden");
+        }
+
+        button.firstChild.classList.remove("hidden");
+        button.firstChild.classList.add("block");
+    }
+
+    const currentTheme = localStorage.getItem("theme");
+
+    // LOGOUT
+    const [isOpen, setIsOpen] = useState(false);
+
+    const closeModal = () => {
+        setIsOpen(false);
+    };
+
+    function logout() {
+        setIsOpen(true);
+    }
 
     return (
-        <div className="min-h-screen bg-gray-100">
-            <nav className="bg-white border-b border-gray-100">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16">
-                        <div className="flex">
-                            <div className="shrink-0 flex items-center">
-                                <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
-                                </Link>
-                            </div>
-
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                    Dashboard
-                                </NavLink>
-                            </div>
-                        </div>
-
-                        <div className="hidden sm:flex sm:items-center sm:ms-6">
-                            <div className="ms-3 relative">
-                                <Dropdown>
-                                    <Dropdown.Trigger>
-                                        <span className="inline-flex rounded-md">
-                                            <button
-                                                type="button"
-                                                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
-                                            >
-                                                {user.name}
-
-                                                <svg
-                                                    className="ms-2 -me-0.5 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </Dropdown.Trigger>
-
-                                    <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
-                                        <Dropdown.Link href={route('logout')} method="post" as="button">
-                                            Log Out
-                                        </Dropdown.Link>
-                                    </Dropdown.Content>
-                                </Dropdown>
-                            </div>
-                        </div>
-
-                        <div className="-me-2 flex items-center sm:hidden">
-                            <button
-                                onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
-                                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+        <>
+            <div className="w-full shadow-md bg-base-100 fixed z-50">
+                <nav className="navbar max-w-7xl mx-auto lg:px-8">
+                    <div className="navbar-start">
+                        <div className="dropdown">
+                            <div
+                                tabIndex={0}
+                                role="button"
+                                className="btn btn-ghost lg:hidden btn-circle"
                             >
-                                <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-5 w-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
                                     <path
-                                        className={!showingNavigationDropdown ? 'inline-flex' : 'hidden'}
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        className={showingNavigationDropdown ? 'inline-flex' : 'hidden'}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
+                                        d="M4 6h16M4 12h8m-8 6h16"
                                     />
                                 </svg>
-                            </button>
+                            </div>
+                            <ul
+                                tabIndex={0}
+                                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow border border-neutral-600/40"
+                            >
+                                <li>
+                                    <a>Scanner</a>
+                                </li>
+                                <li>
+                                    <a>Tables</a>
+                                    <ul className="p-2">
+                                        <li>
+                                            <Link>Functional Location</Link>
+                                        </li>
+                                        <li>
+                                            <Link>Equipment</Link>
+                                        </li>
+                                        <li>
+                                            <Link>Material Number</Link>
+                                        </li>
+                                    </ul>
+                                </li>
+                                {page.props.can.user_access && (
+                                    <li>
+                                        <Link
+                                            href={route("users.index")}
+                                            className={`${
+                                                route().current(
+                                                    "users.index"
+                                                ) ||
+                                                route()
+                                                    .current()
+                                                    .includes("users")
+                                                    ? "bg-base-200"
+                                                    : ""
+                                            }`}
+                                        >
+                                            Users
+                                        </Link>
+                                    </li>
+                                )}
+                                {page.props.can.role_access && (
+                                    <li>
+                                        <Link
+                                            href={route("roles.index")}
+                                            className={`${
+                                                route()
+                                                    .current()
+                                                    .includes("roles")
+                                                    ? "bg-base-200"
+                                                    : ""
+                                            }`}
+                                        >
+                                            Roles
+                                        </Link>
+                                    </li>
+                                )}
+                            </ul>
+                        </div>
+                        <Link
+                            className="font-bold min-w-max ms-1 text-xl sm:ms-4 lg:ms-0"
+                            href={route("dashboard")}
+                        >
+                            {page.props.appName}
+                        </Link>
+                    </div>
+                    <div className="navbar-center hidden lg:flex">
+                        <ul className="menu menu-horizontal px-1">
+                            <li>
+                                <a>Scanner</a>
+                            </li>
+                            <li>
+                                <details>
+                                    <summary>Tables</summary>
+                                    <ul className="p-2 min-w-max shadow border border-neutral-600/40">
+                                        <li>
+                                            <Link>Functional Location</Link>
+                                        </li>
+                                        <li>
+                                            <Link>Equipment</Link>
+                                        </li>
+                                        <li>
+                                            <Link>Material Number</Link>
+                                        </li>
+                                    </ul>
+                                </details>
+                            </li>
+                            {page.props.can.user_access && (
+                                <li>
+                                    <Link
+                                        href={route("users.index")}
+                                        className={`${
+                                            route().current().includes("users")
+                                                ? "bg-base-200"
+                                                : ""
+                                        }`}
+                                    >
+                                        Users
+                                    </Link>
+                                </li>
+                            )}
+                            {page.props.can.role_access && (
+                                <li>
+                                    <Link
+                                        href={route("roles.index")}
+                                        className={`${
+                                            route().current().includes("roles")
+                                                ? "bg-base-200"
+                                                : ""
+                                        }`}
+                                    >
+                                        Roles
+                                    </Link>
+                                </li>
+                            )}
+                        </ul>
+                    </div>
+                    <div className="navbar-end me-4 lg:me-0">
+                        <div className="dropdown dropdown-end">
+                            <div className="flex justify-center align-middle space-x-4">
+                                <div className="hidden md:inline-block my-auto text-sm">
+                                    {`${user.first_name} ${user.last_name}`}
+                                </div>
+                                <div
+                                    tabIndex={0}
+                                    role="button"
+                                    className="btn btn-ghost btn-circle avatar bg-base-200"
+                                >
+                                    <div className="w-10 rounded-full">
+                                        <img
+                                            alt={user.id}
+                                            src={
+                                                page.props.hasPhotos
+                                                    ? `/assets/photos/users/${user.id}.jpg`
+                                                    : "/assets/photos/users/person.png"
+                                            }
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <ul
+                                tabIndex={0}
+                                className="menu dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow border border-neutral-600/40"
+                            >
+                                <li>
+                                    <Link
+                                        href={route("profile.edit")}
+                                        className={`${
+                                            route().current("profile.edit")
+                                                ? "bg-base-200"
+                                                : ""
+                                        }`}
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 16 16"
+                                            fill="currentColor"
+                                            className="size-4"
+                                        >
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Zm-5-2a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM8 9c-1.825 0-3.422.977-4.295 2.437A5.49 5.49 0 0 0 8 13.5a5.49 5.49 0 0 0 4.294-2.063A4.997 4.997 0 0 0 8 9Z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        Profile
+                                        <span className="md:hidden badge text-xs">
+                                            {user.first_name}
+                                        </span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <details>
+                                        <summary className="align-middle">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 16 16"
+                                                fill="currentColor"
+                                                className="size-4"
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M2 3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v8.5a2.5 2.5 0 0 1-5 0V3Zm3.25 8.5a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+                                                    clipRule="evenodd"
+                                                />
+                                                <path d="m8.5 11.035 3.778-3.778a1 1 0 0 0 0-1.414l-2.122-2.121a1 1 0 0 0-1.414 0l-.242.242v7.07ZM7.656 14H13a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-.344l-5 5Z" />
+                                            </svg>
+                                            Theme
+                                        </summary>
+                                        <ul className="max-h-32 overflow-scroll min-w-max">
+                                            {page.props.themes.map((theme) => {
+                                                return (
+                                                    <li key={theme}>
+                                                        <button
+                                                            onClick={(e) => {
+                                                                setTheme(
+                                                                    e.currentTarget
+                                                                );
+                                                            }}
+                                                            data-act-class="ACTIVECLASS"
+                                                            data-set-theme={
+                                                                theme
+                                                            }
+                                                            className="theme-controller btn btn-sm btn-ghost justify-between"
+                                                        >
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 16 16"
+                                                                fill="currentColor"
+                                                                className={`size-4 ${
+                                                                    currentTheme ==
+                                                                    theme
+                                                                        ? "block"
+                                                                        : "hidden"
+                                                                }`}
+                                                            >
+                                                                <path
+                                                                    fillRule="evenodd"
+                                                                    d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z"
+                                                                    clipRule="evenodd"
+                                                                />
+                                                            </svg>
+                                                            <span className="text-sm font-normal text-left capitalize">
+                                                                {theme}
+                                                            </span>
+                                                            <span
+                                                                data-theme={
+                                                                    theme
+                                                                }
+                                                                className="bg-transparent flex h-full shrink-0 flex-wrap gap-1 py-1"
+                                                            >
+                                                                <span className="bg-primary rounded-badge w-2"></span>
+                                                                <span className="bg-secondary rounded-badge w-2"></span>
+                                                                <span className="bg-accent rounded-badge w-2"></span>
+                                                                <span className="bg-neutral rounded-badge w-2"></span>
+                                                            </span>
+                                                        </button>
+                                                    </li>
+                                                );
+                                            })}
+                                            <div className="divider m-0 p-0"></div>
+                                        </ul>
+                                    </details>
+                                </li>
+                                <li
+                                    onClick={() => {
+                                        logout();
+                                    }}
+                                >
+                                    <a className="hover:bg-red-500 hover:text-white">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 16 16"
+                                            fill="currentColor"
+                                            className="size-4"
+                                        >
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M2 4.75A2.75 2.75 0 0 1 4.75 2h3a2.75 2.75 0 0 1 2.75 2.75v.5a.75.75 0 0 1-1.5 0v-.5c0-.69-.56-1.25-1.25-1.25h-3c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h3c.69 0 1.25-.56 1.25-1.25v-.5a.75.75 0 0 1 1.5 0v.5A2.75 2.75 0 0 1 7.75 14h-3A2.75 2.75 0 0 1 2 11.25v-6.5Zm9.47.47a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 1 1-1.06-1.06l.97-.97H5.25a.75.75 0 0 1 0-1.5h7.19l-.97-.97a.75.75 0 0 1 0-1.06Z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        Log out
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                </div>
+                </nav>
+            </div>
 
-                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
-                    <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                            Dashboard
-                        </ResponsiveNavLink>
-                    </div>
-
-                    <div className="pt-4 pb-1 border-t border-gray-200">
-                        <div className="px-4">
-                            <div className="font-medium text-base text-gray-800">{user.name}</div>
-                            <div className="font-medium text-sm text-gray-500">{user.email}</div>
-                        </div>
-
-                        <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
-                            <ResponsiveNavLink method="post" href={route('logout')} as="button">
-                                Log Out
-                            </ResponsiveNavLink>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+            <div className="max-w-7xl mx-auto py-5 px-4 sm:px-6 lg:px-8 invisible h-[4.3rem]"></div>
 
             {header && (
-                <header className="bg-white shadow">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
+                <header>
+                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        {header}
+                    </div>
                 </header>
             )}
 
+            <Toastify toast={toast} />
+
             <main>{children}</main>
-        </div>
+
+            <ModalConfirm
+                isOpen={isOpen}
+                closeModal={closeModal}
+                headerMessage={"Are you sure you want to log out?"}
+                message={"Log out from this device"}
+                actionMessage={"Log out"}
+                method={"post"}
+                url={"logout"}
+            />
+        </>
     );
 }
