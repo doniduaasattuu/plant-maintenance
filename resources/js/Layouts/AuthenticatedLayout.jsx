@@ -78,7 +78,13 @@ export default function Authenticated({ user, header, children }) {
                                     <a>Tables</a>
                                     <ul className="p-2">
                                         <li>
-                                            <Link>Functional Location</Link>
+                                            <Link
+                                                href={route(
+                                                    "functional-locations.index"
+                                                )}
+                                            >
+                                                Functional Location
+                                            </Link>
                                         </li>
                                         <li>
                                             <Link>Equipment</Link>
@@ -142,7 +148,13 @@ export default function Authenticated({ user, header, children }) {
                                     <summary>Tables</summary>
                                     <ul className="p-2 min-w-max shadow border border-neutral-600/40">
                                         <li>
-                                            <Link>Functional Location</Link>
+                                            <Link
+                                                href={route(
+                                                    "functional-locations.index"
+                                                )}
+                                            >
+                                                Functional Location
+                                            </Link>
                                         </li>
                                         <li>
                                             <Link>Equipment</Link>

@@ -4,6 +4,7 @@ export default forwardRef(function SelectInput(
     {
         options = [],
         selectName = "-- Choose --",
+        withSelectName = true,
         className = "",
         isFocused = false,
         ...props
@@ -26,11 +27,11 @@ export default forwardRef(function SelectInput(
                 className
             }
         >
-            <option value="">{selectName}</option>
+            {withSelectName && <option value="">{selectName}</option>}
             {options.map((option) => {
                 return (
-                    <option key={option.key} value={option.key}>
-                        {option.value}
+                    <option key={option.value} value={option.value}>
+                        {option.label}
                     </option>
                 );
             })}

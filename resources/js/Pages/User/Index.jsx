@@ -10,8 +10,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 export default function Index({ auth, can, users, departments }) {
     departments = departments.data.map((department) => {
         return {
-            key: department.id,
-            value: department.title,
+            value: department.id,
+            label: department.title,
         };
     });
 

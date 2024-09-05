@@ -26,11 +26,24 @@ export default function Index({ auth, can, roles }) {
             user={auth.user}
             header={
                 <>
-                    <h2 className="font-semibold text-xl leading-tight">
-                        Roles List
-                    </h2>
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <h2 className="font-semibold text-xl leading-tight">
+                                Roles List
+                            </h2>
 
-                    <p className="mt-1 text-sm">A list of all the Roles.</p>
+                            <p className="mt-1 text-sm">
+                                A list of all the Roles.
+                            </p>
+                        </div>
+                        <div>
+                            {can.role_create && (
+                                <Link href={route("roles.create")}>
+                                    <PrimaryButton>Create new</PrimaryButton>
+                                </Link>
+                            )}
+                        </div>
+                    </div>
                 </>
             }
         >
@@ -49,12 +62,6 @@ export default function Index({ auth, can, roles }) {
 
             <div className="py-4">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-                    {can.role_create && (
-                        <Link href={route("roles.create")}>
-                            <PrimaryButton>Add role</PrimaryButton>
-                        </Link>
-                    )}
-
                     <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
                         {/* <h2 className="font-semibold text-xl leading-tight">
                             Roles List

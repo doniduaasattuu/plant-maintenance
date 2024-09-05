@@ -1,6 +1,6 @@
 import { router } from "@inertiajs/react";
 
-export default function Pagination({ meta }) {
+export default function Pagination({ meta, updatePage }) {
     return (
         <div className="p-4 px-6 bg-base-200 rounded-xl">
             <div className="flex justify-between align-middle flex-wrap flex-row sm:align-middle gap-3">
@@ -30,17 +30,10 @@ export default function Pagination({ meta }) {
                                     }
 
                                     if (link.active) {
-                                        router.reload(
-                                            link.url,
-                                            {
-                                                preserveScroll: true,
-                                                preserveState: true,
-                                            }
-                                            // route(link.url, {
-                                            //     preserveScroll: true,
-                                            //     preserveState: true,
-                                            // })
-                                        );
+                                        router.reload(link.url, {
+                                            preserveScroll: true,
+                                            preserveState: true,
+                                        });
                                     }
                                 }}
                                 className={`join-item btn btn-sm sm:btn-md text-sm border-transparent hover:bg-neutral-300 hover:text-neutral-900 ${

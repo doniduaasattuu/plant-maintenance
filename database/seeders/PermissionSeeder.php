@@ -65,7 +65,25 @@ class PermissionSeeder extends Seeder
             [
                 'title' => 'role_access',
             ],
-
+            // FUNCTIONAL LOCATION
+            [
+                'title' => 'functional_location_access'
+            ],
+            [
+                'title' => 'functional_location_create',
+            ],
+            [
+                'title' => 'functional_location_edit',
+            ],
+            [
+                'title' => 'functional_location_show',
+            ],
+            [
+                'title' => 'functional_location_update',
+            ],
+            [
+                'title' => 'functional_location_delete',
+            ],
         ];
 
         Permission::insert($permissions);

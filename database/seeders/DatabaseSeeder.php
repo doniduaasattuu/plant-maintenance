@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('functional_locations')->delete();
         DB::table('role_user')->delete();
         DB::table('permission_role')->delete();
         DB::table('permissions')->delete();
@@ -34,6 +35,7 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             PermissionRoleTableSeeder::class,
             RoleUserTableSeeder::class,
+            FunctionalLocationSeeder::class,
         ]);
     }
 }
