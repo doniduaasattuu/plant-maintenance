@@ -82,12 +82,38 @@ export default function Authenticated({ user, header, children }) {
                                                 href={route(
                                                     "functional-locations.index"
                                                 )}
+                                                className={`${
+                                                    route().current(
+                                                        "functional-locations.index"
+                                                    ) ||
+                                                    route()
+                                                        .current()
+                                                        .includes(
+                                                            "functional-locations"
+                                                        )
+                                                        ? "bg-base-200"
+                                                        : ""
+                                                }`}
                                             >
                                                 Functional Location
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link>Equipment</Link>
+                                            <Link
+                                                className={`${
+                                                    route().current(
+                                                        "equipments.index"
+                                                    ) ||
+                                                    route()
+                                                        .current()
+                                                        .includes("equipments")
+                                                        ? "bg-base-200"
+                                                        : ""
+                                                }`}
+                                                href={route("equipments.index")}
+                                            >
+                                                Equipment
+                                            </Link>
                                         </li>
                                         <li>
                                             <Link>Material Number</Link>
@@ -152,12 +178,38 @@ export default function Authenticated({ user, header, children }) {
                                                 href={route(
                                                     "functional-locations.index"
                                                 )}
+                                                className={`${
+                                                    route().current(
+                                                        "functional-locations.index"
+                                                    ) ||
+                                                    route()
+                                                        .current()
+                                                        .includes(
+                                                            "functional-locations"
+                                                        )
+                                                        ? "bg-base-200"
+                                                        : ""
+                                                }`}
                                             >
                                                 Functional Location
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link>Equipment</Link>
+                                            <Link
+                                                href={route("equipments.index")}
+                                                className={`${
+                                                    route().current(
+                                                        "equipments.index"
+                                                    ) ||
+                                                    route()
+                                                        .current()
+                                                        .includes("equipments")
+                                                        ? "bg-base-200"
+                                                        : ""
+                                                }`}
+                                            >
+                                                Equipment
+                                            </Link>
                                         </li>
                                         <li>
                                             <Link>Material Number</Link>

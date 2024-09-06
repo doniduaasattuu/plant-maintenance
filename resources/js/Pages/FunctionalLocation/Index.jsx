@@ -44,7 +44,6 @@ export default function Index({ auth, can, functional_locations }) {
         router.visit(functional_locationUrl, {
             preserveScroll: true,
             preserveState: true,
-            replace: true,
         });
     }, [functional_locationUrl]);
 
@@ -85,7 +84,7 @@ export default function Index({ auth, can, functional_locations }) {
                 </>
             }
         >
-            <Head title="Funcional locations" />
+            <Head title="Functional locations" />
 
             {/* 
             <ModalConfirm
@@ -156,11 +155,11 @@ export default function Index({ auth, can, functional_locations }) {
                                     options={[
                                         {
                                             value: "asc",
-                                            label: "Ascending",
+                                            label: "ASC",
                                         },
                                         {
                                             value: "desc",
-                                            label: "Descending",
+                                            label: "DESC",
                                         },
                                     ]}
                                 />
@@ -204,9 +203,10 @@ export default function Index({ auth, can, functional_locations }) {
                                                             );
                                                         }}
                                                         className={
+                                                            `font-bold flex justify-between border ` +
                                                             can.functional_location_edit
-                                                                ? "font-bold underline underline-offset-2 hover:text-blue-500 cursor-pointer"
-                                                                : "font-bold"
+                                                                ? "underline underline-offset-2 hover:text-blue-500 cursor-pointer"
+                                                                : null
                                                         }
                                                     >
                                                         {functional_location.id}

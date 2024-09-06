@@ -12,7 +12,7 @@ import DangerButton from "@/Components/DangerButton";
 import { useState } from "react";
 import ModalConfirm from "@/Components/ModalConfirm";
 
-export default function Edit({ auth }) {
+export default function Create({ auth }) {
     // departments = departments.data.map((department) => {
     //     return {
     //         key: department.id,

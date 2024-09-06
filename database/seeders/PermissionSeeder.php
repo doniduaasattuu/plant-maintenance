@@ -84,6 +84,25 @@ class PermissionSeeder extends Seeder
             [
                 'title' => 'functional_location_delete',
             ],
+            // EQUIPMENT
+            [
+                'title' => 'equipment_access'
+            ],
+            [
+                'title' => 'equipment_create',
+            ],
+            [
+                'title' => 'equipment_edit',
+            ],
+            [
+                'title' => 'equipment_show',
+            ],
+            [
+                'title' => 'equipment_update',
+            ],
+            [
+                'title' => 'equipment_delete',
+            ],
         ];
 
         Permission::insert($permissions);

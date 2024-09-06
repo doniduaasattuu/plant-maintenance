@@ -86,7 +86,7 @@ export default function Edit({ auth, can, functional_location }) {
                                 <div>
                                     <InputLabel
                                         htmlFor="id"
-                                        value="Functional location ID"
+                                        value="Functional location ID*"
                                     />
 
                                     <TextInput
@@ -111,7 +111,7 @@ export default function Edit({ auth, can, functional_location }) {
                                 <div>
                                     <InputLabel
                                         htmlFor="description"
-                                        value="Description"
+                                        value="Description*"
                                     />
 
                                     <TextInput
@@ -137,9 +137,9 @@ export default function Edit({ auth, can, functional_location }) {
 
                                 <div className="flex items-center gap-4">
                                     <Link
-                                        href={route(
-                                            "functional-locations.index"
-                                        )}
+                                        onClick={() => {
+                                            history.back();
+                                        }}
                                     >
                                         <SecondaryButton>Back</SecondaryButton>
                                     </Link>
@@ -162,6 +162,84 @@ export default function Edit({ auth, can, functional_location }) {
                         </section>
                     </div>
 
+                    {functional_location.data.equipments.length > 0 && (
+                        <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
+                            <section className="max-w-xl">
+                                <div className="flex justify-between items-center">
+                                    <div>
+                                        <h2 className="text-lg font-medium">
+                                            Equipments
+                                        </h2>
+
+                                        <p className="mt-1 text-sm">
+                                            A list of all installed equipment.
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <Link
+                                            preserveScroll
+                                            href={route(
+                                                "functional-locations.edit",
+                                                functional_location?.data?.id
+                                            )}
+                                            className="py-2"
+                                        >
+                                            <span className="text-sm mx-4 text-blue-500 underline underline-offset-2">
+                                                Refresh
+                                            </span>
+                                            {/* <PrimaryButton>
+                                                Refresh
+                                            </PrimaryButton> */}
+                                        </Link>
+                                    </div>
+                                </div>
+
+                                <ul className="menu bg-base-200 rounded-box p-0 mt-6 mx-0">
+                                    {functional_location.data.equipments.map(
+                                        (equipment) => {
+                                            return (
+                                                <li key={equipment.id}>
+                                                    <div className="flex justify-between">
+                                                        <Link
+                                                            className="hover:link hover:text-blue-500 hover:underline-offset-2"
+                                                            href={route(
+                                                                "equipments.edit",
+                                                                equipment.id
+                                                            )}
+                                                        >
+                                                            {equipment.id}
+                                                        </Link>
+                                                        <div>
+                                                            {
+                                                                equipment.sort_field
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            );
+                                        }
+                                    )}
+
+                                    {/* <li>
+                                        <details>
+                                            <summary>EMO000123</summary>
+                                            <ul>
+                                                <li>
+                                                    <a className="flex justify-between bg-base-300">
+                                                        <div>EMO000123</div>
+                                                        <div>
+                                                            Equipment sort field
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </details>
+                                    </li> */}
+                                </ul>
+                            </section>
+                        </div>
+                    )}
+
                     {can.functional_location_delete && (
                         <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
                             <section className="max-w-xl space-y-6">
@@ -171,11 +249,13 @@ export default function Edit({ auth, can, functional_location }) {
                                     </h2>
 
                                     <p className="mt-1 text-sm">
-                                        Once this user is deleted, all of its
-                                        resources and data will be permanently
-                                        deleted. Before deleting this user,
-                                        please download any data or information
-                                        that you wish to retain.
+                                        Once this functional location is
+                                        deleted, all related equipment will be
+                                        set to null, and data will be
+                                        permanently deleted. Before deleting
+                                        this functional location, please
+                                        download any data or information that
+                                        you wish to retain.
                                     </p>
                                 </header>
 

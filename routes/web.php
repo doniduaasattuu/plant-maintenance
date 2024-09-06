@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\FunctionalLocationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -31,9 +32,8 @@ Route::middleware('auth')->group(function () {
     // Route::put('users/reset', [UserController::class, 'reset'])->name('users.reset');
 
     Route::resource('roles', RoleController::class);
-
     Route::resource('functional-locations', FunctionalLocationController::class);
-    // Route::get('functional-locations', [FunctionalLocationController::class, 'index']);
+    Route::resource('equipments', EquipmentController::class);
 });
 
 require __DIR__ . '/auth.php';

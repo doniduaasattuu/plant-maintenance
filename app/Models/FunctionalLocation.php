@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 
 class FunctionalLocation extends Model
@@ -23,6 +24,12 @@ class FunctionalLocation extends Model
         'created_at',
         'updated_at',
     ];
+
+    // RELATION
+    public function equipments(): HasMany
+    {
+        return $this->hasMany(Equipment::class, 'functional_location_id', 'id');
+    }
 
     public function scopeSearch(Builder $builder, Request $request)
     {
