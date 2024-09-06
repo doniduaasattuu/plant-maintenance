@@ -17,6 +17,7 @@ import ModalConfirm from "@/Components/ModalConfirm";
 export default function Edit({
     auth,
     user,
+    can,
     departments,
     roles,
     positions,
@@ -24,22 +25,22 @@ export default function Edit({
 }) {
     departments = departments.data.map((department) => {
         return {
-            key: department.id,
-            value: department.title,
+            value: department.id,
+            label: department.title,
         };
     });
 
     positions = positions.data.map((position) => {
         return {
-            key: position.id,
-            value: position.title,
+            value: position.id,
+            label: position.title,
         };
     });
 
     work_centers = work_centers.data.map((work_center) => {
         return {
-            key: work_center.id,
-            value: work_center.title,
+            value: work_center.id,
+            label: work_center.title,
         };
     });
 
@@ -336,11 +337,9 @@ export default function Edit({
                                 </div>
 
                                 <div className="flex items-center gap-4">
-                                    <SecondaryButton>
-                                        <Link href={route("users.index")}>
-                                            Back
-                                        </Link>
-                                    </SecondaryButton>
+                                    <Link href={route("users.index")}>
+                                        <SecondaryButton>Back</SecondaryButton>
+                                    </Link>
 
                                     <PrimaryButton disabled={processing}>
                                         Update
@@ -360,29 +359,31 @@ export default function Edit({
                         </section>
                     </div>
 
-                    <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
-                        <section className="max-w-xl space-y-6">
-                            <header>
-                                <h2 className="text-lg font-medium">
+                    {can.user_delete && (
+                        <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
+                            <section className="max-w-xl space-y-6">
+                                <header>
+                                    <h2 className="text-lg font-medium">
+                                        Delete User
+                                    </h2>
+
+                                    <p className="mt-1 text-sm">
+                                        Once this user is deleted, all of its
+                                        resources and data will be permanently
+                                        deleted. Before deleting this user,
+                                        please download any data or information
+                                        that you wish to retain.
+                                    </p>
+                                </header>
+
+                                <DangerButton
+                                    onClick={() => openDeleteConfirm(user.id)}
+                                >
                                     Delete User
-                                </h2>
-
-                                <p className="mt-1 text-sm">
-                                    Once this user is deleted, all of its
-                                    resources and data will be permanently
-                                    deleted. Before deleting this user, please
-                                    download any data or information that you
-                                    wish to retain.
-                                </p>
-                            </header>
-
-                            <DangerButton
-                                onClick={() => openDeleteConfirm(user.id)}
-                            >
-                                Delete User
-                            </DangerButton>
-                        </section>
-                    </div>
+                                </DangerButton>
+                            </section>
+                        </div>
+                    )}
                 </div>
             </div>
         </AuthenticatedLayout>

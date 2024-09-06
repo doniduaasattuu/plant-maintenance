@@ -29,7 +29,7 @@ class UpdateUserRequest extends FormRequest
             'first_name' => ['required', 'string', 'max:50'],
             'last_name' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:25', Rule::unique(User::class)->ignore($user->id)],
-            'phone_number' => ['nullable', 'numeric', 'max_digits:15', Rule::unique(User::class)->ignore($user->id)],
+            'phone_number' => ['nullable', 'numeric', 'regex:/^[0-9]+$/i', 'max_digits:15', Rule::unique(User::class)->ignore($user->id)],
             'department_id' => ['nullable', 'exists:App\Models\Department,id'],
             'position_id' => ['nullable', 'exists:App\Models\Position,id'],
             'work_center_id' => ['nullable', 'exists:App\Models\WorkCenter,id'],

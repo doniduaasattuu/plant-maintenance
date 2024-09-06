@@ -15,6 +15,20 @@ export default function UpdateProfileInformation({
 }) {
     const user = usePage().props.auth.user;
 
+    departments = departments.map((department) => {
+        return {
+            value: department.key,
+            label: department.value,
+        };
+    });
+
+    work_centers = work_centers.map((work_center) => {
+        return {
+            value: work_center.key,
+            label: work_center.value,
+        };
+    });
+
     const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm("UpdateProfile", {
             first_name: user.first_name,
