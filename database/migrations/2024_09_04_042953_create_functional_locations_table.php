@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('functional_locations', function (Blueprint $table) {
             $table->string('id', 25)->nullable(false)->primary();
-            $table->string('description', 25)->nullable(false);
-            $table->foreignId('updated_by')->nullable(true)->constrained('users')->cascadeOnUpdate()->nullOnDelete();
+            $table->string('description', 100)->nullable(false);
+            $table->string('updated_by', 8)->nullable(true);
             $table->timestamps();
 
-            // $table->foreign('updated_by')->references('id')->on('users')->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('updated_by')->references('id')->on('users')->cascadeOnUpdate()->nullOnDelete();
         });
     }
 
