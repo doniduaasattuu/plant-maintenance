@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('work_centers', function (Blueprint $table) {
             $table->string('id', 8)->nullable(false)->primary();
-            $table->string('title', 25)->unique();
+            $table->string('title', 50)->unique();
             $table->timestamps();
         });
     }

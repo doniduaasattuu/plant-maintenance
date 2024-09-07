@@ -13,18 +13,22 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->string('id', 8)->nullable(false)->primary();
-            $table->string('password');
+            $table->string('password')->nullable(false);
             $table->string('first_name', 50)->nullable(false);
             $table->string('last_name', 50)->nullable();
-            $table->foreignId('department_id', 5)->nullable()->constrained('departments')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('position_id', 5)->nullable()->constrained('positions')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('work_center_id', 5)->nullable()->constrained('work_centers')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('department_id', 5)->nullable();
+            $table->string('position_id', 5)->nullable();
+            $table->string('work_center_id', 8)->nullable();
             $table->string('phone_number', 15)->nullable()->unique();
             $table->timestamp('last_activity')->nullable();
             $table->string('email', 50)->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('department_id')->references('id')->on('departments')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('position_id')->references('id')->on('positions')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('work_center_id')->references('id')->on('work_centers')->cascadeOnDelete()->cascadeOnUpdate();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

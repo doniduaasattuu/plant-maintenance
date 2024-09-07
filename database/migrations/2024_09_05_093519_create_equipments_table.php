@@ -13,13 +13,17 @@ return new class extends Migration
     {
         Schema::create('equipments', function (Blueprint $table) {
             $table->string('id', 9)->nullable(false)->primary(true);
-            $table->foreignId('classification_id')->nullable(false)->constrained('classifications')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('functional_location_id')->nullable(true)->constrained('functional_locations')->cascadeOnUpdate()->nullOnDelete();
+            $table->string('classification_id')->nullable(false);
+            $table->string('functional_location_id')->nullable(true);
             $table->string('sort_field', 50)->nullable(true);
             $table->string('description', 100)->nullable(true);
             $table->foreignId('equipment_status_id')->nullable(false)->constrained('equipment_status')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('updated_by')->nullable(true)->constrained('users')->cascadeOnUpdate()->nullOnDelete();
+            $table->string('updated_by', 8)->nullable(true);
             $table->timestamps();
+
+            $table->foreign('classification_id')->references('id')->on('classifications')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('functional_location_id')->references('id')->on('functional_locations')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreign('updated_by')->references('id')->on('users')->cascadeOnUpdate()->nullOnDelete();
         });
     }
 
