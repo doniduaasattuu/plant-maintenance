@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Simple;
+namespace App\Http\Resources;
 
-use App\Http\Resources\DepartmentResource;
-use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserSimpleResource extends JsonResource
+class MovementStatusResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,8 +16,7 @@ class UserSimpleResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'full_name' => "$this->first_name $this->last_name",
-            'department' => DepartmentResource::make(Department::find($this->department_id)),
+            'keyword' => $this->keyword,
         ];
     }
 }

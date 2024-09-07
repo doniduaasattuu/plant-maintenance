@@ -105,10 +105,16 @@ export default function Index({ auth, can, users, departments }) {
             user={auth.user}
             header={
                 <>
-                    <h2 className="font-semibold text-xl leading-tight">
-                        Users
-                    </h2>
-                    <p className="mt-2 text-sm">A list of all the users.</p>
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <h2 className="font-semibold text-xl leading-tight">
+                                Users
+                            </h2>
+                            <p className="mt-1 text-sm">
+                                A list of all the users.
+                            </p>
+                        </div>
+                    </div>
                 </>
             }
         >

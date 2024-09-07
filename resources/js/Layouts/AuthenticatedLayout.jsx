@@ -155,6 +155,26 @@ export default function Authenticated({ user, header, children }) {
                                         </Link>
                                     </li>
                                 )}
+                                {page.props.can.equipment_movement_access && (
+                                    <li>
+                                        <Link
+                                            href={route(
+                                                "equipment-movements.index"
+                                            )}
+                                            className={`${
+                                                route()
+                                                    .current()
+                                                    .includes(
+                                                        "equipment-movements"
+                                                    )
+                                                    ? "bg-base-200"
+                                                    : ""
+                                            }`}
+                                        >
+                                            Equipment Movement
+                                        </Link>
+                                    </li>
+                                )}
                             </ul>
                         </div>
                         <Link
@@ -173,44 +193,74 @@ export default function Authenticated({ user, header, children }) {
                                 <details>
                                     <summary>Tables</summary>
                                     <ul className="p-2 min-w-max shadow border border-neutral-600/40">
-                                        <li>
-                                            <Link
-                                                href={route(
-                                                    "functional-locations.index"
-                                                )}
-                                                className={`${
-                                                    route().current(
+                                        {page.props.can
+                                            .functional_location_access && (
+                                            <li>
+                                                <Link
+                                                    href={route(
                                                         "functional-locations.index"
-                                                    ) ||
-                                                    route()
-                                                        .current()
-                                                        .includes(
-                                                            "functional-locations"
-                                                        )
-                                                        ? "bg-base-200"
-                                                        : ""
-                                                }`}
-                                            >
-                                                Functional Location
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link
-                                                href={route("equipments.index")}
-                                                className={`${
-                                                    route().current(
+                                                    )}
+                                                    className={`${
+                                                        route().current(
+                                                            "functional-locations.index"
+                                                        ) ||
+                                                        route()
+                                                            .current()
+                                                            .includes(
+                                                                "functional-locations"
+                                                            )
+                                                            ? "bg-base-200"
+                                                            : ""
+                                                    }`}
+                                                >
+                                                    Functional Location
+                                                </Link>
+                                            </li>
+                                        )}
+                                        {page.props.can.equipment_access && (
+                                            <li>
+                                                <Link
+                                                    href={route(
                                                         "equipments.index"
-                                                    ) ||
-                                                    route()
-                                                        .current()
-                                                        .includes("equipments")
-                                                        ? "bg-base-200"
-                                                        : ""
-                                                }`}
-                                            >
-                                                Equipment
-                                            </Link>
-                                        </li>
+                                                    )}
+                                                    className={`${
+                                                        route().current(
+                                                            "equipments.index"
+                                                        ) ||
+                                                        route()
+                                                            .current()
+                                                            .includes(
+                                                                "equipments"
+                                                            )
+                                                            ? "bg-base-200"
+                                                            : ""
+                                                    }`}
+                                                >
+                                                    Equipment
+                                                </Link>
+                                            </li>
+                                        )}
+                                        {page.props.can
+                                            .equipment_movement_access && (
+                                            <li>
+                                                <Link
+                                                    href={route(
+                                                        "equipment-movements.index"
+                                                    )}
+                                                    className={`${
+                                                        route()
+                                                            .current()
+                                                            .includes(
+                                                                "equipment-movements"
+                                                            )
+                                                            ? "bg-base-200"
+                                                            : ""
+                                                    }`}
+                                                >
+                                                    Equipment Movement
+                                                </Link>
+                                            </li>
+                                        )}
                                         <li>
                                             <Link>Material Number</Link>
                                         </li>
