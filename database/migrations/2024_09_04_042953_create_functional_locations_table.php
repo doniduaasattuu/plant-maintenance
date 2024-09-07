@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('functional_locations', function (Blueprint $table) {
             $table->string('id', 25)->nullable(false)->primary();
             $table->string('description', 100)->nullable(false);
-            $table->string('updated_by', 8)->nullable(true);
+            $table->string('updated_by', 8)->nullable();
             $table->timestamps();
 
             $table->foreign('updated_by')->references('id')->on('users')->cascadeOnUpdate()->nullOnDelete();

@@ -42,7 +42,7 @@ export default function Create({ auth, classifications, equipment_status }) {
         functional_location_id: "",
         sort_field: "",
         description: "",
-        equipment_status_id: "",
+        equipment_status_id: 1,
     });
 
     function submit(e) {

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EquipmentController;
+use App\Http\Controllers\EquipmentMovementController;
 use App\Http\Controllers\FunctionalLocationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -34,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('roles', RoleController::class);
     Route::resource('functional-locations', FunctionalLocationController::class);
     Route::resource('equipments', EquipmentController::class);
+    Route::resource('equipment-movements', EquipmentMovementController::class)->only(['index']);
 });
 
 require __DIR__ . '/auth.php';

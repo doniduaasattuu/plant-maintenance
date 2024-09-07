@@ -36,7 +36,7 @@ class UpdateEquipmentRequest extends FormRequest
             'classification_id' => ['required', 'exists:App\Models\Classification,id'],
             'equipment_status_id' => ['required', 'exists:App\Models\EquipmentStatus,id'],
             'functional_location_id' => ['nullable',  Rule::prohibitedIf(fn() => $statusNotInstalled), Rule::requiredIf(fn() => $statusInstalled), 'exists:App\Models\FunctionalLocation,id'],
-            'sort_field' => [Rule::requiredIf($funclocExist), Rule::prohibitedIf($funclocNotExist), 'nullable', 'min:5', 'max:50'],
+            'sort_field' => [Rule::requiredIf($funclocExist), Rule::prohibitedIf($funclocNotExist), 'nullable', 'max:50'],
             'description' => [Rule::requiredIf($funclocExist), 'nullable', 'min:5', 'max:100'],
         ];
     }

@@ -9,6 +9,7 @@ use App\Http\Resources\ClassificationResource;
 use App\Http\Resources\EquipmentResource;
 use App\Http\Resources\EquipmentStatusResource;
 use App\Http\Resources\FunctionalLocationResource;
+use App\Http\Services\EquipmentMovementService;
 use App\Models\Classification;
 use App\Models\Equipment;
 use App\Models\EquipmentStatus;
@@ -20,6 +21,12 @@ use Inertia\Inertia;
 
 class EquipmentController extends Controller
 {
+    private $equipmentMovementService;
+
+    public function __construct(EquipmentMovementService $equipmentMovementService)
+    {
+        $this->equipmentMovementService = $equipmentMovementService;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -69,6 +76,8 @@ class EquipmentController extends Controller
 
         Equipment::create($validated);
 
+        $this->equipmentMovementService->logEquipmentMovement($request->validated());
+
         return redirect()
             ->route('equipments.index')
             ->with('success', 'Equipment successfully created');
@@ -109,6 +118,8 @@ class EquipmentController extends Controller
         $validated = $request->validated();
         $validated['updated_by'] = auth()->user()->id;
         $validated['updated_at'] = now();
+
+        $this->equipmentMovementService->logEquipmentMovement($request->validated());
 
         $equipment->update($validated);
 

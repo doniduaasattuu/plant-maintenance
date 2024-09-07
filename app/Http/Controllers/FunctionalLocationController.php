@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreFunctionalLocationRequest;
 use App\Http\Requests\UpdateFunctionalLocationRequest;
 use App\Http\Resources\FunctionalLocationResource;
-use FFI;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;

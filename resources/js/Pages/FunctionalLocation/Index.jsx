@@ -67,7 +67,7 @@ export default function Index({ auth, can, functional_locations }) {
                             <h2 className="font-semibold text-xl leading-tight">
                                 Functional Location
                             </h2>
-                            <p className="mt-2 text-sm">
+                            <p className="mt-1 text-sm">
                                 A list of all the functional locations.
                             </p>
                         </div>

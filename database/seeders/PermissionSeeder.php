@@ -103,6 +103,25 @@ class PermissionSeeder extends Seeder
             [
                 'title' => 'equipment_delete',
             ],
+            // EQUIPMENT MOVEMENT
+            [
+                'title' => 'equipment_movement_access'
+            ],
+            [
+                'title' => 'equipment_movement_create',
+            ],
+            [
+                'title' => 'equipment_movement_edit',
+            ],
+            [
+                'title' => 'equipment_movement_show',
+            ],
+            [
+                'title' => 'equipment_movement_update',
+            ],
+            [
+                'title' => 'equipment_movement_delete',
+            ],
         ];
 
         Permission::insert($permissions);
