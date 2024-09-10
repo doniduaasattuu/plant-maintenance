@@ -20,12 +20,12 @@ class PermissionRoleTableSeeder extends Seeder
             'profile_update',
         ])->get();
 
-        $management_permissions = $user_permissions->merge(Permission::whereIn('title', [
-            'user_access',
-        ])->get());
+        // $management_permissions = $user_permissions->merge(Permission::whereIn('title', [
+        //     'user_access',
+        // ])->get());
 
         Role::find(1)->permissions()->attach($admin_permissions);
         Role::find(2)->permissions()->attach($user_permissions);
-        Role::find(3)->permissions()->attach($management_permissions);
+        // Role::find(3)->permissions()->attach($management_permissions);
     }
 }

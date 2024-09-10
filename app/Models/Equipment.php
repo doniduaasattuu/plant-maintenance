@@ -39,7 +39,7 @@ class Equipment extends Model
         $status = $request->status;
 
         $builder
-            ->when($search && $classification && $status, function ($query) use ($search, $classification, $status) {
+            ->when(($search && $classification && $status), function ($query) use ($search, $classification, $status) {
                 $query
                     ->where('classification_id', '=', $classification)
                     ->where('equipment_status_id', '=', $status)
@@ -51,18 +51,54 @@ class Equipment extends Model
                             ->orWhere('description', 'LIKE', "%{$search}%");
                     });
             })
-            ->when($search && is_null($classification) || is_null($status), function ($query) use ($search) {
+            ->when($search, function ($query) use ($search, $classification, $status) {
                 $query
-                    ->where('id', 'LIKE', "%{$search}%")
-                    ->orWhere('sort_field', 'LIKE', "%{$search}%")
-                    ->orWhere('functional_location_id', 'LIKE', "%{$search}%")
-                    ->orWhere('description', 'LIKE', "%{$search}%");
+                    ->when($classification, function ($query) use ($search, $classification) {
+                        $query
+                            ->where('classification_id', $classification)
+                            ->where(function ($query) use ($search) {
+                                $query
+                                    ->where('id', 'LIKE', "%{$search}%")
+                                    ->orWhere('sort_field', 'LIKE', "%{$search}%")
+                                    ->orWhere('functional_location_id', 'LIKE', "%{$search}%")
+                                    ->orWhere('description', 'LIKE', "%{$search}%");
+                            });
+                    })
+                    ->when($status, function ($query) use ($search, $status) {
+                        $query
+                            ->where('equipment_status_id', $status)
+                            ->where(function ($query) use ($search) {
+                                $query
+                                    ->where('id', 'LIKE', "%{$search}%")
+                                    ->orWhere('sort_field', 'LIKE', "%{$search}%")
+                                    ->orWhere('functional_location_id', 'LIKE', "%{$search}%")
+                                    ->orWhere('description', 'LIKE', "%{$search}%");
+                            });
+                    })
+                    ->when(is_null($status) && is_null($classification), function ($query) use ($search) {
+                        $query
+                            ->where('id', 'LIKE', "%{$search}%")
+                            ->orWhere('sort_field', 'LIKE', "%{$search}%")
+                            ->orWhere('functional_location_id', 'LIKE', "%{$search}%")
+                            ->orWhere('description', 'LIKE', "%{$search}%");
+                    });
             })
-            ->when($classification && is_null($search) || is_null($status), function ($query) use ($classification) {
+            ->when($classification, function ($query) use ($classification, $status, $search) {
                 $query
-                    ->where('classification_id', $classification);
+                    ->when($classification && !is_null($status), function ($query) use ($classification, $status, $search) {
+                        $query
+                            ->when($status, function ($query) use ($classification, $status) {
+                                $query
+                                    ->where('classification_id', $classification)
+                                    ->where('equipment_status_id', $status);
+                            });
+                    })
+                    ->when(is_null($status) && is_null($search), function ($query) use ($classification) {
+                        $query
+                            ->where('classification_id', $classification);
+                    });
             })
-            ->when($status && is_null($search) || is_null($classification), function ($query) use ($status) {
+            ->when($status, function ($query, $status) {
                 $query
                     ->where('equipment_status_id', $status);
             });

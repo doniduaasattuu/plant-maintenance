@@ -31,6 +31,11 @@ class UpdateEquipmentRequest extends FormRequest
         $statusInstalled = $this->equipment_status_id == 2;
         $statusNotInstalled = $this->equipment_status_id != 2;
 
+        $this->merge([
+            'updated_by' => auth()->user()->id,
+            'updated_at' => now(),
+        ]);
+
         return [
             'id' => ['required', 'size:9', Rule::unique(Equipment::class)->ignore($equipment->id)],
             'classification_id' => ['required', 'exists:App\Models\Classification,id'],
@@ -38,6 +43,8 @@ class UpdateEquipmentRequest extends FormRequest
             'functional_location_id' => ['nullable',  Rule::prohibitedIf(fn() => $statusNotInstalled), Rule::requiredIf(fn() => $statusInstalled), 'exists:App\Models\FunctionalLocation,id'],
             'sort_field' => [Rule::requiredIf($funclocExist), Rule::prohibitedIf($funclocNotExist), 'nullable', 'max:50'],
             'description' => [Rule::requiredIf($funclocExist), 'nullable', 'min:5', 'max:100'],
+            'updated_by' => ['nullable', 'exists:App\Models\User,id'],
+            'updated_at' => ['nullable'],
         ];
     }
 }

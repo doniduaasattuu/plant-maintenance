@@ -1,25 +1,13 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, router, useForm } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
-import SelectInput from "@/Components/SelectInput";
 import PrimaryButton from "@/Components/PrimaryButton";
-import { Transition } from "@headlessui/react";
 import SecondaryButton from "@/Components/SecondaryButton";
-import MultiSelect from "@/Components/MultiSelect";
-import DangerButton from "@/Components/DangerButton";
-import { useState } from "react";
-import ModalConfirm from "@/Components/ModalConfirm";
+import { Transition } from "@headlessui/react";
 
 export default function Create({ auth }) {
-    // departments = departments.data.map((department) => {
-    //     return {
-    //         key: department.id,
-    //         value: department.title,
-    //     };
-    // });
-
     const { data, setData, post, errors, processing, recentlySuccessful } =
         useForm("CreateFunctionalLocation", {
             id: "",
@@ -30,6 +18,8 @@ export default function Create({ auth }) {
         e.preventDefault();
         post(route("functional-locations.store"), {
             preserveScroll: true,
+            preserveState: true,
+            replace: true,
         });
     }
 
@@ -116,19 +106,20 @@ export default function Create({ auth }) {
                                 </div>
 
                                 <div className="flex items-center gap-4">
-                                    <Link
-                                        href={route(
-                                            "functional-locations.index"
-                                        )}
+                                    <SecondaryButton
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            window.history.back();
+                                        }}
                                     >
-                                        <SecondaryButton>Back</SecondaryButton>
-                                    </Link>
+                                        Back
+                                    </SecondaryButton>
 
                                     <PrimaryButton disabled={processing}>
                                         Save
                                     </PrimaryButton>
 
-                                    {/* <Transition
+                                    <Transition
                                         show={recentlySuccessful}
                                         enter="transition ease-in-out"
                                         enterFrom="opacity-0"
@@ -136,7 +127,7 @@ export default function Create({ auth }) {
                                         leaveTo="opacity-0"
                                     >
                                         <p className="text-sm">Updated.</p>
-                                    </Transition> */}
+                                    </Transition>
                                 </div>
                             </form>
                         </section>

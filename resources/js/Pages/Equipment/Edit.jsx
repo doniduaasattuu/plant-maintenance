@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, router, useForm } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -7,11 +7,9 @@ import SelectInput from "@/Components/SelectInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Transition } from "@headlessui/react";
 import SecondaryButton from "@/Components/SecondaryButton";
-import MultiSelect from "@/Components/MultiSelect";
 import DangerButton from "@/Components/DangerButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ModalConfirm from "@/Components/ModalConfirm";
-import { useEffect } from "react";
 
 export default function Edit({
     auth,
@@ -49,6 +47,7 @@ export default function Edit({
         e.preventDefault();
         patch(route("equipments.update", equipment.data.id), {
             preserveScroll: true,
+            preserveState: true,
         });
     }
 
@@ -285,13 +284,14 @@ export default function Edit({
                                 </div>
 
                                 <div className="flex items-center gap-4">
-                                    <Link
-                                        onClick={() => {
-                                            history.back();
+                                    <SecondaryButton
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            window.history.back();
                                         }}
                                     >
-                                        <SecondaryButton>Back</SecondaryButton>
-                                    </Link>
+                                        Back
+                                    </SecondaryButton>
 
                                     <PrimaryButton disabled={processing}>
                                         Update

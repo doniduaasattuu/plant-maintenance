@@ -25,9 +25,16 @@ class UpdateFunctionalLocationRequest extends FormRequest
     {
         $functional_location = FunctionalLocation::find(class_basename($this->path()));
 
+        $this->merge([
+            'updated_by' => auth()->user()->id,
+            'updated_at' => now(),
+        ]);
+
         return [
             'id' => ['required', 'min:9', 'max:24', 'string', Rule::unique(FunctionalLocation::class)->ignore($functional_location->id)],
             'description' => ['required', 'max:100', 'string'],
+            'updated_by' => ['nullable', 'exists:App\Models\User,id'],
+            'updated_at' => ['nullable'],
         ];
     }
 }

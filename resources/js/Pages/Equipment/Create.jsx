@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, router, useForm } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -7,11 +7,6 @@ import SelectInput from "@/Components/SelectInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Transition } from "@headlessui/react";
 import SecondaryButton from "@/Components/SecondaryButton";
-import MultiSelect from "@/Components/MultiSelect";
-import DangerButton from "@/Components/DangerButton";
-import { useState } from "react";
-import ModalConfirm from "@/Components/ModalConfirm";
-import { useEffect } from "react";
 
 export default function Create({ auth, classifications, equipment_status }) {
     classifications = classifications.data.map((classification) => {
@@ -49,6 +44,8 @@ export default function Create({ auth, classifications, equipment_status }) {
         e.preventDefault();
         post(route("equipments.store"), {
             preserveScroll: true,
+            preserveState: true,
+            replace: true,
         });
     }
 
@@ -255,27 +252,28 @@ export default function Create({ auth, classifications, equipment_status }) {
                                 </div>
 
                                 <div className="flex items-center gap-4">
-                                    <Link
-                                        onClick={() => {
-                                            history.back();
+                                    <SecondaryButton
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            window.history.back();
                                         }}
                                     >
-                                        <SecondaryButton>Back</SecondaryButton>
-                                    </Link>
+                                        Back
+                                    </SecondaryButton>
 
                                     <PrimaryButton disabled={processing}>
                                         Save
                                     </PrimaryButton>
 
-                                    {/* <Transition
+                                    <Transition
                                         show={recentlySuccessful}
                                         enter="transition ease-in-out"
                                         enterFrom="opacity-0"
                                         leave="transition ease-in-out"
                                         leaveTo="opacity-0"
                                     >
-                                        <p className="text-sm">Updated.</p>
-                                    </Transition> */}
+                                        <p className="text-sm">Saved.</p>
+                                    </Transition>
                                 </div>
                             </form>
                         </section>

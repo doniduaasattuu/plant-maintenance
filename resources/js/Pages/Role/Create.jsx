@@ -6,10 +6,9 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Transition } from "@headlessui/react";
-import { Head, router, useForm } from "@inertiajs/react";
-import Select from "react-select";
+import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Edit({ auth, permissions }) {
+export default function Create({ auth, can, permissions }) {
     const { data, setData, post, errors, processing, recentlySuccessful } =
         useForm({
             title: "",
@@ -25,7 +24,11 @@ export default function Edit({ auth, permissions }) {
 
     function submit(e) {
         e.preventDefault();
-        post(route("roles.store"));
+        post(route("roles.store"), {
+            preserveScroll: true,
+            preserveState: true,
+            replace: true,
+        });
     }
     return (
         <AuthenticatedLayout
@@ -99,28 +102,29 @@ export default function Edit({ auth, permissions }) {
                                     />
                                 </div>
 
-                                <div className="flex items-center gap-4">
-                                    <SecondaryButton
-                                        onClick={() => {
-                                            router.get(route("roles.index"));
-                                        }}
-                                    >
-                                        Cancel
-                                    </SecondaryButton>
-                                    <PrimaryButton disabled={processing}>
-                                        Save
-                                    </PrimaryButton>
+                                {can.role_update && (
+                                    <div className="flex items-center gap-4">
+                                        <Link href={route("roles.index")}>
+                                            <SecondaryButton>
+                                                Back
+                                            </SecondaryButton>
+                                        </Link>
 
-                                    <Transition
-                                        show={recentlySuccessful}
-                                        enter="transition ease-in-out"
-                                        enterFrom="opacity-0"
-                                        leave="transition ease-in-out"
-                                        leaveTo="opacity-0"
-                                    >
-                                        <p className="text-sm">Saved.</p>
-                                    </Transition>
-                                </div>
+                                        <PrimaryButton disabled={processing}>
+                                            Save
+                                        </PrimaryButton>
+
+                                        <Transition
+                                            show={recentlySuccessful}
+                                            enter="transition ease-in-out"
+                                            enterFrom="opacity-0"
+                                            leave="transition ease-in-out"
+                                            leaveTo="opacity-0"
+                                        >
+                                            <p className="text-sm">Saved.</p>
+                                        </Transition>
+                                    </div>
+                                )}
                             </form>
                         </section>
                     </div>

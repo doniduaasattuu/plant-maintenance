@@ -14,6 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('motor_check_records');
+        DB::table('normality');
+        DB::table('cleanliness');
+        DB::table('operational_statuses');
         DB::table('equipment_movements');
         DB::table('movement_seeder');
         DB::table('equipments')->delete();
@@ -40,12 +44,16 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             PermissionRoleTableSeeder::class,
             RoleUserTableSeeder::class,
-            FunctionalLocationSeeder::class,
+            // FunctionalLocationSeeder::class,
             ClassificationSeeder::class,
             EquipmentStatusSeeder::class,
-            EquipmentSeeder::class,
+            // EquipmentSeeder::class,
             MovementStatusSeeder::class,
-            EquipmentMovementSeeder::class,
+            // EquipmentMovementSeeder::class,
+            OperationalStatusSeeder::class,
+            CleanlinessSeeder::class,
+            NormalitySeeder::class,
+            // MotorCheckRecordSeeder::class,
         ]);
     }
 }

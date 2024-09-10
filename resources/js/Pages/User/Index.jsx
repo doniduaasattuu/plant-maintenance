@@ -48,15 +48,10 @@ export default function Index({ auth, can, users, departments }) {
         router.visit(userUrl, {
             preserveScroll: true,
             preserveState: true,
-            replace: true,
         });
     }, [userUrl]);
 
     useEffect(() => {
-        // if (inputSearch.length == 0) {
-        //     return;
-        // }
-
         const handler = setTimeout(() => {
             setSearchTerm(inputSearch);
         }, 300);
@@ -88,17 +83,6 @@ export default function Index({ auth, can, users, departments }) {
         setActionMessage("reset");
         setIsOpen(true);
     };
-
-    // const openDeleteConfirm = (id) => {
-    //     setSelectedUserId(id);
-    //     setUrl("users.destroy");
-    //     setMethod("delete");
-    //     setMessage(
-    //         "Once this user is deleted, all of its resources and data will be permanently deleted."
-    //     );
-    //     setActionMessage("delete");
-    //     setIsOpen(true);
-    // };
 
     return (
         <AuthenticatedLayout
@@ -174,12 +158,6 @@ export default function Index({ auth, can, users, departments }) {
                                                 Reset
                                             </th>
                                         )}
-                                        {/* {can.user_delete && (
-                                            <th className="text-center">
-                                                Delete
-                                            </th>
-                                        )} */}
-                                        {/* <th></th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -322,42 +300,6 @@ export default function Index({ auth, can, users, departments }) {
                                                         </button>
                                                     </td>
                                                 )}
-                                                {/* {can.user_delete && (
-                                                    <td className="text-center text-red-500">
-                                                        <button
-                                                            onClick={() =>
-                                                                openDeleteConfirm(
-                                                                    user.id
-                                                                )
-                                                            }
-                                                            className="btn btn-ghost"
-                                                        >
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                viewBox="0 0 20 20"
-                                                                fill="currentColor"
-                                                                className="size-5"
-                                                            >
-                                                                <path
-                                                                    fillRule="evenodd"
-                                                                    d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
-                                                                    clipRule="evenodd"
-                                                                />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                )} */}
-                                                {/* <td>
-                                                    <Link
-                                                        className="font-semibold text-xs"
-                                                        href={route(
-                                                            "users.edit",
-                                                            user.id
-                                                        )}
-                                                    >
-                                                        Details
-                                                    </Link>
-                                                </td> */}
                                             </tr>
                                         );
                                     })}
@@ -365,22 +307,6 @@ export default function Index({ auth, can, users, departments }) {
                             </table>
                         </div>
                     </div>
-
-                    {/* <div className="flex justify-center">
-                        <Link
-                            className="mx-auto"
-                            onClick={() =>
-                                router.reload(
-                                    route("users.index", {
-                                        preserveScroll: true,
-                                        preserveState: true,
-                                    })
-                                )
-                            }
-                        >
-                            Refresh
-                        </Link>
-                    </div> */}
 
                     {users.meta.links.length > 3 && (
                         <Pagination meta={users.meta} />
