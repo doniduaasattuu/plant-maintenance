@@ -1,14 +1,9 @@
 import InputLabel from "@/Components/InputLabel";
-import ModalConfirm from "@/Components/ModalConfirm";
 import Pagination from "@/Components/Pagination";
-import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, router, usePage } from "@inertiajs/react";
-import { useEffect } from "react";
-import { useMemo } from "react";
-import { useRef } from "react";
-import { useState } from "react";
+import { Head, router } from "@inertiajs/react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 export default function Index({ auth, equipment_movements }) {
     const initialRender = useRef(true);
@@ -37,15 +32,10 @@ export default function Index({ auth, equipment_movements }) {
         router.visit(userUrl, {
             preserveScroll: true,
             preserveState: true,
-            replace: true,
         });
     }, [userUrl]);
 
     useEffect(() => {
-        // if (inputSearch.length == 0) {
-        //     return;
-        // }
-
         const handler = setTimeout(() => {
             setSearchTerm(inputSearch);
         }, 300);
@@ -104,8 +94,6 @@ export default function Index({ auth, equipment_movements }) {
                                 <tbody>
                                     {equipment_movements.data.map(
                                         (equipment_movement) => {
-                                            console.log(equipment_movement);
-
                                             return (
                                                 <tr
                                                     className="border-b-base-300"

@@ -77,8 +77,16 @@ class RoleController extends Controller
 
         $role->permissions()->sync($permissions);
 
+        return redirect()
+            ->route('roles.edit', [
+                'role' => $role->id,
+            ])
+            ->with('success', 'Role successfully created');
+    }
 
-        return redirect()->route('roles.index')->with('success', 'Role successfully created');
+    public function show(Role $role)
+    {
+        Gate::authorize('role_show');
     }
 
     public function destroy(Role $role)

@@ -21,9 +21,18 @@ class StoreFunctionalLocationRequest extends FormRequest
      */
     public function rules(): array
     {
+        $this->merge([
+            'updated_by' => auth()->user()->id,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
         return [
             'id' => ['required', 'min:9', 'max:24', 'string', 'unique:App\Models\FunctionalLocation,id'],
             'description' => ['required', 'max:100', 'string'],
+            'updated_by' => ['nullable', 'exists:App\Models\User,id'],
+            'created_at' => ['nullable'],
+            'updated_at' => ['nullable'],
         ];
     }
 }

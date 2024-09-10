@@ -25,11 +25,6 @@ class RoleSeeder extends Seeder
                 'title' => Role::ROLES['User'],
                 'created_at' => now(),
             ],
-            [
-                'id' => 3,
-                'title' => Role::ROLES['Management'],
-                'created_at' => now(),
-            ],
         ];
 
         Role::insert($roles);

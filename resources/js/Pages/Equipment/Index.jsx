@@ -21,10 +21,10 @@ export default function Index({
     );
     const [searchTerm, setSearchTerm] = useState(urlParams.get("search") ?? "");
     const [selectedClassification, setSelectedClassification] = useState(
-        urlParams.get("classification")
+        urlParams.get("classification") ?? ""
     );
     const [selectedStatus, setSelectedStatus] = useState(
-        urlParams.get("status")
+        urlParams.get("status") ?? ""
     );
 
     classifications = classifications.data.map((classification) => {
@@ -33,6 +33,10 @@ export default function Index({
             label: classification.description,
         };
     });
+
+    const checkFormLink = {
+        ZCLASS_E009: "motor-check-records.create",
+    };
 
     equipment_status = equipment_status.data.map((status) => {
         return {
@@ -132,6 +136,7 @@ export default function Index({
                                     className="mt-1 block w-sm"
                                     withSelectName={true}
                                     selectName={"All"}
+                                    value={selectedClassification}
                                     onChange={(e) => {
                                         setSelectedClassification(
                                             e.target.value
@@ -148,6 +153,7 @@ export default function Index({
                                     withSelectName={true}
                                     selectName={"All"}
                                     options={equipment_status}
+                                    value={selectedStatus}
                                     onChange={(e) => {
                                         setSelectedStatus(e.target.value);
                                     }}
@@ -162,10 +168,8 @@ export default function Index({
                                     <tr>
                                         <th>Equipment ID</th>
                                         <th>Details</th>
-                                        {/* <th>Status</th> */}
                                         <th>Functional location</th>
                                         <th>Updated at</th>
-                                        <th>Updated by</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -176,7 +180,7 @@ export default function Index({
                                                 key={equipment.id}
                                             >
                                                 <td
-                                                    className="cursor-pointer"
+                                                    className="cursor-pointer max-w-32 truncate"
                                                     onClick={() => {
                                                         router.get(
                                                             route(
@@ -205,7 +209,7 @@ export default function Index({
                                                         }
                                                     </span>
                                                 </td>
-                                                <td>
+                                                <td className="max-w-56 truncate">
                                                     <span>
                                                         {equipment.sort_field}
                                                     </span>
@@ -214,14 +218,6 @@ export default function Index({
                                                         {equipment.description}
                                                     </span>
                                                 </td>
-                                                {/* <td>
-                                                    <span>
-                                                        {
-                                                            equipment.status
-                                                                .keyword
-                                                        }
-                                                    </span>
-                                                </td> */}
                                                 <td>
                                                     <Link
                                                         className={
@@ -255,12 +251,50 @@ export default function Index({
                                                     </Link>
                                                 </td>
                                                 <td>{equipment?.updated_at}</td>
-                                                <td>
-                                                    {
-                                                        equipment.updated_by
-                                                            ?.full_name
-                                                    }
-                                                </td>
+                                                {checkFormLink[
+                                                    equipment.classification.id
+                                                ] &&
+                                                    can.motor_check_record_create &&
+                                                    equipment.status.id ==
+                                                        2 && (
+                                                        <td className="text-center">
+                                                            <span className="mx-auto">
+                                                                <Link
+                                                                    href={route(
+                                                                        checkFormLink[
+                                                                            equipment
+                                                                                .classification
+                                                                                .id
+                                                                        ],
+                                                                        {
+                                                                            preserveScroll: true,
+                                                                        }
+                                                                    )}
+                                                                    data={{
+                                                                        equipment_id:
+                                                                            equipment.id,
+                                                                    }}
+                                                                >
+                                                                    <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        fill="none"
+                                                                        viewBox="0 0 24 24"
+                                                                        strokeWidth={
+                                                                            1.5
+                                                                        }
+                                                                        stroke="currentColor"
+                                                                        className="size-6"
+                                                                    >
+                                                                        <path
+                                                                            strokeLinecap="round"
+                                                                            strokeLinejoin="round"
+                                                                            d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"
+                                                                        />
+                                                                    </svg>
+                                                                </Link>
+                                                            </span>
+                                                        </td>
+                                                    )}
                                             </tr>
                                         );
                                     })}

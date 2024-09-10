@@ -67,7 +67,7 @@ class EquipmentMovementService
                     if ($dismantled->save()) {
                         $installed->save();
                     }
-                } else  if (is_null($equipment->functional_location_id) && $equipment->functional_location_id != $validated['functional_location_id']) {
+                } else if (is_null($equipment->functional_location_id) && $equipment->functional_location_id != $validated['functional_location_id']) {
 
                     // INSTALLED
                     EquipmentMovement::insert([

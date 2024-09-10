@@ -1,13 +1,11 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, router, useForm } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
-import SelectInput from "@/Components/SelectInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Transition } from "@headlessui/react";
 import SecondaryButton from "@/Components/SecondaryButton";
-import MultiSelect from "@/Components/MultiSelect";
 import DangerButton from "@/Components/DangerButton";
 import { useState } from "react";
 import ModalConfirm from "@/Components/ModalConfirm";
@@ -25,6 +23,7 @@ export default function Edit({ auth, can, functional_location }) {
             route("functional-locations.update", functional_location.data.id),
             {
                 preserveScroll: true,
+                preserveState: true,
             }
         );
     }
@@ -46,9 +45,11 @@ export default function Edit({ auth, can, functional_location }) {
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="font-semibold text-xl leading-tight">
-                    Edit Functional Location
-                </h2>
+                <>
+                    <h2 className="font-semibold text-xl leading-tight">
+                        Edit Functional Location
+                    </h2>
+                </>
             }
         >
             <Head title="Edit Functional Location" />
@@ -69,11 +70,11 @@ export default function Edit({ auth, can, functional_location }) {
                     <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
                         <section className="max-w-xl">
                             <h2 className="text-lg font-medium">
-                                Edit Functional Location
+                                Functional Location Information
                             </h2>
 
                             <p className="mt-1 text-sm">
-                                Edit functional location, information and
+                                Update functional location information and
                                 related equipment.
                             </p>
 
@@ -135,29 +136,32 @@ export default function Edit({ auth, can, functional_location }) {
                                     />
                                 </div>
 
-                                <div className="flex items-center gap-4">
-                                    <Link
-                                        onClick={() => {
-                                            history.back();
-                                        }}
-                                    >
-                                        <SecondaryButton>Back</SecondaryButton>
-                                    </Link>
+                                {can.functional_location_update && (
+                                    <div className="flex items-center gap-4">
+                                        <SecondaryButton
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                window.history.back();
+                                            }}
+                                        >
+                                            Back
+                                        </SecondaryButton>
 
-                                    <PrimaryButton disabled={processing}>
-                                        Update
-                                    </PrimaryButton>
+                                        <PrimaryButton disabled={processing}>
+                                            Update
+                                        </PrimaryButton>
 
-                                    <Transition
-                                        show={recentlySuccessful}
-                                        enter="transition ease-in-out"
-                                        enterFrom="opacity-0"
-                                        leave="transition ease-in-out"
-                                        leaveTo="opacity-0"
-                                    >
-                                        <p className="text-sm">Updated.</p>
-                                    </Transition>
-                                </div>
+                                        <Transition
+                                            show={recentlySuccessful}
+                                            enter="transition ease-in-out"
+                                            enterFrom="opacity-0"
+                                            leave="transition ease-in-out"
+                                            leaveTo="opacity-0"
+                                        >
+                                            <p className="text-sm">Updated.</p>
+                                        </Transition>
+                                    </div>
+                                )}
                             </form>
                         </section>
                     </div>
@@ -187,9 +191,6 @@ export default function Edit({ auth, can, functional_location }) {
                                             <span className="text-sm mx-4 text-blue-500 underline underline-offset-2">
                                                 Refresh
                                             </span>
-                                            {/* <PrimaryButton>
-                                                Refresh
-                                            </PrimaryButton> */}
                                         </Link>
                                     </div>
                                 </div>
@@ -201,6 +202,7 @@ export default function Edit({ auth, can, functional_location }) {
                                                 <li key={equipment.id}>
                                                     <div className="flex justify-between">
                                                         <Link
+                                                            preserveScroll
                                                             className="hover:link hover:text-blue-500 hover:underline-offset-2"
                                                             href={route(
                                                                 "equipments.edit",
@@ -219,22 +221,6 @@ export default function Edit({ auth, can, functional_location }) {
                                             );
                                         }
                                     )}
-
-                                    {/* <li>
-                                        <details>
-                                            <summary>EMO000123</summary>
-                                            <ul>
-                                                <li>
-                                                    <a className="flex justify-between bg-base-300">
-                                                        <div>EMO000123</div>
-                                                        <div>
-                                                            Equipment sort field
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </details>
-                                    </li> */}
                                 </ul>
                             </section>
                         </div>

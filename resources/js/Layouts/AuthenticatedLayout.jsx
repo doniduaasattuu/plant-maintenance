@@ -69,7 +69,7 @@ export default function Authenticated({ user, header, children }) {
                             </div>
                             <ul
                                 tabIndex={0}
-                                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow border border-neutral-600/40"
+                                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 min-w-max p-2 shadow border border-neutral-600/40"
                             >
                                 <li>
                                     <a>Scanner</a>
@@ -115,6 +115,27 @@ export default function Authenticated({ user, header, children }) {
                                                 Equipment
                                             </Link>
                                         </li>
+                                        {page.props.can
+                                            .equipment_movement_access && (
+                                            <li>
+                                                <Link
+                                                    href={route(
+                                                        "equipment-movements.index"
+                                                    )}
+                                                    className={`${
+                                                        route()
+                                                            .current()
+                                                            .includes(
+                                                                "equipment-movements"
+                                                            )
+                                                            ? "bg-base-200"
+                                                            : ""
+                                                    }`}
+                                                >
+                                                    Equipment Movement
+                                                </Link>
+                                            </li>
+                                        )}
                                         <li>
                                             <Link>Material Number</Link>
                                         </li>
@@ -152,26 +173,6 @@ export default function Authenticated({ user, header, children }) {
                                             }`}
                                         >
                                             Roles
-                                        </Link>
-                                    </li>
-                                )}
-                                {page.props.can.equipment_movement_access && (
-                                    <li>
-                                        <Link
-                                            href={route(
-                                                "equipment-movements.index"
-                                            )}
-                                            className={`${
-                                                route()
-                                                    .current()
-                                                    .includes(
-                                                        "equipment-movements"
-                                                    )
-                                                    ? "bg-base-200"
-                                                    : ""
-                                            }`}
-                                        >
-                                            Equipment Movement
                                         </Link>
                                     </li>
                                 )}

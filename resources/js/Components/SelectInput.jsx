@@ -7,6 +7,7 @@ export default forwardRef(function SelectInput(
         withSelectName = true,
         className = "",
         isFocused = false,
+        value = "",
         ...props
     },
     ref
@@ -21,6 +22,7 @@ export default forwardRef(function SelectInput(
 
     return (
         <select
+            value={value}
             {...props}
             className={
                 "select select-bordered w-full focus:border-indigo-500 focus:ring-indigo-500 shadow-sm input flex items-center gap-2 " +

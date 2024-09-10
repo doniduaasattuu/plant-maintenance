@@ -1,18 +1,16 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, router, useForm } from "@inertiajs/react";
-import UpdateProfileInformationForm from "../Profile/Partials/UpdateProfileInformationForm";
+import { Head, useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import SelectInput from "@/Components/SelectInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Transition } from "@headlessui/react";
-import SecondaryButton from "@/Components/SecondaryButton";
 import MultiSelect from "@/Components/MultiSelect";
-import { useEffect } from "react";
 import DangerButton from "@/Components/DangerButton";
 import { useState } from "react";
 import ModalConfirm from "@/Components/ModalConfirm";
+import SecondaryButton from "@/Components/SecondaryButton";
 
 export default function Edit({
     auth,
@@ -74,6 +72,7 @@ export default function Edit({
         e.preventDefault();
         patch(route("users.update", user.id), {
             preserveScroll: true,
+            preserveState: true,
         });
     }
 
@@ -336,25 +335,32 @@ export default function Edit({
                                     />
                                 </div>
 
-                                <div className="flex items-center gap-4">
-                                    <Link href={route("users.index")}>
-                                        <SecondaryButton>Back</SecondaryButton>
-                                    </Link>
+                                {can.user_update && (
+                                    <div className="flex items-center gap-4">
+                                        <SecondaryButton
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                window.history.back();
+                                            }}
+                                        >
+                                            Back
+                                        </SecondaryButton>
 
-                                    <PrimaryButton disabled={processing}>
-                                        Update
-                                    </PrimaryButton>
+                                        <PrimaryButton disabled={processing}>
+                                            Update
+                                        </PrimaryButton>
 
-                                    <Transition
-                                        show={recentlySuccessful}
-                                        enter="transition ease-in-out"
-                                        enterFrom="opacity-0"
-                                        leave="transition ease-in-out"
-                                        leaveTo="opacity-0"
-                                    >
-                                        <p className="text-sm">Updated.</p>
-                                    </Transition>
-                                </div>
+                                        <Transition
+                                            show={recentlySuccessful}
+                                            enter="transition ease-in-out"
+                                            enterFrom="opacity-0"
+                                            leave="transition ease-in-out"
+                                            leaveTo="opacity-0"
+                                        >
+                                            <p className="text-sm">Updated.</p>
+                                        </Transition>
+                                    </div>
+                                )}
                             </form>
                         </section>
                     </div>

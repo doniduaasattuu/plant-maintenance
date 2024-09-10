@@ -86,17 +86,6 @@ export default function Index({ auth, can, functional_locations }) {
         >
             <Head title="Functional locations" />
 
-            {/* 
-            <ModalConfirm
-                isOpen={isOpen}
-                closeModal={closeModal}
-                id={selectedUserId}
-                message={message}
-                actionMessage={actionMessage}
-                method={method}
-                url={url}
-            /> */}
-
             <div className="py-4">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
                     <div className="grid grid-cols-2 gap-1 sm:gap-2 max-w-xl">
@@ -120,6 +109,7 @@ export default function Index({ auth, can, functional_locations }) {
                                     id="order_by"
                                     className="mt-1 block w-sm"
                                     withSelectName={false}
+                                    value={orderBy}
                                     onChange={(e) => {
                                         setOrderBy(e.target.value);
                                     }}
@@ -149,6 +139,7 @@ export default function Index({ auth, can, functional_locations }) {
                                     id="sort_by"
                                     className="mt-1 block w-sm"
                                     withSelectName={false}
+                                    value={sortBy}
                                     onChange={(e) => {
                                         setSortBy(e.target.value);
                                     }}
@@ -180,14 +171,6 @@ export default function Index({ auth, can, functional_locations }) {
                                 <tbody>
                                     {functional_locations.data.map(
                                         (functional_location) => {
-                                            if (
-                                                functional_location.id ==
-                                                "FP-01-SP3-HOO-PJ99-797"
-                                            ) {
-                                                console.log(
-                                                    functional_location
-                                                );
-                                            }
                                             return (
                                                 <tr
                                                     className="border-b-base-300"
@@ -236,22 +219,6 @@ export default function Index({ auth, can, functional_locations }) {
                             </table>
                         </div>
                     </div>
-
-                    {/* <div className="flex justify-center">
-                        <Link
-                            className="mx-auto"
-                            onClick={() =>
-                                router.reload(
-                                    route("functional-locations.index", {
-                                        preserveScroll: true,
-                                        preserveState: true,
-                                    })
-                                )
-                            }
-                        >
-                            Refresh
-                        </Link>
-                    </div> */}
 
                     {functional_locations.meta.links.length > 3 && (
                         <Pagination meta={functional_locations.meta} />

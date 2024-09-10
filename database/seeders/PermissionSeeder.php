@@ -122,6 +122,25 @@ class PermissionSeeder extends Seeder
             [
                 'title' => 'equipment_movement_delete',
             ],
+            // MOTOR CHECK RECORD
+            [
+                'title' => 'motor_check_record_access'
+            ],
+            [
+                'title' => 'motor_check_record_create',
+            ],
+            [
+                'title' => 'motor_check_record_edit',
+            ],
+            [
+                'title' => 'motor_check_record_show',
+            ],
+            [
+                'title' => 'motor_check_record_update',
+            ],
+            [
+                'title' => 'motor_check_record_delete',
+            ],
         ];
 
         Permission::insert($permissions);

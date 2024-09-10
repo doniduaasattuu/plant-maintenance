@@ -8,13 +8,10 @@ use App\Http\Requests\UpdateEquipmentRequest;
 use App\Http\Resources\ClassificationResource;
 use App\Http\Resources\EquipmentResource;
 use App\Http\Resources\EquipmentStatusResource;
-use App\Http\Resources\FunctionalLocationResource;
 use App\Http\Services\EquipmentMovementService;
 use App\Models\Classification;
 use App\Models\Equipment;
 use App\Models\EquipmentStatus;
-use App\Models\FunctionalLocation;
-use Database\Seeders\ClassificationSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -72,14 +69,14 @@ class EquipmentController extends Controller
         Gate::authorize('equipment_create');
 
         $validated = $request->validated();
-        $validated['updated_by'] = auth()->user()->id;
 
-        Equipment::create($validated);
-
+        Equipment::insert($validated);
         $this->equipmentMovementService->logEquipmentMovement($request->validated());
 
         return redirect()
-            ->route('equipments.index')
+            ->route('equipments.edit', [
+                'equipment' => $validated['id']
+            ])
             ->with('success', 'Equipment successfully created');
     }
 
@@ -116,8 +113,6 @@ class EquipmentController extends Controller
         Gate::authorize('equipment_update');
 
         $validated = $request->validated();
-        $validated['updated_by'] = auth()->user()->id;
-        $validated['updated_at'] = now();
 
         $this->equipmentMovementService->logEquipmentMovement($request->validated());
 

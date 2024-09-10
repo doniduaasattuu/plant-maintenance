@@ -47,14 +47,17 @@ class FunctionalLocationController extends Controller
         Gate::authorize('functional_location_create');
 
         $validated = $request->validated();
-        $validated['updated_by'] = auth()->user()->id;
-        $validated['created_at'] = now();
-        $validated['updated_at'] = now();
         FunctionalLocation::create($validated);
 
         return redirect()
-            ->route('functional-locations.index')
+            ->route('functional-locations.edit', [
+                'functional_location' => $validated['id'],
+            ])
             ->with('success', 'Functional location successfully created');
+
+        // return redirect()
+        //     ->route('functional-locations.index')
+        //     ->with('success', 'Functional location successfully created');
     }
 
     /**
@@ -85,8 +88,6 @@ class FunctionalLocationController extends Controller
         Gate::authorize('functional_location_update');
 
         $validated = $request->validated();
-        $validated['updated_by'] = auth()->user()->id;
-        $validated['updated_at'] = now();
 
         $functionalLocation->update($validated);
 

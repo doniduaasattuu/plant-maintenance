@@ -6,7 +6,7 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Transition } from "@headlessui/react";
-import { Head, router, useForm } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 
 export default function Edit({ auth, can, role, permissions }) {
     const selectedPermissions = role.data.permissions.map(
@@ -18,7 +18,7 @@ export default function Edit({ auth, can, role, permissions }) {
         }
     );
 
-    const { data, setData, put, errors, processing, recentlySuccessful } =
+    const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm(`EditRole:${role.id}`, {
             title: role.data.title,
             selectedPermissions: selectedPermissions,
@@ -33,7 +33,10 @@ export default function Edit({ auth, can, role, permissions }) {
 
     function submit(e) {
         e.preventDefault();
-        put(route("roles.update", role.data.id));
+        patch(route("roles.update", role.data.id), {
+            preserveScroll: true,
+            preserveState: true,
+        });
     }
 
     return (
@@ -118,36 +121,29 @@ export default function Edit({ auth, can, role, permissions }) {
                                     />
                                 </div>
 
-                                <div className="flex items-center gap-4">
-                                    {can.role_update && (
-                                        <>
-                                            <SecondaryButton
-                                                onClick={() => {
-                                                    router.get(
-                                                        route("roles.index")
-                                                    );
-                                                }}
-                                            >
-                                                Cancel
+                                {can.role_update && (
+                                    <div className="flex items-center gap-4">
+                                        <Link href={route("roles.index")}>
+                                            <SecondaryButton>
+                                                Back
                                             </SecondaryButton>
-                                            <PrimaryButton
-                                                disabled={processing}
-                                            >
-                                                Update
-                                            </PrimaryButton>
-                                        </>
-                                    )}
+                                        </Link>
 
-                                    <Transition
-                                        show={recentlySuccessful}
-                                        enter="transition ease-in-out"
-                                        enterFrom="opacity-0"
-                                        leave="transition ease-in-out"
-                                        leaveTo="opacity-0"
-                                    >
-                                        <p className="text-sm">Updated.</p>
-                                    </Transition>
-                                </div>
+                                        <PrimaryButton disabled={processing}>
+                                            Update
+                                        </PrimaryButton>
+
+                                        <Transition
+                                            show={recentlySuccessful}
+                                            enter="transition ease-in-out"
+                                            enterFrom="opacity-0"
+                                            leave="transition ease-in-out"
+                                            leaveTo="opacity-0"
+                                        >
+                                            <p className="text-sm">Updated.</p>
+                                        </Transition>
+                                    </div>
+                                )}
                             </form>
                         </section>
                     </div>
