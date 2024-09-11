@@ -26,6 +26,8 @@ class FunctionalLocationFactory extends Factory
         return [
             'id' => 'FP-01-' . Arr::random($paper_machines) . '-' . Arr::random($sub) . '-' . Arr::random($area) . fake()->numerify('##') . '-' . fake()->numerify('###'),
             'description' => fake()->sentence(3),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }

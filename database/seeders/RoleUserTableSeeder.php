@@ -13,12 +13,11 @@ class RoleUserTableSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::all()->map(function ($user) {
-        //     $user->roles()->attach(2);
-        // });
+        User::all()->map(function ($user) {
+            $user->roles()->attach(2);
+        });
 
         User::find('11000168')->roles()->attach(1); // admin role
-        // User::find('55000154')->roles()->attach(1); // admin role
-        // User::find('55000000')->roles()->attach(3); // management role
+        User::find('55000154')->roles()->attach(1); // admin role
     }
 }

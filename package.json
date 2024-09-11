@@ -25,6 +25,7 @@
         "heroicon": "^0.0.2",
         "react-hot-toast": "^2.4.1",
         "react-select": "^5.8.0",
+        "recharts": "^2.12.7",
         "theme-change": "^2.5.0"
     }
 }

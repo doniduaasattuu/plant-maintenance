@@ -14,7 +14,19 @@ class EquipmentSeeder extends Seeder
     public function run(): void
     {
         Equipment::factory()
-            ->count(500)
+            ->count(200)
             ->create();
+
+        Equipment::insert([
+            'id' => 'EMO000123',
+            'classification_id' => 'ZCLASS_E009',
+            'functional_location_id' => 'FP-01-PM3',
+            'sort_field' => 'MOTOR SUMPIT SP3',
+            'description' => '55kW;105A;4P;1500RPM;INVERTER',
+            'equipment_status_id' => 2,
+            'updated_by' => '55000154',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }

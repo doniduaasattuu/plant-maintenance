@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, useForm } from "@inertiajs/react";
+import { Head, Link, router, useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -70,6 +70,10 @@ export default function Edit({
         setIsOpen(true);
     };
 
+    const trendEquipmentLink = {
+        ZCLASS_E009: "motor-check-trends.index",
+    };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -96,13 +100,53 @@ export default function Edit({
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
                     <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
                         <section className="max-w-xl">
-                            <h2 className="text-lg font-medium">
-                                Edit equipment
-                            </h2>
+                            <div className="flex justify-between items-center">
+                                <div>
+                                    <h2 className="text-lg font-medium">
+                                        Edit equipment
+                                    </h2>
 
-                            <p className="mt-1 text-sm">
-                                Edit equipment data and information.
-                            </p>
+                                    <p className="mt-1 text-sm">
+                                        Edit equipment data and information.
+                                    </p>
+                                </div>
+                                {can.motor_check_trend_access &&
+                                    trendEquipmentLink[
+                                        equipment.data.classification.id
+                                    ] && (
+                                        <div
+                                            className="tooltip"
+                                            data-tip="Equipment record trend"
+                                        >
+                                            <Link
+                                                preserveScroll
+                                                href={route(
+                                                    "motor-check-trends.index"
+                                                )}
+                                                data={{
+                                                    equipment_id:
+                                                        equipment.data.id,
+                                                }}
+                                                className="py-2"
+                                            >
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    strokeWidth={1.5}
+                                                    stroke="currentColor"
+                                                    className="size-6"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25M9 16.5v.75m3-3v3M15 12v5.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+                                                    />
+                                                </svg>
+                                            </Link>
+                                        </div>
+                                    )}
+                            </div>
 
                             <form
                                 id={`EditEquipment:${equipment.data.id}`}
