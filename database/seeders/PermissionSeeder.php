@@ -141,6 +141,10 @@ class PermissionSeeder extends Seeder
             [
                 'title' => 'motor_check_record_delete',
             ],
+            // MOTOR CHECK TREND
+            [
+                'title' => 'motor_check_trend_access'
+            ],
         ];
 
         Permission::insert($permissions);

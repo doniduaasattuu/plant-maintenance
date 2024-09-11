@@ -44,16 +44,16 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             PermissionRoleTableSeeder::class,
             RoleUserTableSeeder::class,
-            // FunctionalLocationSeeder::class,
+            FunctionalLocationSeeder::class,
             ClassificationSeeder::class,
             EquipmentStatusSeeder::class,
-            // EquipmentSeeder::class,
+            EquipmentSeeder::class,
             MovementStatusSeeder::class,
-            // EquipmentMovementSeeder::class,
+            EquipmentMovementSeeder::class,
             OperationalStatusSeeder::class,
             CleanlinessSeeder::class,
             NormalitySeeder::class,
-            // MotorCheckRecordSeeder::class,
+            MotorCheckRecordSeeder::class,
         ]);
     }
 }

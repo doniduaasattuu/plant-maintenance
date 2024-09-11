@@ -4,6 +4,7 @@ use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\EquipmentMovementController;
 use App\Http\Controllers\FunctionalLocationController;
 use App\Http\Controllers\MotorCheckRecordController;
+use App\Http\Controllers\MotorCheckTrendController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -38,6 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('equipments', EquipmentController::class);
     Route::resource('equipment-movements', EquipmentMovementController::class)->only(['index', 'show']);
     Route::resource('motor-check-records', MotorCheckRecordController::class);
+    Route::resource('motor-check-trends', MotorCheckTrendController::class);
 });
 
 require __DIR__ . '/auth.php';

@@ -16,5 +16,12 @@ class FunctionalLocationSeeder extends Seeder
         FunctionalLocation::factory()
             ->count(100)
             ->create();
+
+        FunctionalLocation::insert([
+            'id' => 'FP-01-PM3',
+            'description' => 'PAPER MACHINE #3',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }

@@ -22,10 +22,10 @@ class DivisionSeeder extends Seeder
                 'id' => 2,
                 'title' => 'Mechanical Engineering',
             ],
-            // [
-            //     'id' => 3,
-            //     'title' => 'Paper Machine',
-            // ],
+            [
+                'id' => 3,
+                'title' => 'Paper Machine',
+            ],
         ];
 
         Division::insert($divisions);

@@ -260,15 +260,13 @@ export default function Index({
                                                         <td className="text-center">
                                                             <span className="mx-auto">
                                                                 <Link
+                                                                    preserveScroll
                                                                     href={route(
                                                                         checkFormLink[
                                                                             equipment
                                                                                 .classification
                                                                                 .id
-                                                                        ],
-                                                                        {
-                                                                            preserveScroll: true,
-                                                                        }
+                                                                        ]
                                                                     )}
                                                                     data={{
                                                                         equipment_id:
