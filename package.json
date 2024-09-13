@@ -23,6 +23,7 @@
     "dependencies": {
         "@heroicons/react": "^2.1.5",
         "heroicon": "^0.0.2",
+        "html5-qrcode": "^2.3.8",
         "react-hot-toast": "^2.4.1",
         "react-select": "^5.8.0",
         "recharts": "^2.12.7",

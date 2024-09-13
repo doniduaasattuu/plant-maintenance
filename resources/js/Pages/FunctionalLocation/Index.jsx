@@ -44,6 +44,7 @@ export default function Index({ auth, can, functional_locations }) {
         router.visit(functional_locationUrl, {
             preserveScroll: true,
             preserveState: true,
+            replace: true,
         });
     }, [functional_locationUrl]);
 
@@ -180,14 +181,18 @@ export default function Index({ auth, can, functional_locations }) {
                                                         onClick={() => {
                                                             router.get(
                                                                 route(
-                                                                    "functional-locations.edit",
-                                                                    functional_location.id
+                                                                    "functional-locations.show",
+                                                                    functional_location.id,
+                                                                    {
+                                                                        preserveScroll: true,
+                                                                        preserveState: true,
+                                                                    }
                                                                 )
                                                             );
                                                         }}
                                                         className={
                                                             `font-bold flex justify-between border ` +
-                                                            can.functional_location_edit
+                                                            can.functional_location_show
                                                                 ? "underline underline-offset-2 hover:text-blue-500 cursor-pointer"
                                                                 : null
                                                         }

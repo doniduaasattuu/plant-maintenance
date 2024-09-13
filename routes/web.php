@@ -7,6 +7,7 @@ use App\Http\Controllers\MotorCheckRecordController;
 use App\Http\Controllers\MotorCheckTrendController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ScannerController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -32,14 +33,19 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('users', UserController::class);
     Route::patch('/users/reset/{user}', [UserController::class, 'reset'])->name('users.reset');
-    // Route::put('users/reset', [UserController::class, 'reset'])->name('users.reset');
 
-    Route::resource('roles', RoleController::class);
-    Route::resource('functional-locations', FunctionalLocationController::class);
-    Route::resource('equipments', EquipmentController::class);
-    Route::resource('equipment-movements', EquipmentMovementController::class)->only(['index', 'show']);
-    Route::resource('motor-check-records', MotorCheckRecordController::class);
-    Route::resource('motor-check-trends', MotorCheckTrendController::class);
+    Route::resources([
+        'roles' => RoleController::class,
+        'functional-locations' => FunctionalLocationController::class,
+        'equipments' => EquipmentController::class,
+        'equipment-movements' => EquipmentMovementController::class,
+        'motor-check-records' => MotorCheckRecordController::class,
+        'motor-check-trends' => MotorCheckTrendController::class,
+    ]);
+
+    Route::post('equipment-movements/filter', [EquipmentMovementController::class, 'filter'])->name('equipment-movements.filter');
+
+    Route::resource('scanner', ScannerController::class)->only(['index']);
 });
 
 require __DIR__ . '/auth.php';

@@ -83,9 +83,18 @@ class EquipmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Equipment $equipment)
     {
-        //
+        Gate::authorize('equipment_show');
+
+        $classifications = Classification::all();
+        $equipment_status = EquipmentStatus::all();
+
+        return Inertia::render('Equipment/Show', [
+            'equipment' => EquipmentResource::make($equipment),
+            'classifications' => ClassificationResource::collection($classifications),
+            'equipment_status' => EquipmentStatusResource::collection($equipment_status),
+        ]);
     }
 
     /**
@@ -114,12 +123,20 @@ class EquipmentController extends Controller
 
         $validated = $request->validated();
 
-        $this->equipmentMovementService->logEquipmentMovement($request->validated());
+        $equipment->id = $validated['id'];
+        $equipment->classification_id = $validated['classification_id'];
+        $equipment->equipment_status_id = $validated['equipment_status_id'];
+        $equipment->functional_location_id = $validated['functional_location_id'];
+        $equipment->sort_field = $validated['sort_field'];
+        $equipment->description = $validated['description'];
 
-        $equipment->update($validated);
+        if ($equipment->isDirty()) {
+            $this->equipmentMovementService->logEquipmentMovement($request->validated());
+            $equipment->update($validated);
+        };
 
         return redirect()
-            ->back();
+            ->route('equipments.edit', $equipment->id);
     }
 
     /**

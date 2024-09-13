@@ -145,6 +145,10 @@ class PermissionSeeder extends Seeder
             [
                 'title' => 'motor_check_trend_access'
             ],
+            // QR SCAN
+            [
+                'title' => 'qr_scan',
+            ],
         ];
 
         Permission::insert($permissions);

@@ -28,29 +28,20 @@ class EquipmentMovementController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Request $request, string $keyword)
+    public function filter(Request $request)
     {
         Gate::authorize('equipment_movement_access');
-
-        $request->merge([
-            'search' => $keyword,
-        ]);
 
         $equipment_movements = EquipmentMovement::latest()
             ->search($request)
             ->paginate(10)
             ->withQueryString();
 
-        if (empty($equipment_movements->data)) {
-            return redirect()
-                ->back()
-                ->with('error', 'Equipment record not found');
+        if ($equipment_movements->isEmpty()) {
+            abort(204);
         }
 
-        return Inertia::render('EquipmentMovement/Index', [
+        return Inertia::render('EquipmentMovement/Filter', [
             'equipment_movements' => EquipmentMovemementResource::collection($equipment_movements),
         ]);
     }

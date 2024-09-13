@@ -54,10 +54,6 @@ class FunctionalLocationController extends Controller
                 'functional_location' => $validated['id'],
             ])
             ->with('success', 'Functional location successfully created');
-
-        // return redirect()
-        //     ->route('functional-locations.index')
-        //     ->with('success', 'Functional location successfully created');
     }
 
     /**
@@ -65,7 +61,11 @@ class FunctionalLocationController extends Controller
      */
     public function show(FunctionalLocation $functionalLocation)
     {
-        //
+        Gate::authorize('functional_location_show');
+
+        return Inertia::render('FunctionalLocation/Show', [
+            'functional_location' => FunctionalLocationResource::make($functionalLocation),
+        ]);
     }
 
     /**

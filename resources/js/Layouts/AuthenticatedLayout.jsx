@@ -5,15 +5,17 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { themeChange } from "theme-change";
 import toast from "react-hot-toast";
+import NavbarLinks from "@/Components/NavbarLinks";
 
 export default function Authenticated({ user, header, children }) {
     const page = usePage();
+    const can = page?.props?.can;
 
     useEffect(() => {
         themeChange(false);
     }, []);
 
-    router.on("start", (event) => {
+    router.on("navigate", (event) => {
         toast.remove();
     });
 
@@ -43,6 +45,7 @@ export default function Authenticated({ user, header, children }) {
 
     return (
         <>
+            <Toastify />
             <div className="w-full shadow-md bg-base-100 fixed z-50">
                 <nav className="navbar max-w-7xl mx-auto lg:px-8">
                     <div className="navbar-start">
@@ -68,55 +71,81 @@ export default function Authenticated({ user, header, children }) {
                                 </svg>
                             </div>
                             <ul
-                                tabIndex={0}
                                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 min-w-max p-2 shadow border border-neutral-600/40"
+                                tabIndex={0}
                             >
-                                <li>
-                                    <a>Scanner</a>
+                                <NavbarLinks
+                                    can={can}
+                                    orientation={"vertical"}
+                                />
+
+                                {/* <li>
+                                    <Link
+                                        href={route("scanner.index")}
+                                        className={`${
+                                            route().current("scanner.index") ||
+                                            route()
+                                                .current()
+                                                .includes("scanner")
+                                                ? "bg-base-200"
+                                                : ""
+                                        }`}
+                                    >
+                                        Scanner
+                                    </Link>
                                 </li>
                                 <li>
                                     <a>Tables</a>
                                     <ul className="p-2">
-                                        <li>
-                                            <Link
-                                                href={route(
-                                                    "functional-locations.index"
-                                                )}
-                                                className={`${
-                                                    route().current(
+                                        {page?.props?.can
+                                            ?.functional_location_access && (
+                                            <li>
+                                                <Link
+                                                    href={route(
                                                         "functional-locations.index"
-                                                    ) ||
-                                                    route()
-                                                        .current()
-                                                        .includes(
-                                                            "functional-locations"
-                                                        )
-                                                        ? "bg-base-200"
-                                                        : ""
-                                                }`}
-                                            >
-                                                Functional Location
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link
-                                                className={`${
-                                                    route().current(
+                                                    )}
+                                                    className={`${
+                                                        route().current(
+                                                            "functional-locations.index"
+                                                        ) ||
+                                                        route()
+                                                            .current()
+                                                            .includes(
+                                                                "functional-locations"
+                                                            )
+                                                            ? "bg-base-200"
+                                                            : ""
+                                                    }`}
+                                                >
+                                                    Functional Location
+                                                </Link>
+                                            </li>
+                                        )}
+                                        {page?.props?.can?.equipment_access && (
+                                            <li>
+                                                <Link
+                                                    className={`${
+                                                        route().current(
+                                                            "equipments.index"
+                                                        ) ||
+                                                        route()
+                                                            .current()
+                                                            .includes(
+                                                                "equipments"
+                                                            )
+                                                            ? "bg-base-200"
+                                                            : ""
+                                                    }`}
+                                                    href={route(
                                                         "equipments.index"
-                                                    ) ||
-                                                    route()
-                                                        .current()
-                                                        .includes("equipments")
-                                                        ? "bg-base-200"
-                                                        : ""
-                                                }`}
-                                                href={route("equipments.index")}
-                                            >
-                                                Equipment
-                                            </Link>
-                                        </li>
-                                        {page.props.can
-                                            .equipment_movement_access && (
+                                                    )}
+                                                >
+                                                    Equipment
+                                                </Link>
+                                            </li>
+                                        )}
+                                        {page?.props?.can
+                                            ?.equipment_movement_access && (
                                             <li>
                                                 <Link
                                                     href={route(
@@ -132,16 +161,13 @@ export default function Authenticated({ user, header, children }) {
                                                             : ""
                                                     }`}
                                                 >
-                                                    Equipment Movement
+                                                    History
                                                 </Link>
                                             </li>
                                         )}
-                                        <li>
-                                            <Link>Material Number</Link>
-                                        </li>
                                     </ul>
                                 </li>
-                                {page.props.can.user_access && (
+                                {page?.props?.can?.user_access && (
                                     <li>
                                         <Link
                                             href={route("users.index")}
@@ -160,7 +186,7 @@ export default function Authenticated({ user, header, children }) {
                                         </Link>
                                     </li>
                                 )}
-                                {page.props.can.role_access && (
+                                {page?.props?.can?.role_access && (
                                     <li>
                                         <Link
                                             href={route("roles.index")}
@@ -175,7 +201,7 @@ export default function Authenticated({ user, header, children }) {
                                             Roles
                                         </Link>
                                     </li>
-                                )}
+                                )} */}
                             </ul>
                         </div>
                         <Link
@@ -187,8 +213,20 @@ export default function Authenticated({ user, header, children }) {
                     </div>
                     <div className="navbar-center hidden lg:flex">
                         <ul className="menu menu-horizontal px-1">
-                            <li>
-                                <a>Scanner</a>
+                            <NavbarLinks can={can} orientation={"horizontal"} />
+
+                            {/* <li>
+                                <Link
+                                    href={route("scanner.index")}
+                                    className={`${
+                                        route().current("scanner.index") ||
+                                        route().current().includes("scanner")
+                                            ? "bg-base-200"
+                                            : ""
+                                    }`}
+                                >
+                                    Scanner
+                                </Link>
                             </li>
                             <li>
                                 <details>
@@ -258,13 +296,10 @@ export default function Authenticated({ user, header, children }) {
                                                             : ""
                                                     }`}
                                                 >
-                                                    Equipment Movement
+                                                    History
                                                 </Link>
                                             </li>
                                         )}
-                                        <li>
-                                            <Link>Material Number</Link>
-                                        </li>
                                     </ul>
                                 </details>
                             </li>
@@ -295,7 +330,7 @@ export default function Authenticated({ user, header, children }) {
                                         Roles
                                     </Link>
                                 </li>
-                            )}
+                            )} */}
                         </ul>
                     </div>
                     <div className="navbar-end me-4 lg:me-0">
@@ -325,33 +360,35 @@ export default function Authenticated({ user, header, children }) {
                                 tabIndex={0}
                                 className="menu dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow border border-neutral-600/40"
                             >
-                                <li>
-                                    <Link
-                                        href={route("profile.edit")}
-                                        className={`${
-                                            route().current("profile.edit")
-                                                ? "bg-base-200"
-                                                : ""
-                                        }`}
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 16 16"
-                                            fill="currentColor"
-                                            className="size-4"
+                                {page.props.can.profile_edit && (
+                                    <li>
+                                        <Link
+                                            href={route("profile.edit")}
+                                            className={`${
+                                                route().current("profile.edit")
+                                                    ? "bg-base-200"
+                                                    : ""
+                                            }`}
                                         >
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Zm-5-2a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM8 9c-1.825 0-3.422.977-4.295 2.437A5.49 5.49 0 0 0 8 13.5a5.49 5.49 0 0 0 4.294-2.063A4.997 4.997 0 0 0 8 9Z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                        Profile
-                                        <span className="md:hidden badge text-xs">
-                                            {user.first_name}
-                                        </span>
-                                    </Link>
-                                </li>
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 16 16"
+                                                fill="currentColor"
+                                                className="size-4"
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Zm-5-2a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM8 9c-1.825 0-3.422.977-4.295 2.437A5.49 5.49 0 0 0 8 13.5a5.49 5.49 0 0 0 4.294-2.063A4.997 4.997 0 0 0 8 9Z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                            Profile
+                                            <span className="md:hidden badge text-xs">
+                                                {user.first_name}
+                                            </span>
+                                        </Link>
+                                    </li>
+                                )}
                                 <li>
                                     <details>
                                         <summary className="align-middle">
@@ -461,8 +498,6 @@ export default function Authenticated({ user, header, children }) {
                     </div>
                 </header>
             )}
-
-            <Toastify toast={toast} />
 
             <main>{children}</main>
 

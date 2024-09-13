@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, useForm } from "@inertiajs/react";
+import { Head, Link, router, useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -9,6 +9,7 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import DangerButton from "@/Components/DangerButton";
 import { useState } from "react";
 import ModalConfirm from "@/Components/ModalConfirm";
+import EquipmentList from "./EquipmentList";
 
 export default function Edit({ auth, can, functional_location }) {
     const { data, setData, patch, errors, processing, recentlySuccessful } =
@@ -69,15 +70,47 @@ export default function Edit({ auth, can, functional_location }) {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
                     <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
                         <section className="max-w-xl">
-                            <h2 className="text-lg font-medium">
-                                Functional Location Information
-                            </h2>
+                            <div className="flex justify-between items-center">
+                                <div>
+                                    <h2 className="text-lg font-medium">
+                                        Functional Location
+                                    </h2>
 
-                            <p className="mt-1 text-sm">
-                                Update functional location information and
-                                related equipment.
-                            </p>
+                                    <p className="mt-1 text-sm">
+                                        Update data and information.
+                                    </p>
+                                </div>
 
+                                {can.functional_location_edit &&
+                                    !route().current().includes("edit") && (
+                                        <div
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                router.get(
+                                                    route(
+                                                        "functional_locations.edit",
+                                                        {
+                                                            search: functional_location
+                                                                .data.id,
+                                                        }
+                                                    )
+                                                );
+                                            }}
+                                            className="py-2"
+                                        >
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 16 16"
+                                                fill="currentColor"
+                                                className="size-4"
+                                            >
+                                                <path d="M13.488 2.513a1.75 1.75 0 0 0-2.475 0L6.75 6.774a2.75 2.75 0 0 0-.596.892l-.848 2.047a.75.75 0 0 0 .98.98l2.047-.848a2.75 2.75 0 0 0 .892-.596l4.261-4.262a1.75 1.75 0 0 0 0-2.474Z" />
+                                                <path d="M4.75 3.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V9A.75.75 0 0 1 14 9v2.25A2.75 2.75 0 0 1 11.25 14h-6.5A2.75 2.75 0 0 1 2 11.25v-6.5A2.75 2.75 0 0 1 4.75 2H7a.75.75 0 0 1 0 1.5H4.75Z" />
+                                            </svg>
+                                            Edit
+                                        </div>
+                                    )}
+                            </div>
                             <form
                                 id={`EditFunctionalLocation:${functional_location.id}`}
                                 onSubmit={submit}
@@ -167,63 +200,10 @@ export default function Edit({ auth, can, functional_location }) {
                     </div>
 
                     {functional_location.data.equipments.length > 0 && (
-                        <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
-                            <section className="max-w-xl">
-                                <div className="flex justify-between items-center">
-                                    <div>
-                                        <h2 className="text-lg font-medium">
-                                            Equipments
-                                        </h2>
-
-                                        <p className="mt-1 text-sm">
-                                            A list of all installed equipment.
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <Link
-                                            preserveScroll
-                                            href={route(
-                                                "functional-locations.edit",
-                                                functional_location?.data?.id
-                                            )}
-                                            className="py-2"
-                                        >
-                                            <span className="text-sm mx-4 text-blue-500 underline underline-offset-2">
-                                                Refresh
-                                            </span>
-                                        </Link>
-                                    </div>
-                                </div>
-
-                                <ul className="menu bg-base-200 rounded-box p-0 mt-6 mx-0">
-                                    {functional_location.data.equipments.map(
-                                        (equipment) => {
-                                            return (
-                                                <li key={equipment.id}>
-                                                    <div className="flex justify-between">
-                                                        <Link
-                                                            preserveScroll
-                                                            className="hover:link hover:text-blue-500 hover:underline-offset-2"
-                                                            href={route(
-                                                                "equipments.edit",
-                                                                equipment.id
-                                                            )}
-                                                        >
-                                                            {equipment.id}
-                                                        </Link>
-                                                        <div>
-                                                            {
-                                                                equipment.sort_field
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            );
-                                        }
-                                    )}
-                                </ul>
-                            </section>
-                        </div>
+                        <EquipmentList
+                            functional_location={functional_location}
+                            can={can}
+                        />
                     )}
 
                     {can.functional_location_delete && (

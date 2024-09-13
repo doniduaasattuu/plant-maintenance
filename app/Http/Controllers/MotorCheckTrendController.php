@@ -22,15 +22,15 @@ class MotorCheckTrendController extends Controller
         Gate::authorize('motor_check_trend_access');
         $equipment_id = $request->equipment_id;
 
-        if (is_null(Equipment::find($equipment_id))) {
-            abort(404);
-        }
-
         $data = MotorCheckRecord::query()
             ->where('equipment_id', $equipment_id)
             ->orderBy('created_at', 'DESC')
-            ->limit(11)
+            ->limit(12)
             ->get();
+
+        if ($data->isEmpty()) {
+            abort(204);
+        }
 
         $operational_status = $data->map(function (MotorCheckRecord $motorCheckRecord, int $index) {
             return [

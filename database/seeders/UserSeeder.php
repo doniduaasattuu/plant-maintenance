@@ -59,7 +59,7 @@ class UserSeeder extends Seeder
                 'email' => 'thanan.takhsin@fajarpaper.com',
                 'phone_number' => null,
                 'work_center_id' => null,
-                'email_verified_at' => now(),
+                'email_verified_at' => null,
                 'password' => Hash::make('password'),
                 'remember_token' => Str::random(10),
                 'created_at' => now(),
