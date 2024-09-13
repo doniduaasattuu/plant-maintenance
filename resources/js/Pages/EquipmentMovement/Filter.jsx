@@ -32,7 +32,6 @@ export default function Index({ auth, can, equipment_movements }) {
         router.visit(userUrl, {
             preserveScroll: true,
             preserveState: true,
-            replace: true,
         });
     }, [userUrl]);
 
@@ -69,7 +68,7 @@ export default function Index({ auth, can, equipment_movements }) {
 
             <div className="py-4">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-                    {can.equipment_movement_access && (
+                    {false && (
                         <div className="grid sm:grid-cols-2 gap-1 sm:gap-2 max-w-xl">
                             <div>
                                 <InputLabel htmlFor="search" value="Search" />

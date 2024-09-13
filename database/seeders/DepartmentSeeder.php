@@ -17,12 +17,12 @@ class DepartmentSeeder extends Seeder
             [
                 'id' => 'EI1',
                 'division_id' => 1,
-                'title' => 'Electrical Maintenance',
+                'title' => 'Electric Instrument PM12',
             ],
             [
                 'id' => 'EI2',
-                'division_id' => 2,
-                'title' => 'Mechanical Maintenance',
+                'division_id' => 1,
+                'title' => 'Electric Instrument PM37',
             ],
             [
                 'id' => 'EI3',

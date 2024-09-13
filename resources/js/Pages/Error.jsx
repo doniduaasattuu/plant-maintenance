@@ -9,6 +9,7 @@ export default function Error({ status }) {
                 404: "Page Not Found",
                 403: "Forbidden",
                 419: "Page Expired",
+                204: "No Content",
             }[status] || "An Error Occurred"
         );
     }, [status]);
@@ -19,6 +20,7 @@ export default function Error({ status }) {
                 404: "The page you are looking for does not exist.",
                 403: "You are not allowed to perform this action.",
                 419: "Session has expired.",
+                204: "The request was successful, but there’s no content to return.",
             }[status] || "An Error Occurred"
         );
     }, [status]);

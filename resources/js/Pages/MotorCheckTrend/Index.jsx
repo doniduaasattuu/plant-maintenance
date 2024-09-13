@@ -62,7 +62,7 @@ export default function Index({
                         <h2 className="font-semibold text-xl leading-tight text-center opacity-80">
                             Operational Status
                         </h2>
-                        <div className="min-w-[600px]">
+                        <div className="min-w-xs">
                             <ResponsiveContainer width="100%" height={150}>
                                 <AreaChart
                                     syncId={equipment_id}
@@ -143,7 +143,7 @@ export default function Index({
                         <h2 className="font-semibold text-xl leading-tight text-center opacity-80">
                             Cleanliness
                         </h2>
-                        <div className="min-w-[600px]">
+                        <div className="min-w-xs">
                             <ResponsiveContainer width="100%" height={150}>
                                 <AreaChart
                                     syncId={equipment_id}
@@ -224,7 +224,7 @@ export default function Index({
                         <h2 className="font-semibold text-xl leading-tight text-center opacity-80">
                             Temperatures
                         </h2>
-                        <div className="min-w-[600px]">
+                        <div className="min-w-xs">
                             <ResponsiveContainer width="100%" height={300}>
                                 <AreaChart
                                     syncId={equipment_id}
@@ -346,7 +346,7 @@ export default function Index({
                         <h2 className="font-semibold text-xl leading-tight text-center opacity-80">
                             Drive End Vibration
                         </h2>
-                        <div className="min-w-[600px]">
+                        <div className="min-w-xs">
                             <ResponsiveContainer width="100%" height={300}>
                                 <AreaChart
                                     syncId={equipment_id}
@@ -493,7 +493,7 @@ export default function Index({
                         <h2 className="font-semibold text-xl leading-tight text-center opacity-80">
                             Noise DE
                         </h2>
-                        <div className="min-w-[600px]">
+                        <div className="min-w-xs">
                             <ResponsiveContainer width="100%" height={150}>
                                 <AreaChart
                                     syncId={equipment_id}
@@ -574,7 +574,7 @@ export default function Index({
                         <h2 className="font-semibold text-xl leading-tight text-center opacity-80">
                             Non Drive End Vibration
                         </h2>
-                        <div className="min-w-[600px]">
+                        <div className="min-w-xs">
                             <ResponsiveContainer width="100%" height={300}>
                                 <AreaChart
                                     syncId={equipment_id}
@@ -696,7 +696,7 @@ export default function Index({
                         <h2 className="font-semibold text-xl leading-tight text-center opacity-80">
                             Noise NDE
                         </h2>
-                        <div className="min-w-[600px]">
+                        <div className="min-w-xs">
                             <ResponsiveContainer width="100%" height={150}>
                                 <AreaChart
                                     syncId={equipment_id}
@@ -777,7 +777,7 @@ export default function Index({
                         <h2 className="font-semibold text-xl leading-tight text-center opacity-80">
                             Greasing
                         </h2>
-                        <div className="min-w-[600px]">
+                        <div className="min-w-xs">
                             <ResponsiveContainer width="100%" height={150}>
                                 <BarChart
                                     syncId={equipment_id}

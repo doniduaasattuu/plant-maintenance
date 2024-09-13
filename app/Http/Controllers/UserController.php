@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ProfileUpdateRequest;
-use App\Http\Requests\UpdateRoleRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\DepartmentResource;
 use App\Http\Resources\PositionResource;
@@ -19,8 +17,6 @@ use App\Models\WorkCenter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 class UserController extends Controller

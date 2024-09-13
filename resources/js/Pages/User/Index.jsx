@@ -48,6 +48,7 @@ export default function Index({ auth, can, users, departments }) {
         router.visit(userUrl, {
             preserveScroll: true,
             preserveState: true,
+            replace: true,
         });
     }, [userUrl]);
 
