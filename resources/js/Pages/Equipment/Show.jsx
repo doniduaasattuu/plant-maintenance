@@ -64,7 +64,7 @@ export default function Show({ auth, can, equipment, links }) {
                                     />
                                     <TextInput
                                         readOnly={true}
-                                        id="id"
+                                        id="classification_id"
                                         className="mt-1 block w-full"
                                         value={
                                             equipment.data.classification
@@ -81,7 +81,7 @@ export default function Show({ auth, can, equipment, links }) {
                                     />
                                     <TextInput
                                         readOnly={true}
-                                        id="id"
+                                        id="equipment_status_id"
                                         className="mt-1 block w-full"
                                         value={
                                             equipment.data.status.keyword ?? ""
@@ -98,7 +98,7 @@ export default function Show({ auth, can, equipment, links }) {
 
                                     <TextInput
                                         readOnly={true}
-                                        id="id"
+                                        id="functional_location_id"
                                         className="mt-1 block w-full"
                                         value={
                                             equipment.data?.functional_location
@@ -116,7 +116,7 @@ export default function Show({ auth, can, equipment, links }) {
 
                                     <TextInput
                                         readOnly={true}
-                                        id="id"
+                                        id="sort_field"
                                         className="mt-1 block w-full"
                                         value={equipment.data.sort_field ?? ""}
                                     />
@@ -131,7 +131,7 @@ export default function Show({ auth, can, equipment, links }) {
 
                                     <TextInput
                                         readOnly={true}
-                                        id="id"
+                                        id="description"
                                         className="mt-1 block w-full"
                                         value={equipment.data.description ?? ""}
                                     />

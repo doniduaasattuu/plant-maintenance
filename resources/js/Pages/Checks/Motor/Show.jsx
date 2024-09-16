@@ -1,92 +1,29 @@
-import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
-import SecondaryButton from "@/Components/SecondaryButton";
-import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Transition } from "@headlessui/react";
 import { Head, useForm } from "@inertiajs/react";
-import { useEffect } from "react";
-import { useState } from "react";
-import Temperatures from "./Partials/Temperatures";
 
-export default function Show({
-    auth,
-    // operationalStatuses,
-    // cleanliness,
-    // normality,
-    motorCheck,
-}) {
-    console.log(motorCheck);
-    const { data, setData, patch, errors, processing, recentlySuccessful } =
-        useForm(`MotorCheckShow:${motorCheck.data.id}`, {
-            equipment_id: motorCheck.data.equipment_id ?? "",
-            operational_status_id:
-                motorCheck.data.operational_status.keyword ?? "",
-            cleanliness_id: motorCheck.data.cleanliness.keyword ?? "",
-            number_of_greasing: motorCheck.data.number_of_greasing ?? "",
-            temperature_de: motorCheck.data.temperature_de ?? "",
-            temperature_body: motorCheck.data.temperature_body ?? "",
-            temperature_nde: motorCheck.data.temperature_nde ?? "",
-            vibration_dev: motorCheck.data.vibration_dev ?? "",
-            vibration_deh: motorCheck.data.vibration_deh ?? "",
-            vibration_dea: motorCheck.data.vibration_dea ?? "",
-            vibration_def: motorCheck.data.vibration_def ?? "",
-            noise_de: motorCheck.data.noise_de.keyword ?? "",
-            vibration_ndev: motorCheck.data.vibration_ndev ?? "",
-            vibration_ndeh: motorCheck.data.vibration_ndeh ?? "",
-            vibration_ndef: motorCheck.data.vibration_ndef ?? "",
-            created_at: motorCheck.data.created_at ?? "",
-            checked_by: motorCheck.data.checked_by.full_name ?? "",
-            noise_nde: motorCheck.data.noise_nde.keyword ?? "",
-        });
-
-    // const [inputErrors, setInputErrors] = useState(errors);
-
-    // let statusLabel = {
-    //     Active: "Running",
-    //     Inactive: "Stop",
-    // };
-
-    // operationalStatuses = operationalStatuses.data.map((operational_status) => {
-    //     const original = operational_status.keyword;
-
-    //     return {
-    //         value: operational_status.id,
-    //         label: statusLabel[original],
-    //     };
-    // });
-
-    // cleanliness = cleanliness.data.map((item) => {
-    //     return {
-    //         value: item.id,
-    //         label: item.keyword,
-    //     };
-    // });
-
-    // normality = normality.data.map((item) => {
-    //     return {
-    //         value: item.id,
-    //         label: item.keyword,
-    //     };
-    // });
-
-    // useEffect(() => {
-    //     setInputErrors(errors);
-    // }, [errors]);
-
-    // const handleFocus = (field) => {
-    //     setInputErrors({ ...inputErrors, [field]: null });
-    // };
-
-    // function submit(e) {
-    //     e.preventDefault();
-    //     patch(route("motor-check.update", motorCheck.data.id), {
-    //         preserveScroll: true,
-    //         preserveState: true,
-    //     });
-    // }
+export default function Show({ auth, motorCheck }) {
+    const { data } = useForm(`MotorCheckShow:${motorCheck.data.id}`, {
+        equipment_id: motorCheck.data.equipment_id ?? "",
+        operational_status_id: motorCheck.data.operational_status.keyword ?? "",
+        cleanliness_id: motorCheck.data.cleanliness.keyword ?? "",
+        number_of_greasing: motorCheck.data.number_of_greasing ?? "",
+        temperature_de: motorCheck.data.temperature_de ?? "",
+        temperature_body: motorCheck.data.temperature_body ?? "",
+        temperature_nde: motorCheck.data.temperature_nde ?? "",
+        vibration_dev: motorCheck.data.vibration_dev ?? "",
+        vibration_deh: motorCheck.data.vibration_deh ?? "",
+        vibration_dea: motorCheck.data.vibration_dea ?? "",
+        vibration_def: motorCheck.data.vibration_def ?? "",
+        noise_de: motorCheck.data.noise_de.keyword ?? "",
+        vibration_ndev: motorCheck.data.vibration_ndev ?? "",
+        vibration_ndeh: motorCheck.data.vibration_ndeh ?? "",
+        vibration_ndef: motorCheck.data.vibration_ndef ?? "",
+        created_at: motorCheck.data.created_at ?? "",
+        checked_by: motorCheck.data.checked_by.full_name ?? "",
+        noise_nde: motorCheck.data.noise_nde.keyword ?? "",
+    });
 
     return (
         <AuthenticatedLayout

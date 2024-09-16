@@ -109,5 +109,9 @@ class Equipment extends Model
             'check' => 'motor-check.create',
             'trend' => 'trend.show',
         ],
+        'ZCLASS_U001' => [
+            'check' => 'ac-check.create',
+            'trend' => 'trend.show',
+        ],
     ];
 }

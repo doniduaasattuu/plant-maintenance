@@ -9,49 +9,39 @@ import { Transition } from "@headlessui/react";
 import { Head, useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 import { useState } from "react";
-import Temperatures from "./Partials/Temperatures";
 
 export default function Create({
     auth,
     can,
+    equipment_id,
     operationalStatuses,
     cleanliness,
-    normality,
-    motorCheck,
+    confirmations,
+    goodness,
 }) {
-    const { data, setData, patch, errors, processing, recentlySuccessful } =
-        useForm(`MotorCheckEdit:${motorCheck.data.id}`, {
-            equipment_id: motorCheck.data.equipment_id ?? "",
-            operational_status_id: motorCheck.data.operational_status_id ?? "",
-            cleanliness_id: motorCheck.data.cleanliness_id ?? "",
-            number_of_greasing: motorCheck.data.number_of_greasing ?? "",
-            temperature_de: motorCheck.data.temperature_de ?? "",
-            temperature_body: motorCheck.data.temperature_body ?? "",
-            temperature_nde: motorCheck.data.temperature_nde ?? "",
-            vibration_dev: motorCheck.data.vibration_dev ?? "",
-            vibration_deh: motorCheck.data.vibration_deh ?? "",
-            vibration_dea: motorCheck.data.vibration_dea ?? "",
-            vibration_def: motorCheck.data.vibration_def ?? "",
-            noise_de: motorCheck.data.noise_de ?? "",
-            vibration_ndev: motorCheck.data.vibration_ndev ?? "",
-            vibration_ndeh: motorCheck.data.vibration_ndeh ?? "",
-            vibration_ndef: motorCheck.data.vibration_ndef ?? "",
-            noise_nde: motorCheck.data.noise_nde ?? "",
+    const { data, setData, post, errors, processing, recentlySuccessful } =
+        useForm(`AcCheck:${equipment_id}`, {
+            equipment_id: equipment_id ?? "",
+            operational_status_id: 1,
+            leakage: 2,
+            evaporator: 1,
+            condensor: 1,
+            current_before_cleaning: "",
+            current_after_cleaning: "",
+            temperature: "",
+            remote: 1,
+            compressor_pressure: "",
+            cleaning_filter_indoor: 1,
+            cleaning_indoor: 1,
+            cleaning_outdoor: 1,
         });
 
     const [inputErrors, setInputErrors] = useState(errors);
 
-    let statusLabel = {
-        Active: "Running",
-        Inactive: "Stop",
-    };
-
-    operationalStatuses = operationalStatuses.data.map((operational_status) => {
-        const original = operational_status.keyword;
-
+    operationalStatuses = operationalStatuses.data.map((item) => {
         return {
-            value: operational_status.id,
-            label: statusLabel[original],
+            value: item.id,
+            label: item.keyword,
         };
     });
 
@@ -62,7 +52,14 @@ export default function Create({
         };
     });
 
-    normality = normality.data.map((item) => {
+    confirmations = confirmations.data.map((item) => {
+        return {
+            value: item.id,
+            label: item.keyword,
+        };
+    });
+
+    goodness = goodness.data.map((item) => {
         return {
             value: item.id,
             label: item.keyword,
@@ -79,13 +76,11 @@ export default function Create({
 
     function submit(e) {
         e.preventDefault();
-        patch(route("motor-check.update", motorCheck.data.id), {
-            preserveScroll: true,
+        post(route("ac-check.store"), {
             preserveState: true,
             replace: true,
         });
     }
-
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -94,22 +89,22 @@ export default function Create({
                     <div className="flex justify-between items-center">
                         <div>
                             <h2 className="font-semibold text-xl leading-tight">
-                                Edit Form
+                                AC check {equipment_id}
                             </h2>
                             <p className="mt-1 text-sm">
-                                Form daily check of motor equipment.
+                                Form daily check of air conditioner equipment.
                             </p>
                         </div>
                     </div>
                 </>
             }
         >
-            <Head title="Motor Check" />
+            <Head title="AC Check" />
 
             <div className="py-4">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
                     <form
-                        id={`MotorCheckEdit:${motorCheck.data.id}`}
+                        id={`AcCheck:${equipment_id}`}
                         onSubmit={submit}
                         className="space-y-6"
                     >
@@ -145,7 +140,6 @@ export default function Create({
                                     />
                                 </div>
 
-                                {/* OPERATIONAL AND CLEANLINESS */}
                                 <div className="grid grid-cols-2 gap-1 sm:gap-2 max-w-xl">
                                     {/* OPERATIONAL STATUS */}
                                     <div>
@@ -179,20 +173,52 @@ export default function Create({
                                         />
                                     </div>
 
-                                    {/* CLEANLINESS */}
+                                    {/* LEAKAGE */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="cleanliness_id"
-                                            value="Cleanliness"
+                                            htmlFor="leakage"
+                                            value="Leakage"
                                         />
 
                                         <SelectInput
-                                            id="cleanliness_id"
+                                            id="leakage"
                                             className="mt-1 block w-full"
-                                            value={data.cleanliness_id}
+                                            value={data.leakage}
                                             onChange={(e) =>
                                                 setData(
-                                                    "cleanliness_id",
+                                                    "leakage",
+                                                    e.target.value
+                                                )
+                                            }
+                                            withSelectName={false}
+                                            options={confirmations}
+                                            onFocus={(e) =>
+                                                handleFocus(e.target.id)
+                                            }
+                                        />
+
+                                        <InputError
+                                            className="mt-2"
+                                            message={inputErrors.leakage}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-1 sm:gap-2 max-w-xl">
+                                    {/* EVAPORATOR */}
+                                    <div>
+                                        <InputLabel
+                                            htmlFor="evaporator"
+                                            value="Evaporator"
+                                        />
+
+                                        <SelectInput
+                                            id="evaporator"
+                                            className="mt-1 block w-full"
+                                            value={data.evaporator}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "evaporator",
                                                     e.target.value
                                                 )
                                             }
@@ -205,76 +231,29 @@ export default function Create({
 
                                         <InputError
                                             className="mt-2"
-                                            message={inputErrors.cleanliness_id}
+                                            message={inputErrors.evaporator}
                                         />
                                     </div>
-                                </div>
 
-                                {/* NUMBER OF GREASING */}
-                                <div>
-                                    <InputLabel
-                                        htmlFor="number_of_greasing"
-                                        value="Number of greasing"
-                                    />
-
-                                    <TextInput
-                                        id="number_of_greasing"
-                                        className="mt-1 block w-full"
-                                        value={data.number_of_greasing}
-                                        onChange={(e) =>
-                                            setData(
-                                                "number_of_greasing",
-                                                e.target.value
-                                            )
-                                        }
-                                        inputMode="numeric"
-                                        onFocus={(e) =>
-                                            handleFocus(e.target.id)
-                                        }
-                                    />
-
-                                    <InputError
-                                        className="mt-2"
-                                        message={inputErrors.number_of_greasing}
-                                    />
-                                </div>
-                            </section>
-                        </div>
-
-                        {/* TEMPERATURES */}
-                        <Temperatures
-                            data={data}
-                            setData={setData}
-                            inputErrors={inputErrors}
-                            handleFocus={handleFocus}
-                        />
-
-                        <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
-                            <section className="max-w-xl space-y-6">
-                                <h2 className="font-semibold text-lg leading-tight">
-                                    Drive End Vibration
-                                </h2>
-                                {/* VIBRATION DE VERTICAL & HORIZONTAL */}
-                                <div className="grid grid-cols-2 gap-1 sm:gap-2 max-w-xl">
-                                    {/* DE VERTICAL */}
+                                    {/* CONDENSOR */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="vibration_dev"
-                                            value="DE Vertical"
+                                            htmlFor="condensor"
+                                            value="Condensor"
                                         />
 
-                                        <TextInput
-                                            id="vibration_dev"
+                                        <SelectInput
+                                            id="condensor"
                                             className="mt-1 block w-full"
-                                            value={data.vibration_dev}
+                                            value={data.condensor}
                                             onChange={(e) =>
                                                 setData(
-                                                    "vibration_dev",
+                                                    "condensor",
                                                     e.target.value
                                                 )
                                             }
-                                            placeholder="mm/s"
-                                            inputMode="numeric"
+                                            withSelectName={false}
+                                            options={cleanliness}
                                             onFocus={(e) =>
                                                 handleFocus(e.target.id)
                                             }
@@ -282,129 +261,9 @@ export default function Create({
 
                                         <InputError
                                             className="mt-2"
-                                            message={inputErrors.vibration_dev}
+                                            message={inputErrors.condensor}
                                         />
                                     </div>
-
-                                    {/* DE HORIZONTAL */}
-                                    <div>
-                                        <InputLabel
-                                            htmlFor="vibration_deh"
-                                            value="DE Horizontal"
-                                        />
-
-                                        <TextInput
-                                            id="vibration_deh"
-                                            className="mt-1 block w-full"
-                                            value={data.vibration_deh}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "vibration_deh",
-                                                    e.target.value
-                                                )
-                                            }
-                                            placeholder="mm/s"
-                                            inputMode="numeric"
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
-                                        />
-
-                                        <InputError
-                                            className="mt-2"
-                                            message={inputErrors.vibration_deh}
-                                        />
-                                    </div>
-                                </div>
-
-                                {/* VIBRATION AXIAL & FRAME */}
-                                <div className="grid grid-cols-2 gap-1 sm:gap-2 max-w-xl">
-                                    {/* DE AXIAL */}
-                                    <div>
-                                        <InputLabel
-                                            htmlFor="vibration_dea"
-                                            value="DE Axial"
-                                        />
-
-                                        <TextInput
-                                            id="vibration_dea"
-                                            className="mt-1 block w-full"
-                                            value={data.vibration_dea}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "vibration_dea",
-                                                    e.target.value
-                                                )
-                                            }
-                                            placeholder="mm/s"
-                                            inputMode="numeric"
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
-                                        />
-
-                                        <InputError
-                                            className="mt-2"
-                                            message={inputErrors.vibration_dea}
-                                        />
-                                    </div>
-
-                                    {/* DE FRAME */}
-                                    <div>
-                                        <InputLabel
-                                            htmlFor="vibration_def"
-                                            value="DE Frame"
-                                        />
-
-                                        <TextInput
-                                            id="vibration_def"
-                                            className="mt-1 block w-full"
-                                            value={data.vibration_def}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "vibration_def",
-                                                    e.target.value
-                                                )
-                                            }
-                                            placeholder="mm/s"
-                                            inputMode="numeric"
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
-                                        />
-
-                                        <InputError
-                                            className="mt-2"
-                                            message={inputErrors.vibration_def}
-                                        />
-                                    </div>
-                                </div>
-
-                                {/* NOISE DE */}
-                                <div>
-                                    <InputLabel
-                                        htmlFor="noise_de"
-                                        value="Noise DE"
-                                    />
-
-                                    <SelectInput
-                                        id="noise_de"
-                                        className="mt-1 block w-full"
-                                        value={data.noise_de}
-                                        onChange={(e) =>
-                                            setData("noise_de", e.target.value)
-                                        }
-                                        withSelectName={false}
-                                        options={normality}
-                                        onFocus={(e) =>
-                                            handleFocus(e.target.id)
-                                        }
-                                    />
-
-                                    <InputError
-                                        className="mt-2"
-                                        message={inputErrors.noise_de}
-                                    />
                                 </div>
                             </section>
                         </div>
@@ -412,60 +271,124 @@ export default function Create({
                         <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
                             <section className="max-w-xl space-y-6">
                                 <h2 className="font-semibold text-lg leading-tight">
-                                    Non Drive End Vibration
+                                    Technical
                                 </h2>
+                                <div className="grid grid-cols-2 gap-1 sm:gap-2 max-w-xl">
+                                    {/* CURRENT BEFORE CLEANING */}
+                                    <div>
+                                        <InputLabel
+                                            htmlFor="current_before_cleaning"
+                                            value="Current before cleaning"
+                                        />
 
-                                {/* VIBRATION NDE VERTICAL, HORIZONTAL & FRAME */}
+                                        <TextInput
+                                            id="current_before_cleaning"
+                                            className="mt-1 block w-full"
+                                            value={data.current_before_cleaning}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "current_before_cleaning",
+                                                    e.target.value
+                                                )
+                                            }
+                                            inputMode="numeric"
+                                            onFocus={(e) =>
+                                                handleFocus(e.target.id)
+                                            }
+                                            placeholder="A"
+                                        />
+
+                                        <InputError
+                                            className="mt-2"
+                                            message={
+                                                inputErrors.current_before_cleaning
+                                            }
+                                        />
+                                    </div>
+
+                                    {/* CURRENT AFTER CLEANING */}
+                                    <div>
+                                        <InputLabel
+                                            htmlFor="current_after_cleaning"
+                                            value="Current after cleaning"
+                                        />
+
+                                        <TextInput
+                                            id="current_after_cleaning"
+                                            className="mt-1 block w-full"
+                                            value={data.current_after_cleaning}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "current_after_cleaning",
+                                                    e.target.value
+                                                )
+                                            }
+                                            inputMode="numeric"
+                                            onFocus={(e) =>
+                                                handleFocus(e.target.id)
+                                            }
+                                            placeholder="A"
+                                        />
+
+                                        <InputError
+                                            className="mt-2"
+                                            message={
+                                                inputErrors.current_after_cleaning
+                                            }
+                                        />
+                                    </div>
+                                </div>
+
                                 <div className="grid grid-cols-3 gap-1 sm:gap-2 max-w-xl">
-                                    {/* NDE VERTICAL */}
+                                    {/* TEMPERATURE */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="vibration_ndev"
-                                            value="NDE Vertical"
+                                            htmlFor="temperature"
+                                            value="Temperature"
                                         />
 
                                         <TextInput
-                                            id="vibration_ndev"
+                                            id="temperature"
                                             className="mt-1 block w-full"
-                                            value={data.vibration_ndev}
+                                            value={data.temperature}
                                             onChange={(e) =>
                                                 setData(
-                                                    "vibration_ndev",
+                                                    "temperature",
                                                     e.target.value
                                                 )
                                             }
-                                            placeholder="mm/s"
                                             inputMode="numeric"
                                             onFocus={(e) =>
                                                 handleFocus(e.target.id)
                                             }
+                                            placeholder="°C"
                                         />
 
                                         <InputError
                                             className="mt-2"
-                                            message={inputErrors.vibration_ndev}
+                                            message={inputErrors.temperature}
                                         />
                                     </div>
 
-                                    {/* NDE HORIZONTAL */}
+                                    {/* REMOTE */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="vibration_ndeh"
-                                            value="NDE Horizontal"
+                                            htmlFor="remote"
+                                            value="Remote"
                                         />
 
-                                        <TextInput
-                                            id="vibration_ndeh"
+                                        <SelectInput
+                                            id="remote"
                                             className="mt-1 block w-full"
-                                            value={data.vibration_ndeh}
+                                            value={data.remote}
                                             onChange={(e) =>
                                                 setData(
-                                                    "vibration_ndeh",
+                                                    "remote",
                                                     e.target.value
                                                 )
                                             }
-                                            placeholder="mm/s"
-                                            inputMode="numeric"
+                                            withSelectName={false}
+                                            options={goodness}
                                             onFocus={(e) =>
                                                 handleFocus(e.target.id)
                                             }
@@ -473,66 +396,147 @@ export default function Create({
 
                                         <InputError
                                             className="mt-2"
-                                            message={inputErrors.vibration_ndeh}
+                                            message={inputErrors.remote}
                                         />
                                     </div>
 
-                                    {/* NDE FRAME */}
+                                    {/* PRESSURE */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="vibration_ndef"
-                                            value="NDE Frame"
+                                            htmlFor="compressor_pressure"
+                                            value="Pressure"
                                         />
 
                                         <TextInput
-                                            id="vibration_ndef"
+                                            id="compressor_pressure"
                                             className="mt-1 block w-full"
-                                            value={data.vibration_ndef}
+                                            value={data.compressor_pressure}
                                             onChange={(e) =>
                                                 setData(
-                                                    "vibration_ndef",
+                                                    "compressor_pressure",
                                                     e.target.value
                                                 )
                                             }
-                                            placeholder="mm/s"
                                             inputMode="numeric"
                                             onFocus={(e) =>
                                                 handleFocus(e.target.id)
                                             }
+                                            placeholder="Bar"
                                         />
 
                                         <InputError
                                             className="mt-2"
-                                            message={inputErrors.vibration_ndef}
+                                            message={
+                                                inputErrors.compressor_pressure
+                                            }
                                         />
                                     </div>
                                 </div>
+                            </section>
+                        </div>
 
-                                {/* NOISE NDE */}
-                                <div>
-                                    <InputLabel
-                                        htmlFor="noise_nde"
-                                        value="Noise NDE"
-                                    />
+                        <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
+                            <section className="max-w-xl space-y-6">
+                                <h2 className="font-semibold text-lg leading-tight">
+                                    Cleaning
+                                </h2>
 
-                                    <SelectInput
-                                        id="noise_nde"
-                                        className="mt-1 block w-full"
-                                        value={data.noise_nde}
-                                        onChange={(e) =>
-                                            setData("noise_nde", e.target.value)
-                                        }
-                                        withSelectName={false}
-                                        options={normality}
-                                        onFocus={(e) =>
-                                            handleFocus(e.target.id)
-                                        }
-                                    />
+                                <div className="grid grid-cols-3 gap-1 sm:gap-2 max-w-xl">
+                                    {/* CLEANING FILTER INDOOR */}
+                                    <div>
+                                        <InputLabel
+                                            htmlFor="cleaning_filter_indoor"
+                                            value="Filter Indoor"
+                                        />
 
-                                    <InputError
-                                        className="mt-2"
-                                        message={inputErrors.noise_nde}
-                                    />
+                                        <SelectInput
+                                            id="cleaning_filter_indoor"
+                                            className="mt-1 block w-full"
+                                            value={data.cleaning_filter_indoor}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "cleaning_filter_indoor",
+                                                    e.target.value
+                                                )
+                                            }
+                                            withSelectName={false}
+                                            options={confirmations}
+                                            onFocus={(e) =>
+                                                handleFocus(e.target.id)
+                                            }
+                                        />
+
+                                        <InputError
+                                            className="mt-2"
+                                            message={
+                                                inputErrors.cleaning_filter_indoor
+                                            }
+                                        />
+                                    </div>
+
+                                    {/* CLEANING INDOOR */}
+                                    <div>
+                                        <InputLabel
+                                            htmlFor="cleaning_indoor"
+                                            value="Indoor"
+                                        />
+
+                                        <SelectInput
+                                            id="cleaning_indoor"
+                                            className="mt-1 block w-full"
+                                            value={data.cleaning_indoor}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "cleaning_indoor",
+                                                    e.target.value
+                                                )
+                                            }
+                                            withSelectName={false}
+                                            options={confirmations}
+                                            onFocus={(e) =>
+                                                handleFocus(e.target.id)
+                                            }
+                                        />
+
+                                        <InputError
+                                            className="mt-2"
+                                            message={
+                                                inputErrors.cleaning_indoor
+                                            }
+                                        />
+                                    </div>
+
+                                    {/* CLEANING OUTDOOR */}
+                                    <div>
+                                        <InputLabel
+                                            htmlFor="cleaning_outdoor"
+                                            value="Outdoor"
+                                        />
+
+                                        <SelectInput
+                                            id="cleaning_outdoor"
+                                            className="mt-1 block w-full"
+                                            value={data.cleaning_outdoor}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "cleaning_outdoor",
+                                                    e.target.value
+                                                )
+                                            }
+                                            withSelectName={false}
+                                            options={confirmations}
+                                            onFocus={(e) =>
+                                                handleFocus(e.target.id)
+                                            }
+                                        />
+
+                                        <InputError
+                                            className="mt-2"
+                                            message={
+                                                inputErrors.cleaning_outdoor
+                                            }
+                                        />
+                                    </div>
                                 </div>
 
                                 <div className="flex items-center gap-4">
@@ -546,7 +550,7 @@ export default function Create({
                                     </SecondaryButton>
 
                                     <PrimaryButton disabled={processing}>
-                                        Update
+                                        Save
                                     </PrimaryButton>
 
                                     <Transition
@@ -556,7 +560,7 @@ export default function Create({
                                         leave="transition ease-in-out"
                                         leaveTo="opacity-0"
                                     >
-                                        <p className="text-sm">Updated.</p>
+                                        <p className="text-sm">Saved.</p>
                                     </Transition>
                                 </div>
                             </section>

@@ -34,10 +34,10 @@ class EquipmentCheckingForm extends Model
         return $this->belongsTo(Equipment::class);
     }
 
-    public function isMotorCheck(): bool
-    {
-        return $this->equipment->classification_id === "ZCLASS_E009";
-    }
+    // public function isMotorCheck(): bool
+    // {
+    //     return $this->equipment->classification_id === "ZCLASS_E009";
+    // }
 
     // public function isAcCheck(): bool
     // {

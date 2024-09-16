@@ -141,7 +141,26 @@ class PermissionSeeder extends Seeder
             [
                 'title' => 'motor_check_delete',
             ],
-            // MOTOR CHECK TREND
+            // AC CHECK RECORD
+            [
+                'title' => 'ac_check_access'
+            ],
+            [
+                'title' => 'ac_check_create',
+            ],
+            [
+                'title' => 'ac_check_edit',
+            ],
+            [
+                'title' => 'ac_check_show',
+            ],
+            [
+                'title' => 'ac_check_update',
+            ],
+            [
+                'title' => 'ac_check_delete',
+            ],
+            // TREND
             [
                 'title' => 'trend_show'
             ],
