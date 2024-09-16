@@ -4,12 +4,16 @@ import { Link, router } from "@inertiajs/react";
 export default function Actions({ auth, can, equipment, links }) {
     return (
         <div className="dropdown dropdown-bottom dropdown-end">
-            <div tabIndex={0} role="button">
+            <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle"
+            >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    strokeWidth={1.5}
+                    strokeWidth={2}
                     stroke="currentColor"
                     className="size-6"
                 >
@@ -25,16 +29,14 @@ export default function Actions({ auth, can, equipment, links }) {
                 className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow border border-neutral-600/40"
             >
                 {/* EQUIPMENT CHECKING FORM */}
-                {can.motor_check_record_create &&
-                    links[equipment.data.classification.id]?.records &&
+                {can.motor_check_create &&
+                    links[equipment.data.classification.id]?.check &&
                     equipment.data.status.id == 2 && (
                         <li>
                             <Link
-                                preserveScroll
-                                preserveState
                                 href={route(
                                     links[equipment.data.classification.id]
-                                        ?.records
+                                        ?.check
                                 )}
                                 data={{
                                     equipment_id: equipment.data.id,
@@ -62,19 +64,15 @@ export default function Actions({ auth, can, equipment, links }) {
                         </li>
                     )}
                 {/* EQUIPMENT TREND */}
-                {can.motor_check_trend_access &&
-                    links[equipment.data.classification.id]?.trends && (
+                {can.trend_show &&
+                    links[equipment.data.classification.id]?.trend && (
                         <li>
                             <Link
-                                preserveScroll
-                                preserveState
                                 href={route(
                                     links[equipment.data.classification.id]
-                                        ?.trends
+                                        ?.trend,
+                                    equipment.data.id
                                 )}
-                                data={{
-                                    equipment_id: equipment.data.id,
-                                }}
                                 className="py-2"
                             >
                                 <svg
@@ -97,14 +95,13 @@ export default function Actions({ auth, can, equipment, links }) {
                 {/* EQUIPMENT MOVEMENTS */}
                 <li>
                     <div
-                        onClick={(e) => {
-                            e.preventDefault();
+                        onClick={() =>
                             router.post(
                                 route("equipment-movements.filter", {
                                     search: equipment.data.id,
                                 })
-                            );
-                        }}
+                            )
+                        }
                         className="py-2"
                     >
                         <svg
@@ -122,13 +119,8 @@ export default function Actions({ auth, can, equipment, links }) {
                 </li>
                 {can.equipment_edit && !route().current().includes("edit") && (
                     <li>
-                        <div
-                            onClick={(e) => {
-                                e.preventDefault();
-                                router.get(
-                                    route("equipments.edit", equipment.data.id)
-                                );
-                            }}
+                        <Link
+                            href={route("equipments.edit", equipment.data.id)}
                             className="py-2"
                         >
                             <svg
@@ -141,7 +133,7 @@ export default function Actions({ auth, can, equipment, links }) {
                                 <path d="M4.75 3.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V9A.75.75 0 0 1 14 9v2.25A2.75 2.75 0 0 1 11.25 14h-6.5A2.75 2.75 0 0 1 2 11.25v-6.5A2.75 2.75 0 0 1 4.75 2H7a.75.75 0 0 1 0 1.5H4.75Z" />
                             </svg>
                             Edit
-                        </div>
+                        </Link>
                     </li>
                 )}
             </ul>

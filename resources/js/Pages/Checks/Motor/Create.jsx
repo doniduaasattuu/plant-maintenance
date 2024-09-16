@@ -13,32 +13,29 @@ import Temperatures from "./Partials/Temperatures";
 
 export default function Create({
     auth,
-    can,
+    equipment_id,
     operational_statuses,
     cleanliness,
     normality,
-    motor_check_record,
 }) {
-    const { data, setData, patch, errors, processing, recentlySuccessful } =
-        useForm(`MotorCheckRecordEdit:${motor_check_record.data.id}`, {
-            equipment_id: motor_check_record.data.equipment_id ?? "",
-            operational_status_id:
-                motor_check_record.data.operational_status_id ?? "",
-            cleanliness_id: motor_check_record.data.cleanliness_id ?? "",
-            number_of_greasing:
-                motor_check_record.data.number_of_greasing ?? "",
-            temperature_de: motor_check_record.data.temperature_de ?? "",
-            temperature_body: motor_check_record.data.temperature_body ?? "",
-            temperature_nde: motor_check_record.data.temperature_nde ?? "",
-            vibration_dev: motor_check_record.data.vibration_dev ?? "",
-            vibration_deh: motor_check_record.data.vibration_deh ?? "",
-            vibration_dea: motor_check_record.data.vibration_dea ?? "",
-            vibration_def: motor_check_record.data.vibration_def ?? "",
-            noise_de: motor_check_record.data.noise_de ?? "",
-            vibration_ndev: motor_check_record.data.vibration_ndev ?? "",
-            vibration_ndeh: motor_check_record.data.vibration_ndeh ?? "",
-            vibration_ndef: motor_check_record.data.vibration_ndef ?? "",
-            noise_nde: motor_check_record.data.noise_nde ?? "",
+    const { data, setData, post, errors, processing, recentlySuccessful } =
+        useForm(`MotorCheck:${equipment_id}`, {
+            equipment_id: equipment_id ?? "",
+            operational_status_id: 1,
+            cleanliness_id: 1,
+            number_of_greasing: "",
+            temperature_de: "",
+            temperature_body: "",
+            temperature_nde: "",
+            vibration_dev: "",
+            vibration_deh: "",
+            vibration_dea: "",
+            vibration_def: "",
+            noise_de: 1,
+            vibration_ndev: "",
+            vibration_ndeh: "",
+            vibration_ndef: "",
+            noise_nde: 1,
         });
 
     const [inputErrors, setInputErrors] = useState(errors);
@@ -83,12 +80,11 @@ export default function Create({
 
     function submit(e) {
         e.preventDefault();
-        patch(route("motor-check-records.update", motor_check_record.data.id), {
-            preserveScroll: true,
+        post(route("motor-check.store"), {
             preserveState: true,
+            replace: true,
         });
     }
-
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -97,7 +93,7 @@ export default function Create({
                     <div className="flex justify-between items-center">
                         <div>
                             <h2 className="font-semibold text-xl leading-tight">
-                                Edit Form
+                                Motor check {equipment_id}
                             </h2>
                             <p className="mt-1 text-sm">
                                 Form daily check of motor equipment.
@@ -112,7 +108,7 @@ export default function Create({
             <div className="py-4">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
                     <form
-                        id={`MotorCheckRecordEdit:${motor_check_record.data.id}`}
+                        id={`MotorCheck:${equipment_id}`}
                         onSubmit={submit}
                         className="space-y-6"
                     >
@@ -549,7 +545,7 @@ export default function Create({
                                     </SecondaryButton>
 
                                     <PrimaryButton disabled={processing}>
-                                        Update
+                                        Save
                                     </PrimaryButton>
 
                                     <Transition
@@ -559,7 +555,7 @@ export default function Create({
                                         leave="transition ease-in-out"
                                         leaveTo="opacity-0"
                                     >
-                                        <p className="text-sm">Updated.</p>
+                                        <p className="text-sm">Saved.</p>
                                     </Transition>
                                 </div>
                             </section>

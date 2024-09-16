@@ -96,7 +96,7 @@ export default function Index({
                                     </defs>
                                     <XAxis
                                         tickMargin={12}
-                                        reversed={true}
+                                        reversed={false}
                                         tick={{
                                             fontSize: 13,
                                         }}
@@ -177,7 +177,7 @@ export default function Index({
                                     </defs>
                                     <XAxis
                                         tickMargin={12}
-                                        reversed={true}
+                                        reversed={false}
                                         tick={{
                                             fontSize: 13,
                                         }}
@@ -294,7 +294,7 @@ export default function Index({
                                     </defs>
                                     <XAxis
                                         tickMargin={12}
-                                        reversed={true}
+                                        reversed={false}
                                         tick={{
                                             fontSize: 13,
                                         }}
@@ -434,7 +434,7 @@ export default function Index({
                                     </defs>
                                     <XAxis
                                         tickMargin={12}
-                                        reversed={true}
+                                        reversed={false}
                                         tick={{
                                             fontSize: 13,
                                         }}
@@ -527,7 +527,7 @@ export default function Index({
                                     </defs>
                                     <XAxis
                                         tickMargin={12}
-                                        reversed={true}
+                                        reversed={false}
                                         tick={{
                                             fontSize: 13,
                                         }}
@@ -644,7 +644,7 @@ export default function Index({
                                     </defs>
                                     <XAxis
                                         tickMargin={12}
-                                        reversed={true}
+                                        reversed={false}
                                         tick={{
                                             fontSize: 13,
                                         }}
@@ -730,7 +730,7 @@ export default function Index({
                                     </defs>
                                     <XAxis
                                         tickMargin={12}
-                                        reversed={true}
+                                        reversed={false}
                                         tick={{
                                             fontSize: 13,
                                         }}
@@ -811,7 +811,7 @@ export default function Index({
                                     </defs>
                                     <XAxis
                                         tickMargin={12}
-                                        reversed={true}
+                                        reversed={false}
                                         tick={{
                                             fontSize: 13,
                                         }}

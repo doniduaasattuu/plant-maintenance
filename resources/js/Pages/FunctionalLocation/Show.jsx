@@ -4,6 +4,7 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import Actions from "./Actions";
 import EquipmentList from "./EquipmentList";
+import SecondaryButton from "@/Components/SecondaryButton";
 
 export default function Show({ auth, can, functional_location }) {
     return (
@@ -72,6 +73,17 @@ export default function Show({ auth, can, functional_location }) {
                                         }
                                         readOnly
                                     />
+                                </div>
+
+                                <div className="flex items-center gap-4">
+                                    <SecondaryButton
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            window.history.back();
+                                        }}
+                                    >
+                                        Back
+                                    </SecondaryButton>
                                 </div>
                             </div>
                         </section>
