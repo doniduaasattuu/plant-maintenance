@@ -103,4 +103,11 @@ class Equipment extends Model
                     ->where('equipment_status_id', $status);
             });
     }
+
+    public array $links = [
+        'ZCLASS_E009' => [
+            'check' => 'motor-check.create',
+            'trend' => 'trend.show',
+        ],
+    ];
 }

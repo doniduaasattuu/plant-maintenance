@@ -8,10 +8,10 @@ use App\Http\Requests\UpdateEquipmentRequest;
 use App\Http\Resources\ClassificationResource;
 use App\Http\Resources\EquipmentResource;
 use App\Http\Resources\EquipmentStatusResource;
-use App\Http\Services\EquipmentMovementService;
 use App\Models\Classification;
 use App\Models\Equipment;
 use App\Models\EquipmentStatus;
+use App\Services\EquipmentMovementService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -94,6 +94,7 @@ class EquipmentController extends Controller
             'equipment' => EquipmentResource::make($equipment),
             'classifications' => ClassificationResource::collection($classifications),
             'equipment_status' => EquipmentStatusResource::collection($equipment_status),
+            'links' => $equipment->links,
         ]);
     }
 

@@ -3,11 +3,11 @@
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\EquipmentMovementController;
 use App\Http\Controllers\FunctionalLocationController;
-use App\Http\Controllers\MotorCheckRecordController;
-use App\Http\Controllers\MotorCheckTrendController;
+use App\Http\Controllers\MotorCheckController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ScannerController;
+use App\Http\Controllers\TrendController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -39,8 +39,9 @@ Route::middleware('auth')->group(function () {
         'functional-locations' => FunctionalLocationController::class,
         'equipments' => EquipmentController::class,
         'equipment-movements' => EquipmentMovementController::class,
-        'motor-check-records' => MotorCheckRecordController::class,
-        'motor-check-trends' => MotorCheckTrendController::class,
+        // EQUIPMENT CHECKING
+        'motor-check' => MotorCheckController::class,
+        'trend' => TrendController::class,
     ]);
 
     Route::post('equipment-movements/filter', [EquipmentMovementController::class, 'filter'])->name('equipment-movements.filter');

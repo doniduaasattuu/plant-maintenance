@@ -27,14 +27,13 @@ export default function Actions({ auth, can, functional_location }) {
                 {can.equipment_movement_access && (
                     <li>
                         <div
-                            onClick={(e) => {
-                                e.preventDefault();
+                            onClick={() =>
                                 router.post(
                                     route("equipment-movements.filter", {
                                         search: functional_location.data.id,
                                     })
-                                );
-                            }}
+                                )
+                            }
                             className="py-2"
                         >
                             <svg
@@ -55,15 +54,14 @@ export default function Actions({ auth, can, functional_location }) {
                     !route().current().includes("edit") && (
                         <li>
                             <div
-                                onClick={(e) => {
-                                    e.preventDefault();
+                                onClick={() =>
                                     router.get(
                                         route(
                                             "functional-locations.edit",
                                             functional_location.data.id
                                         )
-                                    );
-                                }}
+                                    )
+                                }
                                 className="py-2"
                             >
                                 <svg

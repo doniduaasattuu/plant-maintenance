@@ -1,20 +1,11 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, router, useForm } from "@inertiajs/react";
+import { Head } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
-import InputError from "@/Components/InputError";
-import { useState, useEffect } from "react";
-import ModalConfirm from "@/Components/ModalConfirm";
 import Actions from "./Actions";
+import SecondaryButton from "@/Components/SecondaryButton";
 
-export default function Show({ auth, can, equipment }) {
-    const links = {
-        ZCLASS_E009: {
-            records: "motor-check-records.create",
-            trends: "motor-check-trends.index",
-        },
-    };
-
+export default function Show({ auth, can, equipment, links }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -144,6 +135,17 @@ export default function Show({ auth, can, equipment }) {
                                         className="mt-1 block w-full"
                                         value={equipment.data.description ?? ""}
                                     />
+                                </div>
+
+                                <div className="flex items-center gap-4">
+                                    <SecondaryButton
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            window.history.back();
+                                        }}
+                                    >
+                                        Back
+                                    </SecondaryButton>
                                 </div>
                             </div>
                         </section>

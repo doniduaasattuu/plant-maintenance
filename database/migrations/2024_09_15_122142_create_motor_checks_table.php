@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('motor_check_records', function (Blueprint $table) {
+        Schema::create('motor_checks', function (Blueprint $table) {
             $table->id();
-            $table->string('equipment_id', 9)->nullable(false);
             $table->foreignId('operational_status_id')->nullable(false)->constrained('operational_statuses')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('cleanliness_id')->nullable(false)->constrained('cleanliness')->cascadeOnUpdate()->cascadeOnDelete();
             $table->integer('number_of_greasing')->nullable();
@@ -32,7 +31,6 @@ return new class extends Migration
             $table->string('checked_by', 8)->nullable(true);
             $table->timestamps();
 
-            $table->foreign('equipment_id')->references('id')->on('equipments')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('checked_by')->references('id')->on('users')->cascadeOnUpdate()->nullOnDelete();
         });
     }
@@ -42,6 +40,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('motor_check_records');
+        Schema::dropIfExists('motor_checks');
     }
 };

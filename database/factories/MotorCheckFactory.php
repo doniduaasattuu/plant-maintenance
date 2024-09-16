@@ -3,18 +3,15 @@
 namespace Database\Factories;
 
 use App\Models\Cleanliness;
-use App\Models\Equipment;
 use App\Models\Normality;
 use App\Models\OperationalStatus;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\MotorCheckRecord>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\MotorCheck>
  */
-class MotorCheckRecordFactory extends Factory
+class MotorCheckFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -24,7 +21,6 @@ class MotorCheckRecordFactory extends Factory
     public function definition(): array
     {
         return [
-            'equipment_id' => DB::table('equipments')->where('classification_id', 'ZCLASS_E009')->get()->random()->id,
             'operational_status_id' => OperationalStatus::all()->random()->id,
             'cleanliness_id' => Cleanliness::all()->random()->id,
             'number_of_greasing' => fake()->numberBetween(30, 150),

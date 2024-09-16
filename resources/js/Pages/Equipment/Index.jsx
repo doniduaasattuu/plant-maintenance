@@ -82,6 +82,9 @@ export default function Index({
         };
     }, [inputSearch]);
 
+    // URL's
+    const createNewUrl = route("equipments.create");
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -98,7 +101,7 @@ export default function Index({
                         </div>
                         <div>
                             {can.equipment_create && (
-                                <Link href={route("equipments.create")}>
+                                <Link href={createNewUrl}>
                                     <PrimaryButton>Create new</PrimaryButton>
                                 </Link>
                             )}
@@ -171,46 +174,39 @@ export default function Index({
                                 </thead>
                                 <tbody>
                                     {equipments.data.map((equipment) => {
+                                        const equipmentUrl = route(
+                                            "equipments.show",
+                                            equipment.id
+                                        );
+
                                         return (
                                             <tr
                                                 className="border-b-base-300"
                                                 key={equipment.id}
                                             >
                                                 {/* EQUIPMENT ID */}
-                                                <td
-                                                    className="cursor-pointer max-w-32 truncate"
-                                                    preserveScroll
-                                                    onClick={() => {
-                                                        router.get(
-                                                            route(
-                                                                "equipments.show",
-                                                                equipment.id,
-                                                                {
-                                                                    preserveScroll: true,
-                                                                    preserveState: true,
-                                                                }
-                                                            )
-                                                        );
-                                                    }}
-                                                >
-                                                    <span
-                                                        className={
-                                                            `font-bold flex justify-between border ` +
-                                                            can.equipment_edit
-                                                                ? "underline underline-offset-2 hover:text-blue-500"
-                                                                : null
-                                                        }
-                                                    >
-                                                        {equipment.id}
-                                                    </span>
-                                                    <br />
-                                                    <span className="text-xs opacity-50">
-                                                        {
-                                                            equipment
-                                                                .classification
-                                                                .description
-                                                        }
-                                                    </span>
+                                                <td>
+                                                    <div className="max-w-32 truncate">
+                                                        <Link
+                                                            href={equipmentUrl}
+                                                            className={
+                                                                `font-bold flex justify-between border ` +
+                                                                can.equipment_show
+                                                                    ? "underline underline-offset-2 hover:text-blue-500"
+                                                                    : null
+                                                            }
+                                                        >
+                                                            {equipment.id}
+                                                        </Link>
+                                                        <br />
+                                                        <span className="text-xs opacity-50">
+                                                            {
+                                                                equipment
+                                                                    .classification
+                                                                    .description
+                                                            }
+                                                        </span>
+                                                    </div>
                                                 </td>
                                                 {/* DETAILS */}
                                                 <td className="max-w-56 truncate">

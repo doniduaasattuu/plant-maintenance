@@ -14,53 +14,46 @@ import Temperatures from "./Partials/Temperatures";
 export default function Create({
     auth,
     can,
-    equipment_id,
-    operational_statuses,
+    operationalStatuses,
     cleanliness,
     normality,
+    motorCheck,
 }) {
-    const { data, setData, post, errors, processing, recentlySuccessful } =
-        useForm(`MotorCheckRecord:${equipment_id}`, {
-            equipment_id: equipment_id ?? "",
-            operational_status_id: 1,
-            cleanliness_id: 1,
-            number_of_greasing: "",
-            temperature_de: "",
-            temperature_body: "",
-            temperature_nde: "",
-            vibration_dev: "",
-            vibration_deh: "",
-            vibration_dea: "",
-            vibration_def: "",
-            noise_de: 1,
-            vibration_ndev: "",
-            vibration_ndeh: "",
-            vibration_ndef: "",
-            noise_nde: 1,
+    const { data, setData, patch, errors, processing, recentlySuccessful } =
+        useForm(`MotorCheckEdit:${motorCheck.data.id}`, {
+            equipment_id: motorCheck.data.equipment_id ?? "",
+            operational_status_id: motorCheck.data.operational_status_id ?? "",
+            cleanliness_id: motorCheck.data.cleanliness_id ?? "",
+            number_of_greasing: motorCheck.data.number_of_greasing ?? "",
+            temperature_de: motorCheck.data.temperature_de ?? "",
+            temperature_body: motorCheck.data.temperature_body ?? "",
+            temperature_nde: motorCheck.data.temperature_nde ?? "",
+            vibration_dev: motorCheck.data.vibration_dev ?? "",
+            vibration_deh: motorCheck.data.vibration_deh ?? "",
+            vibration_dea: motorCheck.data.vibration_dea ?? "",
+            vibration_def: motorCheck.data.vibration_def ?? "",
+            noise_de: motorCheck.data.noise_de ?? "",
+            vibration_ndev: motorCheck.data.vibration_ndev ?? "",
+            vibration_ndeh: motorCheck.data.vibration_ndeh ?? "",
+            vibration_ndef: motorCheck.data.vibration_ndef ?? "",
+            noise_nde: motorCheck.data.noise_nde ?? "",
         });
 
     const [inputErrors, setInputErrors] = useState(errors);
-    const temperatures = [
-        "temperature_de",
-        "temperature_body",
-        "temperature_nde",
-    ];
 
     let statusLabel = {
         Active: "Running",
         Inactive: "Stop",
     };
 
-    operational_statuses = operational_statuses.data.map(
-        (operational_status) => {
-            const original = operational_status.keyword;
+    operationalStatuses = operationalStatuses.data.map((operational_status) => {
+        const original = operational_status.keyword;
 
-            return {
-                value: operational_status.id,
-                label: statusLabel[original],
-            };
-        }
-    );
+        return {
+            value: operational_status.id,
+            label: statusLabel[original],
+        };
+    });
 
     cleanliness = cleanliness.data.map((item) => {
         return {
@@ -86,11 +79,12 @@ export default function Create({
 
     function submit(e) {
         e.preventDefault();
-        post(route("motor-check-records.store"), {
+        patch(route("motor-check.update", motorCheck.data.id), {
+            preserveScroll: true,
             preserveState: true,
-            replace: true,
         });
     }
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -99,7 +93,7 @@ export default function Create({
                     <div className="flex justify-between items-center">
                         <div>
                             <h2 className="font-semibold text-xl leading-tight">
-                                Motor check {equipment_id}
+                                Edit Form
                             </h2>
                             <p className="mt-1 text-sm">
                                 Form daily check of motor equipment.
@@ -114,7 +108,7 @@ export default function Create({
             <div className="py-4">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
                     <form
-                        id={`MotorCheckRecord:${equipment_id}`}
+                        id={`MotorCheckEdit:${motorCheck.data.id}`}
                         onSubmit={submit}
                         className="space-y-6"
                     >
@@ -170,7 +164,7 @@ export default function Create({
                                                 )
                                             }
                                             withSelectName={false}
-                                            options={operational_statuses}
+                                            options={operationalStatuses}
                                             onFocus={(e) =>
                                                 handleFocus(e.target.id)
                                             }
@@ -551,7 +545,7 @@ export default function Create({
                                     </SecondaryButton>
 
                                     <PrimaryButton disabled={processing}>
-                                        Save
+                                        Update
                                     </PrimaryButton>
 
                                     <Transition
@@ -561,7 +555,7 @@ export default function Create({
                                         leave="transition ease-in-out"
                                         leaveTo="opacity-0"
                                     >
-                                        <p className="text-sm">Saved.</p>
+                                        <p className="text-sm">Updated.</p>
                                     </Transition>
                                 </div>
                             </section>

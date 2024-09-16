@@ -124,26 +124,26 @@ class PermissionSeeder extends Seeder
             ],
             // MOTOR CHECK RECORD
             [
-                'title' => 'motor_check_record_access'
+                'title' => 'motor_check_access'
             ],
             [
-                'title' => 'motor_check_record_create',
+                'title' => 'motor_check_create',
             ],
             [
-                'title' => 'motor_check_record_edit',
+                'title' => 'motor_check_edit',
             ],
             [
-                'title' => 'motor_check_record_show',
+                'title' => 'motor_check_show',
             ],
             [
-                'title' => 'motor_check_record_update',
+                'title' => 'motor_check_update',
             ],
             [
-                'title' => 'motor_check_record_delete',
+                'title' => 'motor_check_delete',
             ],
             // MOTOR CHECK TREND
             [
-                'title' => 'motor_check_trend_access'
+                'title' => 'trend_show'
             ],
             // QR SCAN
             [
