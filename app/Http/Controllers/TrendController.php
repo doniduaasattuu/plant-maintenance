@@ -53,10 +53,12 @@ class TrendController extends Controller
             ->get();
 
         if ($equipmentChecks->isEmpty() || is_null($equipment)) {
-            abort(204);
+            abort(404);
         }
 
-        return $this->trendService->generate($equipment, $equipmentChecks->reverse()->pluck('formable'));
+        return $this->trendService->generate($equipment, $equipmentChecks
+            ->reverse()
+            ->pluck('formable'));
     }
 
     /**

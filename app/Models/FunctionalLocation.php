@@ -42,7 +42,11 @@ class FunctionalLocation extends Model
                 $query
                     ->where('id', 'LIKE', "%{$search}%")
                     ->orWhere('description', 'LIKE', "%{$search}%")
-                    ->orWhere('updated_by', 'LIKE', "%{$search}%");
+                    ->orWhere('updated_by', 'LIKE', "%{$search}%")
+                    ->orWhere(function ($query) use ($search) {
+                        $query
+                            ->whereRelation('equipments', 'id', 'LIKE', "%{$search}%");
+                    });
             })
             ->orderBy($order_by, $sort_by);
     }

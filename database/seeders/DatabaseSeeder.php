@@ -14,6 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('ac_checks')->delete();
+        DB::table('confirmations')->delete();
+        DB::table('goodness')->delete();
+        DB::table('motor_checks')->delete();
         DB::table('equipment_checking_forms')->delete();
         DB::table('normality')->delete();
         DB::table('cleanliness')->delete();
@@ -53,6 +57,8 @@ class DatabaseSeeder extends Seeder
             OperationalStatusSeeder::class,
             CleanlinessSeeder::class,
             NormalitySeeder::class,
+            GoodnessSeeder::class,
+            ConfirmationSeeder::class,
             EquipmentCheckingFormSeeder::class,
         ]);
     }

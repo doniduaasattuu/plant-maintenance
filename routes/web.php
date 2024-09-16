@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AcCheckController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\EquipmentMovementController;
 use App\Http\Controllers\FunctionalLocationController;
@@ -39,8 +40,12 @@ Route::middleware('auth')->group(function () {
         'functional-locations' => FunctionalLocationController::class,
         'equipments' => EquipmentController::class,
         'equipment-movements' => EquipmentMovementController::class,
+
         // EQUIPMENT CHECKING
         'motor-check' => MotorCheckController::class,
+        'ac-check' => AcCheckController::class,
+
+        // TREND
         'trend' => TrendController::class,
     ]);
 

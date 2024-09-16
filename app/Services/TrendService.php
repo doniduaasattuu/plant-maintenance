@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\AcCheck;
 use App\Models\Equipment;
 use App\Models\MotorCheck;
 use Inertia\Inertia;
@@ -88,6 +89,98 @@ class TrendService
                 'noise_nde' => $noise_nde,
                 'number_of_greasing' => $number_of_greasing,
             ]);
+        } else if ($equipment->classification_id == 'ZCLASS_U001') {
+            $operational_status = $equipmentChecks->map(function (AcCheck $acCheck, int $index) {
+                return [
+                    'Status' => $acCheck->operational_status_id == 1 ? $acCheck->operational_status_id : 0,
+                    'Date' => $acCheck->created_at->format('d/m/y')
+                ];
+            });
+
+            $leakage = $equipmentChecks->map(function (AcCheck $acCheck, int $index) {
+                return [
+                    'Leakage' => $acCheck->leakage == 1 ? $acCheck->leakage : 0,
+                    'Date' => $acCheck->created_at->format('d/m/y')
+                ];
+            });
+
+            $condensor = $equipmentChecks->map(function (AcCheck $acCheck, int $index) {
+                return [
+                    'Condensor' => $acCheck->condensor == 1 ? $acCheck->condensor : 0,
+                    'Date' => $acCheck->created_at->format('d/m/y')
+                ];
+            });
+
+            $evaporator = $equipmentChecks->map(function (AcCheck $acCheck, int $index) {
+                return [
+                    'Evaporator' => $acCheck->evaporator == 1 ? $acCheck->evaporator : 0,
+                    'Date' => $acCheck->created_at->format('d/m/y')
+                ];
+            });
+
+            $evasor = $equipmentChecks->map(function (AcCheck $acCheck, int $index) {
+                return [
+                    'Condensor' => $acCheck->condensor == 1 ? $acCheck->condensor : 0,
+                    'Evaporator' => $acCheck->evaporator == 1 ? $acCheck->evaporator : 0,
+                    'Date' => $acCheck->created_at->format('d/m/y')
+                ];
+            });
+
+            $currents = $equipmentChecks->map(function (AcCheck $acCheck, int $index) {
+                return [
+                    'Before' => $acCheck->current_before_cleaning,
+                    'After' => $acCheck->current_after_cleaning,
+                    'Date' => $acCheck->created_at->format('d/m/y')
+                ];
+            });
+
+            $temperature = $equipmentChecks->map(function (AcCheck $acCheck, int $index) {
+                return [
+                    'Temperature' => $acCheck->temperature,
+                    'Date' => $acCheck->created_at->format('d/m/y')
+                ];
+            });
+
+            $remote = $equipmentChecks->map(function (AcCheck $acCheck, int $index) {
+                return [
+                    'Remote' => $acCheck->remote == 1 ? $acCheck->remote : 0,
+                    'Date' => $acCheck->created_at->format('d/m/y')
+                ];
+            });
+
+            $pressure = $equipmentChecks->map(function (AcCheck $acCheck, int $index) {
+                return [
+                    'Pressure' => $acCheck->compressor_pressure,
+                    'Date' => $acCheck->created_at->format('d/m/y')
+                ];
+            });
+
+            $cleanings = $equipmentChecks->map(function (AcCheck $acCheck, int $index) {
+                return [
+                    'Filter_Indoor' => $acCheck->cleaning_filter_indoor == 1 ? $acCheck->cleaning_filter_indoor : 0,
+                    'Indoor' => $acCheck->cleaning_indoor == 1 ? $acCheck->cleaning_indoor : 0,
+                    'Outdoor' => $acCheck->cleaning_outdoor == 1 ? $acCheck->cleaning_outdoor : 0,
+                    'Date' => $acCheck->created_at->format('d/m/y')
+                ];
+            });
+
+
+            // AC TREND
+            return Inertia::render('Trends/Ac/Index', [
+                'equipment_id' => $equipment->id,
+                'operational_status' => $operational_status,
+                'leakage' => $leakage,
+                'condensor' => $condensor,
+                'evaporator' => $evaporator,
+                'evasor' => $evasor,
+                'currents' => $currents,
+                'temperature' => $temperature,
+                'remote' => $remote,
+                'pressure' => $pressure,
+                'cleanings' => $cleanings,
+            ]);
         };
+
+        abort(404);
     }
 }

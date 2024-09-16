@@ -79,15 +79,15 @@ class MotorCheckController extends Controller
     {
         Gate::authorize('motor_check_show');
 
-        $operationalStatuses = OperationalStatus::all();
-        $cleanliness = Cleanliness::all();
-        $normality = Normality::all();
+        // $operationalStatuses = OperationalStatus::all();
+        // $cleanliness = Cleanliness::all();
+        // $normality = Normality::all();
 
         return Inertia::render('Checks/Motor/Show', [
             'motorCheck' => MotorCheckResource::make($motorCheck),
-            'operationalStatuses' => OperationalStatusResource::collection($operationalStatuses),
-            'cleanliness' => CleanlinessResource::collection($cleanliness),
-            'normality' => NormalityResource::collection($normality),
+            // 'operationalStatuses' => OperationalStatusResource::collection($operationalStatuses),
+            // 'cleanliness' => CleanlinessResource::collection($cleanliness),
+            // 'normality' => NormalityResource::collection($normality),
         ]);
     }
 
@@ -125,7 +125,7 @@ class MotorCheckController extends Controller
      */
     public function destroy(MotorCheck $motorCheck)
     {
-        Gate::authorize('motor_check_update');
+        Gate::authorize('motor_check_delete');
 
         $motorCheck->delete();
     }
