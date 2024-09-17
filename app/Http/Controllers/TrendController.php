@@ -53,7 +53,7 @@ class TrendController extends Controller
             ->get();
 
         if ($equipmentChecks->isEmpty() || is_null($equipment)) {
-            abort(404);
+            abort(204);
         }
 
         return $this->trendService->generate($equipment, $equipmentChecks
