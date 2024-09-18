@@ -188,6 +188,7 @@ export default function Index({
                                                 <td>
                                                     <div className="max-w-32 truncate">
                                                         <Link
+                                                            preserveScroll
                                                             href={equipmentUrl}
                                                             className={
                                                                 `font-bold flex justify-between border ` +
@@ -221,6 +222,7 @@ export default function Index({
                                                 {/* FUNCTIONAL LOCATION */}
                                                 <td>
                                                     <Link
+                                                        preserveScroll
                                                         className={
                                                             `font-bold flex justify-between border ` +
                                                                 can.functional_location_show &&

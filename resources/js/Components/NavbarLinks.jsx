@@ -38,6 +38,21 @@ export default function NavbarLinks({ auth, can, orientation }) {
                         </Link>
                     </li>
                 )}
+                {can.material_access && (
+                    <li>
+                        <Link
+                            className={`${
+                                route().current("materials.index") ||
+                                route().current().includes("materials")
+                                    ? "bg-base-200"
+                                    : ""
+                            }`}
+                            href={route("materials.index")}
+                        >
+                            Material
+                        </Link>
+                    </li>
+                )}
                 {can.equipment_movement_access && (
                     <li>
                         <Link
@@ -60,19 +75,21 @@ export default function NavbarLinks({ auth, can, orientation }) {
 
     return (
         <>
-            <li>
-                <Link
-                    href={route("scanner.index")}
-                    className={`${
-                        route().current("scanner.index") ||
-                        route().current().includes("scanner")
-                            ? "bg-base-200"
-                            : ""
-                    }`}
-                >
-                    Scanner
-                </Link>
-            </li>
+            {can.scan_qr && (
+                <li>
+                    <Link
+                        href={route("scanner.index")}
+                        className={`${
+                            route().current("scanner.index") ||
+                            route().current().includes("scanner")
+                                ? "bg-base-200"
+                                : ""
+                        }`}
+                    >
+                        Scanner
+                    </Link>
+                </li>
+            )}
             {can.functional_location_access &&
                 can.equipment_access &&
                 can.equipment_movement_access &&

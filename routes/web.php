@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\AcCheckController;
 use App\Http\Controllers\EquipmentController;
+use App\Http\Controllers\EquipmentMaterialController;
 use App\Http\Controllers\EquipmentMovementController;
 use App\Http\Controllers\FunctionalLocationController;
+use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\MaterialEquipmentController;
 use App\Http\Controllers\MotorCheckController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -13,6 +16,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use phpDocumentor\Reflection\Types\Resource_;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -41,6 +45,10 @@ Route::middleware('auth')->group(function () {
         'equipments' => EquipmentController::class,
         'equipment-movements' => EquipmentMovementController::class,
 
+        // MATERIALS
+        'material-equipment' => MaterialEquipmentController::class,
+        'materials' => MaterialController::class,
+
         // EQUIPMENT CHECKING
         'motor-check' => MotorCheckController::class,
         'ac-check' => AcCheckController::class,
@@ -49,6 +57,7 @@ Route::middleware('auth')->group(function () {
         'trend' => TrendController::class,
     ]);
 
+    // Route::get('api/materials', [MaterialController::class, 'search'])->name('api.materials');
     Route::post('equipment-movements/filter', [EquipmentMovementController::class, 'filter'])->name('equipment-movements.filter');
 
     Route::resource('scanner', ScannerController::class)->only(['index']);

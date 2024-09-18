@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             ->count(50)
             ->create();
 
-        User::insert([
+        $users = [
             [
                 'id' => '55000154',
                 'first_name' => 'Doni',
@@ -80,6 +80,8 @@ class UserSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-        ]);
+        ];
+
+        User::insert($users);
     }
 }

@@ -22,12 +22,24 @@ class PermissionRoleTableSeeder extends Seeder
             'functional_location_show',
             'equipment_access',
             'equipment_show',
+            'material_access',
+            'material_show',
+            'equipment_movement_access',
             'motor_check_record_create',
             'motor_check_record_store',
+            'motor_check_record_show',
             'motor_check_record_edit',
             'motor_check_record_update',
             'motor_check_trend_access',
-            'equipment_movement_access',
+            'ac_check_record_create',
+            'ac_check_record_store',
+            'ac_check_record_show',
+            'ac_check_record_edit',
+            'ac_check_record_update',
+            'ac_check_trend_access',
+            'trend_show',
+            'scan_qr',
+
         ])->get();
 
         // $management_permissions = $user_permissions->merge(Permission::whereIn('title', [

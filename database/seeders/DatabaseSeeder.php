@@ -14,6 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('material_equipment')->delete();
+        DB::table('materials')->delete();
+        DB::table('unit_of_measurements')->delete();
         DB::table('ac_checks')->delete();
         DB::table('confirmations')->delete();
         DB::table('goodness')->delete();
@@ -60,6 +63,9 @@ class DatabaseSeeder extends Seeder
             GoodnessSeeder::class,
             ConfirmationSeeder::class,
             EquipmentCheckingFormSeeder::class,
+            UnitOfMeasurementSeeder::class,
+            MaterialSeeder::class,
+            MaterialEquipmentTableSeeder::class
         ]);
     }
 }
