@@ -157,4 +157,6 @@ return [
         "nord",
         "sunset",
     ],
+
+    'custom_error_pages_enabled' => env('CUSTOM_ERROR_PAGES_ENABLED', true)
 ];

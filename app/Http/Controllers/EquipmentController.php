@@ -71,7 +71,7 @@ class EquipmentController extends Controller
         $validated = $request->validated();
 
         Equipment::insert($validated);
-        $this->equipmentMovementService->logEquipmentMovement($request->validated());
+        $this->equipmentMovementService->install($request->validated());
 
         return redirect()
             ->route('equipments.edit', [
@@ -133,7 +133,30 @@ class EquipmentController extends Controller
         $equipment->description = $validated['description'];
 
         if ($equipment->isDirty()) {
-            $this->equipmentMovementService->logEquipmentMovement($request->validated());
+
+            if (
+                // DISMANTLED
+                $equipment->isDirty('equipment_status_id') &&
+                $equipment->isDirty('functional_location_id') &&
+                ($validated['equipment_status_id'] != 2)
+            ) {
+                $this->equipmentMovementService->dismantle($equipment);
+            } else if (
+                // INSTALLED
+                $equipment->isDirty('equipment_status_id') &&
+                $equipment->isDirty('functional_location_id') &&
+                ($validated['equipment_status_id'] == 2)
+            ) {
+                $this->equipmentMovementService->install($validated);
+            } else if (
+                // INSTALL DISMANTLE
+                $equipment->isDirty('functional_location_id') &&
+                $equipment->isClean('equipment_status_id')
+            ) {
+                $this->equipmentMovementService->dismantle($equipment);
+                $this->equipmentMovementService->install($validated);
+            }
+
             $equipment->update($validated);
         };
 
