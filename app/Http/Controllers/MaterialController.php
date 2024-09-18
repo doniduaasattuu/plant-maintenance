@@ -86,11 +86,8 @@ class MaterialController extends Controller
     {
         Gate::authorize('material_show');
 
-        $unitOfMeasurements = UnitOfMeasurement::all();
-
         return Inertia::render('Material/Show', [
-            'material' => MaterialResource::make($material),
-            'unitOfMeasurements' => UnitOfMeasurementResource::collection($unitOfMeasurements),
+            'material' => MaterialResource::make($material->load('equipments')),
         ]);
     }
 

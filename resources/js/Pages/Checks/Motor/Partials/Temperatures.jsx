@@ -1,8 +1,8 @@
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
+import { ucFirst } from "@/Utils/Helper";
 import React from "react";
-import ucFirst from "../../../../Utils/Helper.js";
 
 export default function Temperatures({
     data,

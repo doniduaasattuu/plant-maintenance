@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, useForm } from "@inertiajs/react";
+import { Head, router, useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import SecondaryButton from "@/Components/SecondaryButton";
@@ -87,11 +87,7 @@ export default function Edit({ auth, can, material, unitOfMeasurements }) {
                                     </p>
                                 </div>
 
-                                {/* <Actions
-                                    material={material}
-                                    can={can}
-                                    links={links}
-                                /> */}
+                                {/* <div></div> */}
                             </div>
                             <form
                                 id={`EditMaterial:${material.data.id}`}

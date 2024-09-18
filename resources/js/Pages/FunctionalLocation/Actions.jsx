@@ -4,12 +4,16 @@ import { router } from "@inertiajs/react";
 export default function Actions({ auth, can, functional_location }) {
     return (
         <div className="dropdown dropdown-bottom dropdown-end">
-            <div tabIndex={0} role="button">
+            <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle"
+            >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    strokeWidth={1.5}
+                    strokeWidth={2}
                     stroke="currentColor"
                     className="size-6"
                 >

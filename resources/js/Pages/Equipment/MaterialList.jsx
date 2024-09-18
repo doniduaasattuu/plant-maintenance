@@ -15,12 +15,12 @@ export default function MaterialList({ can, equipment }) {
                     return (
                         <li key={material.id}>
                             <div className="flex justify-between">
-                                {can.material_edit ? (
+                                {can.material_show ? (
                                     <Link
                                         preserveScroll
                                         className="link text-blue-500 underline-offset-2"
                                         href={route(
-                                            "materials.edit",
+                                            "materials.show",
                                             material.id
                                         )}
                                     >
@@ -164,6 +164,7 @@ export default function MaterialList({ can, equipment }) {
                                     className="btn btn-ghost btn-circle"
                                 >
                                     {editing ? (
+                                        // BACK BUTTON
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 20 20"
@@ -176,7 +177,22 @@ export default function MaterialList({ can, equipment }) {
                                                 clipRule="evenodd"
                                             />
                                         </svg>
+                                    ) : equipment.data.materials.length < 1 ? (
+                                        // ADD BUTTON
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            fill="currentColor"
+                                            className="size-6"
+                                        >
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
                                     ) : (
+                                        // EDIT BUTTON
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 20 20"

@@ -138,7 +138,7 @@ export default function Index({ auth, can, materials, unitOfMeasurements }) {
                                 <tbody>
                                     {materials.data.map((material) => {
                                         const materialUrl = route(
-                                            "materials.edit",
+                                            "materials.show",
                                             material.id
                                         );
 
@@ -148,12 +148,12 @@ export default function Index({ auth, can, materials, unitOfMeasurements }) {
                                                 key={material.id}
                                             >
                                                 <td className="w-24">
-                                                    {can.material_edit ? (
+                                                    {can.material_show ? (
                                                         <Link
                                                             href={materialUrl}
                                                             className={
                                                                 `font-bold flex justify-between border ` +
-                                                                can.material_edit
+                                                                can.material_show
                                                                     ? "underline underline-offset-2 hover:text-blue-500"
                                                                     : null
                                                             }
