@@ -122,6 +122,25 @@ class PermissionSeeder extends Seeder
             [
                 'title' => 'equipment_movement_delete',
             ],
+            // MATERIAL
+            [
+                'title' => 'material_access'
+            ],
+            [
+                'title' => 'material_create',
+            ],
+            [
+                'title' => 'material_edit',
+            ],
+            [
+                'title' => 'material_show',
+            ],
+            [
+                'title' => 'material_update',
+            ],
+            [
+                'title' => 'material_delete',
+            ],
             // MOTOR CHECK RECORD
             [
                 'title' => 'motor_check_access'
@@ -166,7 +185,7 @@ class PermissionSeeder extends Seeder
             ],
             // QR SCAN
             [
-                'title' => 'qr_scan',
+                'title' => 'scan_qr',
             ],
         ];
 

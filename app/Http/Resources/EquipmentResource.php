@@ -29,6 +29,7 @@ class EquipmentResource extends JsonResource
             'updated_by' => UserSimpleResource::make(User::find($this->updated_by)),
             'created_at' => $this->created_at->toFormattedDateString(),
             'updated_at' => $this->updated_at->toFormattedDateString(),
+            'materials' => MaterialResource::collection($this->whenLoaded('materials')),
         ];
     }
 }

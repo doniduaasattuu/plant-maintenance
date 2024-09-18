@@ -65,7 +65,7 @@ export default function Create({ auth, classifications, equipment_status }) {
                     <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
                         <section className="max-w-xl">
                             <h2 className="text-lg font-medium">
-                                New equipment
+                                New Equipment
                             </h2>
 
                             <p className="mt-1 text-sm">

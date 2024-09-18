@@ -4,6 +4,7 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import Actions from "./Actions";
 import SecondaryButton from "@/Components/SecondaryButton";
+import MaterialList from "./MaterialList";
 
 export default function Show({ auth, can, equipment, links }) {
     return (
@@ -15,7 +16,7 @@ export default function Show({ auth, can, equipment, links }) {
                 </h2>
             }
         >
-            <Head title="Edit equipment" />
+            <Head title="Equipment" />
 
             <div className="py-4">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
@@ -150,6 +151,10 @@ export default function Show({ auth, can, equipment, links }) {
                             </div>
                         </section>
                     </div>
+
+                    {equipment.data.materials.length > 0 && (
+                        <MaterialList equipment={equipment} can={can} />
+                    )}
                 </div>
             </div>
         </AuthenticatedLayout>

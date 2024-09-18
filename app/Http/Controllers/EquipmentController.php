@@ -91,7 +91,7 @@ class EquipmentController extends Controller
         $equipment_status = EquipmentStatus::all();
 
         return Inertia::render('Equipment/Show', [
-            'equipment' => EquipmentResource::make($equipment),
+            'equipment' => EquipmentResource::make($equipment->load('materials')),
             'classifications' => ClassificationResource::collection($classifications),
             'equipment_status' => EquipmentStatusResource::collection($equipment_status),
             'links' => $equipment->links,
@@ -105,6 +105,7 @@ class EquipmentController extends Controller
     {
         Gate::authorize('equipment_edit');
 
+        $equipment->load('materials');
         $classifications = Classification::all();
         $equipment_status = EquipmentStatus::all();
 

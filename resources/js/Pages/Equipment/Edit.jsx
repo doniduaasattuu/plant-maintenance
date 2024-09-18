@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, router, useForm } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -11,6 +11,7 @@ import DangerButton from "@/Components/DangerButton";
 import { useState, useEffect } from "react";
 import ModalConfirm from "@/Components/ModalConfirm";
 import Actions from "./Actions";
+import MaterialList from "./MaterialList";
 
 export default function Edit({
     auth,
@@ -49,6 +50,7 @@ export default function Edit({
         patch(route("equipments.update", equipment.data.id), {
             preserveScroll: true,
             preserveState: true,
+            replace: true,
         });
     }
 
@@ -328,6 +330,10 @@ export default function Edit({
                             </form>
                         </section>
                     </div>
+
+                    <MaterialList equipment={equipment} can={can} />
+                    {/* {equipment.data.materials.length > 0 && (
+                        )} */}
 
                     {can.equipment_delete && equipment.data.status.id != 2 && (
                         <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">

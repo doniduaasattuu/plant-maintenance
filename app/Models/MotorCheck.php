@@ -33,9 +33,9 @@ class MotorCheck extends Model
         'vibration_ndeh',
         'vibration_ndef',
         'noise_nde',
+        'checked_by',
         'created_at',
         'updated_at',
-        'checked_by',
     ];
 
     public function checkingForm()

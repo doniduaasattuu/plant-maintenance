@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;
 
 class Equipment extends Model
@@ -102,6 +103,18 @@ class Equipment extends Model
                 $query
                     ->where('equipment_status_id', $status);
             });
+    }
+
+    public function materials(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Material::class,
+            'material_equipment',
+            'equipment_id',
+            'material_id',
+        )
+            ->withPivot('quantity')
+            ->withTimestamps();
     }
 
     public array $links = [

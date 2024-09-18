@@ -25,6 +25,7 @@ export default function Edit({ auth, can, functional_location }) {
             {
                 preserveScroll: true,
                 preserveState: true,
+                replace: true,
             }
         );
     }
