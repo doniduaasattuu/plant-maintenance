@@ -128,7 +128,7 @@ export default function Edit({ auth, can, material, unitOfMeasurements }) {
                                     />
 
                                     <TextInput
-                                        title="title"
+                                        id="title"
                                         className="mt-1 block w-full"
                                         value={data.title}
                                         onChange={(e) =>
@@ -177,7 +177,7 @@ export default function Edit({ auth, can, material, unitOfMeasurements }) {
                                     />
 
                                     <TextInput
-                                        price="price"
+                                        id="price"
                                         className="mt-1 block w-full"
                                         value={data.price}
                                         onChange={(e) =>

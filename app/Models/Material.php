@@ -26,7 +26,7 @@ class Material extends Model
         'updated_at',
     ];
 
-    const MAX_PRICE = 100000000;
+    const MAX_PRICE = 1000000000;
 
     public function scopeSearch(Builder $builder, Request $request)
     {

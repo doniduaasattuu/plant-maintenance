@@ -8,7 +8,7 @@ use App\Models\FunctionalLocation;
 
 class EquipmentMovementService
 {
-    public function install(array $validated): bool
+    public function install(array $validated): void
     {
         if ($validated['equipment_status_id'] == 2) {
 
@@ -23,11 +23,11 @@ class EquipmentMovementService
                 'updated_at' => now()->addSecond(),
             ];
 
-            return EquipmentMovement::insert($installed);
+            EquipmentMovement::insert($installed);
         }
     }
 
-    public function dismantle(Equipment $equipment): bool
+    public function dismantle(Equipment $equipment): void
     {
 
         $dismantled = [
@@ -41,6 +41,6 @@ class EquipmentMovementService
             'updated_at' => now(),
         ];
 
-        return EquipmentMovement::insert($dismantled);
+        EquipmentMovement::insert($dismantled);
     }
 }

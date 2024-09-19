@@ -37,7 +37,7 @@ class UpdateEquipmentRequest extends FormRequest
         ]);
 
         return [
-            'id' => ['required', 'size:9', Rule::unique(Equipment::class)->ignore($equipment->id)],
+            'id' => ['required', 'size:9', 'uppercase', Rule::unique(Equipment::class)->ignore($equipment->id)],
             'classification_id' => ['required', 'exists:App\Models\Classification,id'],
             'equipment_status_id' => ['required', 'exists:App\Models\EquipmentStatus,id'],
             'functional_location_id' => ['nullable',  Rule::prohibitedIf(fn() => $statusNotInstalled), Rule::requiredIf(fn() => $statusInstalled), 'exists:App\Models\FunctionalLocation,id'],
