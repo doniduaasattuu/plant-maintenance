@@ -11,7 +11,10 @@ class TrendService
 {
     public function generate(Equipment $equipment, $equipmentChecks)
     {
-        if (trim($equipment->classification_id) == 'ZCLASS_E009') {
+        $links = $equipment->links;
+        $classification_id = trim($equipment->classification_id);
+
+        if ($classification_id == 'ZCLASS_E009') {
 
             $operational_status = $equipmentChecks->map(function (MotorCheck $motorCheck, int $index) {
                 return [
@@ -87,8 +90,10 @@ class TrendService
                 'nde_vibration' => $nde_vibration,
                 'noise_nde' => $noise_nde,
                 'number_of_greasing' => $number_of_greasing,
+                'links' => $links,
+                'classification_id' => $classification_id,
             ]);
-        } else if (trim($equipment->classification_id) == 'ZCLASS_U001') {
+        } else if ($classification_id == 'ZCLASS_U001') {
             $operational_status = $equipmentChecks->map(function (AcCheck $acCheck, int $index) {
                 return [
                     'Status' => $acCheck->operational_status_id == 1 ? $acCheck->operational_status_id : 0,
@@ -177,6 +182,8 @@ class TrendService
                 'remote' => $remote,
                 'pressure' => $pressure,
                 'cleanings' => $cleanings,
+                'links' => $links,
+                'classification_id' => $classification_id,
             ]);
         };
 

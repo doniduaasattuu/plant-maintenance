@@ -35,7 +35,7 @@ class StoreEquipmentRequest extends FormRequest
         ]);
 
         return [
-            'id' => ['required', 'size:9', 'uppercase', 'unique:App\Models\Equipment,id'],
+            'id' => ['required', 'size:9', 'uppercase', 'regex:/^[A-Z]{3}\d{6}$/', 'unique:App\Models\Equipment,id'],
             'classification_id' => ['required', 'exists:App\Models\Classification,id'],
             'equipment_status_id' => ['required', 'exists:App\Models\EquipmentStatus,id'],
             'functional_location_id' => ['nullable', Rule::prohibitedIf(fn() => $statusNotInstalled), Rule::requiredIf(fn() => $statusInstalled), 'exists:App\Models\FunctionalLocation,id'],

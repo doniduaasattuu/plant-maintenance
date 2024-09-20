@@ -113,6 +113,7 @@ class EquipmentController extends Controller
             'equipment' => EquipmentResource::make($equipment),
             'classifications' => ClassificationResource::collection($classifications),
             'equipment_status' => EquipmentStatusResource::collection($equipment_status),
+            'links' => $equipment->links,
         ]);
     }
 

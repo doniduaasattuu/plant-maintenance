@@ -185,8 +185,12 @@ class PermissionSeeder extends Seeder
             ],
             // QR SCAN
             [
-                'title' => 'scan_qr',
+                'title' => 'qr_scan',
             ],
+            // EXPORT
+            [
+                'title' => 'export',
+            ]
         ];
 
         Permission::insert($permissions);

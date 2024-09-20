@@ -19,6 +19,7 @@ export default function Edit({
     equipment,
     classifications,
     equipment_status,
+    links,
 }) {
     classifications = classifications.data.map((classification) => {
         return {
@@ -71,13 +72,6 @@ export default function Edit({
     const openDeleteConfirm = (id) => {
         setSelectedEquipment(id);
         setIsOpen(true);
-    };
-
-    const links = {
-        ZCLASS_E009: {
-            records: "motor-check-records.create",
-            trends: "motor-check-trends.index",
-        },
     };
 
     return (

@@ -28,6 +28,11 @@ class EquipmentMovementController extends Controller
         ]);
     }
 
+    public function show()
+    {
+        //
+    }
+
     public function filter(Request $request)
     {
         Gate::authorize('equipment_movement_access');

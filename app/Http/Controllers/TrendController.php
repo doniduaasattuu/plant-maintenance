@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Equipment;
 use App\Models\EquipmentCheckingForm;
 use App\Services\TrendService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class TrendController extends Controller
 {
@@ -48,7 +50,7 @@ class TrendController extends Controller
         $equipment = Equipment::find($equipment_id);
         $equipmentChecks = EquipmentCheckingForm::where('equipment_id', $equipment_id)
             ->with('formable')
-            ->limit(12)
+            ->whereBetween('created_at', [Carbon::now()->subYear()->startOfDay(), Carbon::now()])
             ->orderBy('created_at', 'DESC')
             ->get();
 
