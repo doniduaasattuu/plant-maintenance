@@ -75,7 +75,7 @@ export default function NavbarLinks({ auth, can, orientation }) {
 
     return (
         <>
-            {can.scan_qr && (
+            {can.qr_scan && (
                 <li>
                     <Link
                         href={route("scanner.index")}

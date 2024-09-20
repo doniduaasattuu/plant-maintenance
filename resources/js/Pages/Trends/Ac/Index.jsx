@@ -2,6 +2,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import Temperatures from "@/Pages/Checks/Motor/Partials/Temperatures";
 import { Head, Link } from "@inertiajs/react";
+import Header from "../Header";
 import {
     Area,
     AreaChart,
@@ -17,6 +18,7 @@ import {
 
 export default function Index({
     auth,
+    can,
     equipment_id,
     operational_status,
     leakage,
@@ -28,31 +30,21 @@ export default function Index({
     remote,
     pressure,
     cleanings,
+    links,
+    classification_id,
 }) {
+    const exportLink = links[classification_id]?.export;
+
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <>
-                    <div className="flex justify-between items-center">
-                        <div>
-                            <h2 className="font-semibold text-xl leading-tight">
-                                Equipment Trend
-                            </h2>
-
-                            <p className="mt-1 text-sm">
-                                Records of equipment {equipment_id}
-                            </p>
-                        </div>
-                        {/* <div>
-                            {can.role_create && (
-                                <Link href={route("roles.create")}>
-                                    <PrimaryButton>Print</PrimaryButton>
-                                </Link>
-                            )}
-                        </div> */}
-                    </div>
-                </>
+                <Header
+                    can={can}
+                    equipment_id={equipment_id}
+                    exportLink={exportLink}
+                    table={"ac"}
+                />
             }
         >
             <Head title={`Trend of ${equipment_id}`} />

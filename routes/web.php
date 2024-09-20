@@ -4,6 +4,7 @@ use App\Http\Controllers\AcCheckController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\EquipmentMaterialController;
 use App\Http\Controllers\EquipmentMovementController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FunctionalLocationController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MaterialEquipmentController;
@@ -59,6 +60,10 @@ Route::middleware('auth')->group(function () {
 
     // Route::get('api/materials', [MaterialController::class, 'search'])->name('api.materials');
     Route::post('equipment-movements/filter', [EquipmentMovementController::class, 'filter'])->name('equipment-movements.filter');
+
+    Route::get('export-users', [ExportController::class, 'exportUsers'])->name('export.users');
+    Route::get('export-motor-checks/{equipment_id}', [ExportController::class, 'exportMotorChecks'])->name('export.motor-checks');
+    Route::get('export-ac-checks/{equipment_id}', [ExportController::class, 'exportAcChecks'])->name('export.ac-checks');
 
     Route::resource('scanner', ScannerController::class)->only(['index']);
 });
