@@ -337,7 +337,9 @@ export default function Authenticated({ user, header, children }) {
                         <div className="dropdown dropdown-end">
                             <div className="flex justify-center align-middle space-x-4">
                                 <div className="hidden md:inline-block my-auto text-sm">
-                                    {`${user.first_name} ${user.last_name}`}
+                                    {`${user.first_name} ${
+                                        user.last_name ?? ""
+                                    }`}
                                 </div>
                                 <div
                                     tabIndex={0}
