@@ -64,7 +64,6 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'themes' => config('app.themes', []),
-            'hasPhotos' => $request->user()?->hasPhotos(),
             'can' => $permissions,
             'message' => $message,
         ];

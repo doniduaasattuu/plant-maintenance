@@ -347,11 +347,12 @@ export default function Authenticated({ user, header, children }) {
                                     <div className="w-10 rounded-full">
                                         <img
                                             alt={user.id}
-                                            src={
-                                                page.props.hasPhotos
-                                                    ? `/assets/photos/users/${user.id}.jpg`
-                                                    : "/assets/photos/users/person.png"
-                                            }
+                                            src={`${
+                                                user.profile_photo
+                                                    ? "/storage/" +
+                                                      user.profile_photo
+                                                    : "/storage/assets/photos/users/person.png"
+                                            }`}
                                         />
                                     </div>
                                 </div>

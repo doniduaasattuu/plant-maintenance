@@ -23,6 +23,7 @@ return new class extends Migration
             $table->timestamp('last_activity')->nullable();
             $table->string('email', 50)->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('profile_photo')->nullable();
             $table->rememberToken();
             $table->timestamps();
 

@@ -35,11 +35,6 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
-    public function hasPhotos(): bool
-    {
-        return file_exists(public_path("assets/photos/users/$this->id.jpg"));
-    }
-
     public function scopeSearch(Builder $builder, Request $request)
     {
         $search = $request->search;
@@ -85,6 +80,7 @@ class User extends Authenticatable
         'position_id',
         'work_center_id',
         'password',
+        'profile_photo',
     ];
 
     /**

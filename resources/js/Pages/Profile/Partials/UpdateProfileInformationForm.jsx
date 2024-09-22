@@ -5,6 +5,7 @@ import TextInput from "@/Components/TextInput";
 import { Link, useForm, usePage } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
 import SelectInput from "@/Components/SelectInput";
+import FileInput from "@/Components/FileInput";
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,
@@ -29,7 +30,7 @@ export default function UpdateProfileInformation({
         };
     });
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } =
+    const { data, setData, post, errors, processing, recentlySuccessful } =
         useForm("UpdateProfile", {
             first_name: user.first_name,
             last_name: user.last_name,
@@ -37,12 +38,13 @@ export default function UpdateProfileInformation({
             phone_number: user.phone_number,
             department_id: user.department_id,
             work_center_id: user.work_center_id,
+            profile_photo: "",
         });
 
     const submit = (e) => {
         e.preventDefault();
 
-        patch(route("profile.update"), {
+        post(route("profile.update"), {
             preserveScroll: true,
         });
     };
@@ -88,7 +90,6 @@ export default function UpdateProfileInformation({
                         className="mt-1 block w-full"
                         value={data.last_name}
                         onChange={(e) => setData("last_name", e.target.value)}
-                        required
                         autoComplete="last_name"
                     />
 
@@ -173,6 +174,30 @@ export default function UpdateProfileInformation({
                         className="mt-2"
                         message={errors.work_center_id}
                     />
+                </div>
+
+                {/* PROFILE PHOTO */}
+                <div>
+                    <label className="form-control w-full">
+                        <InputLabel
+                            htmlFor="profile_photo"
+                            value="Profile photo"
+                        />
+
+                        <FileInput
+                            accept="image/*"
+                            id="profile_photo"
+                            className="mt-1 block w-full"
+                            onChange={(e) =>
+                                setData("profile_photo", e.target.files[0])
+                            }
+                        />
+
+                        <InputError
+                            className="mt-2"
+                            message={errors.profile_photo}
+                        />
+                    </label>
                 </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (

@@ -175,7 +175,6 @@ export default function Edit({
                                         onChange={(e) =>
                                             setData("last_name", e.target.value)
                                         }
-                                        required
                                         autoComplete="last_name"
                                     />
 
