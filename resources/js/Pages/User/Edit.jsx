@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, useForm } from "@inertiajs/react";
+import { Head, useForm, usePage } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -11,6 +11,7 @@ import DangerButton from "@/Components/DangerButton";
 import { useState } from "react";
 import ModalConfirm from "@/Components/ModalConfirm";
 import SecondaryButton from "@/Components/SecondaryButton";
+import FileInput from "@/Components/FileInput";
 
 export default function Edit({
     auth,
@@ -56,7 +57,7 @@ export default function Edit({
         };
     });
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } =
+    const { data, post, setData, errors, processing, recentlySuccessful } =
         useForm(`EditUser:${user.id}`, {
             first_name: user.first_name ?? "",
             last_name: user.last_name ?? "",
@@ -65,14 +66,19 @@ export default function Edit({
             department_id: user.department_id ?? "",
             position_id: user.position_id ?? "",
             work_center_id: user.work_center_id ?? "",
+            profile_photo: null,
             roles: selectedRoles ?? [],
         });
 
     function submit(e) {
         e.preventDefault();
-        patch(route("users.update", user.id), {
+        post(route("users.update", user.id), {
             preserveScroll: true,
             preserveState: true,
+            onSuccess: () => {
+                setData("profile_photo", null);
+                document.getElementById("profile_photo").value = null;
+            },
         });
     }
 
@@ -151,6 +157,7 @@ export default function Edit({
                                                 e.target.value
                                             )
                                         }
+                                        maxLength="50"
                                         required
                                         autoComplete="first_name"
                                     />
@@ -175,6 +182,7 @@ export default function Edit({
                                         onChange={(e) =>
                                             setData("last_name", e.target.value)
                                         }
+                                        maxLength="50"
                                         autoComplete="last_name"
                                     />
 
@@ -196,6 +204,7 @@ export default function Edit({
                                         onChange={(e) =>
                                             setData("email", e.target.value)
                                         }
+                                        maxLength="50"
                                         required
                                         autoComplete="email"
                                     />
@@ -311,6 +320,33 @@ export default function Edit({
                                         className="mt-2"
                                         message={errors.work_center_id}
                                     />
+                                </div>
+
+                                {/* PROFILE PHOTO */}
+                                <div>
+                                    <label className="form-control w-full">
+                                        <InputLabel
+                                            htmlFor="profile_photo"
+                                            value="Profile photo"
+                                        />
+
+                                        <FileInput
+                                            accept="image/*"
+                                            id="profile_photo"
+                                            className="mt-1 block w-full"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "profile_photo",
+                                                    e.target.files[0]
+                                                )
+                                            }
+                                        />
+
+                                        <InputError
+                                            className="mt-2"
+                                            message={errors.profile_photo}
+                                        />
+                                    </label>
                                 </div>
 
                                 {/* ROLES */}

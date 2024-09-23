@@ -17,6 +17,7 @@ use App\Models\WorkCenter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class UserController extends Controller
@@ -91,17 +92,29 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         Gate::authorize('user_update');
+        $validated = $request->safe()->except(['profile_photo']);
+
+        if ($request->hasFile('profile_photo')) {
+            if ($user->profile_photo) {
+                // DELETE CURRENT PHOTO PROFILE
+                Storage::disk('public')->delete($user->profile_photo);
+            }
+
+            // STORE PHOTO TO PUBLIC FOLDER
+            $fileName = $user->id . '_' . time() . "." . strtolower($request->file('profile_photo')->extension());
+            $path = $request->file('profile_photo')->storeAs('assets/photos/users', $fileName, 'public');
+            $validated['profile_photo'] = $path;
+        }
 
         $roles = collect($request->roles)->map(function ($role) {
             return $role['value'];
         });
 
         $user->roles()->sync($roles);
-        $user->update($request->validated());
+        $user->update($validated);
 
         return redirect()
             ->back();
-        // ->with('success', 'User successfully updated');
     }
 
     /**

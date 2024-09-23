@@ -73,6 +73,7 @@ export default function UpdateProfileInformation({
                         className="mt-1 block w-full"
                         value={data.first_name}
                         onChange={(e) => setData("first_name", e.target.value)}
+                        maxLength="50"
                         required
                         isFocused
                         autoComplete="first_name"
@@ -90,6 +91,7 @@ export default function UpdateProfileInformation({
                         className="mt-1 block w-full"
                         value={data.last_name}
                         onChange={(e) => setData("last_name", e.target.value)}
+                        maxLength="50"
                         autoComplete="last_name"
                     />
 
@@ -106,6 +108,7 @@ export default function UpdateProfileInformation({
                         className="mt-1 block w-full"
                         value={data.email}
                         onChange={(e) => setData("email", e.target.value)}
+                        maxLength="50"
                         required
                         autoComplete="email"
                     />

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -33,6 +34,7 @@ class UpdateUserRequest extends FormRequest
             'department_id' => ['nullable', 'exists:App\Models\Department,id'],
             'position_id' => ['nullable', 'exists:App\Models\Position,id'],
             'work_center_id' => ['nullable', 'exists:App\Models\WorkCenter,id'],
+            'profile_photo' => ['nullable', 'image', 'max:2048'],
         ];
     }
 }
