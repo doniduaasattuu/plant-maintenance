@@ -32,7 +32,7 @@ class UpdateMaterialRequest extends FormRequest
 
         return [
             'id' => ['required', 'numeric', 'digits:8', Rule::unique(Material::class)->ignore($material->id)],
-            'title' => ['required', 'max:255', 'string'],
+            'title' => ['required', 'max:100', 'string'],
             'unit_of_measurement_id' => ['nullable', 'exists:App\Models\UnitOfMeasurement,id'],
             'price' => ['nullable', 'numeric', "max:$max_price"],
             'updated_at' => ['nullable'],

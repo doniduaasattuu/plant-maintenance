@@ -135,6 +135,7 @@ export default function Edit({ auth, can, material, unitOfMeasurements }) {
                                             setData("title", e.target.value)
                                         }
                                         required
+                                        maxLength="100"
                                         autoComplete="title"
                                     />
 

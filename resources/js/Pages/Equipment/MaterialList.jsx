@@ -29,7 +29,7 @@ export default function MaterialList({ can, equipment }) {
                                 ) : (
                                     <div>{material.id}</div>
                                 )}
-                                <p className="w-48 sm:w-max truncate overflow-hidden opacity-50">
+                                <p className="w-48 sm:w-96 text-right truncate overflow-hidden opacity-50">
                                     {material.title}
                                 </p>
                             </div>
