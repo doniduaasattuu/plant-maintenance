@@ -12,7 +12,7 @@ import { useMemo } from "react";
 import { useRef } from "react";
 import { useState } from "react";
 
-export default function Index({ auth, can, materials, unitOfMeasurements }) {
+export default function Index({ auth, can, documents }) {
     const initialRender = useRef(true);
     const urlParams = new URLSearchParams(window.location.search);
     const [selectedMeasurement, setSelectedMeasurement] = useState("");
@@ -21,8 +21,8 @@ export default function Index({ auth, can, materials, unitOfMeasurements }) {
     );
     const [searchTerm, setSearchTerm] = useState(urlParams.get("search") ?? "");
 
-    let materialUrl = useMemo(() => {
-        const url = new URL(route("materials.index"));
+    let documentUrl = useMemo(() => {
+        const url = new URL(route("documents.index"));
 
         if (searchTerm) {
             url.searchParams.append("search", searchTerm);
@@ -41,12 +41,12 @@ export default function Index({ auth, can, materials, unitOfMeasurements }) {
             return;
         }
 
-        router.visit(materialUrl, {
+        router.visit(documentUrl, {
             preserveScroll: true,
             preserveState: true,
             replace: true,
         });
-    }, [materialUrl]);
+    }, [documentUrl]);
 
     useEffect(() => {
         const handler = setTimeout(() => {
@@ -58,13 +58,6 @@ export default function Index({ auth, can, materials, unitOfMeasurements }) {
         };
     }, [inputSearch]);
 
-    unitOfMeasurements = unitOfMeasurements.data.map((measurement) => {
-        return {
-            value: measurement.id,
-            label: measurement.keyword,
-        };
-    });
-
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -73,16 +66,16 @@ export default function Index({ auth, can, materials, unitOfMeasurements }) {
                     <div className="flex justify-between items-center">
                         <div>
                             <h2 className="font-semibold text-xl leading-tight">
-                                Material List
+                                Document List
                             </h2>
 
                             <p className="mt-1 text-sm">
-                                A list of all the materials.
+                                A list of all the documents.
                             </p>
                         </div>
                         <div>
-                            {can.material_create && (
-                                <Link href={route("materials.create")}>
+                            {can.document_create && (
+                                <Link href={route("documents.create")}>
                                     <PrimaryButton>Create new</PrimaryButton>
                                 </Link>
                             )}
@@ -91,7 +84,7 @@ export default function Index({ auth, can, materials, unitOfMeasurements }) {
                 </>
             }
         >
-            <Head title="Materials" />
+            <Head title="documents" />
 
             <div className="py-4">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
@@ -103,10 +96,10 @@ export default function Index({ auth, can, materials, unitOfMeasurements }) {
                                 className="mt-1 block w-sm"
                                 value={inputSearch}
                                 onChange={(e) => setInputSearch(e.target.value)}
-                                placeholder="Search material data..."
+                                placeholder="Search document data..."
                             />
                         </div>
-                        <div>
+                        {/* <div>
                             <InputLabel
                                 htmlFor="measurement"
                                 value="Measurement"
@@ -122,59 +115,47 @@ export default function Index({ auth, can, materials, unitOfMeasurements }) {
                                 }}
                                 options={unitOfMeasurements}
                             />
-                        </div>
+                        </div> */}
                     </div>
                     <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
                         <div className="overflow-x-auto">
                             <table className="table min-w-max">
                                 <thead>
                                     <tr>
-                                        <th>Id</th>
                                         <th>Title</th>
-                                        <th>UoM</th>
-                                        <th>Price(IDR)</th>
+                                        <th>Uploaded by</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {materials.data.map((material) => {
-                                        const materialUrl = route(
-                                            "materials.show",
-                                            material.id
+                                    {documents.data.map((document) => {
+                                        const documentUrl = route(
+                                            "documents.show",
+                                            document.attachment
                                         );
 
                                         return (
                                             <tr
                                                 className="border-b-base-300"
-                                                key={material.id}
+                                                key={document.id}
                                             >
-                                                <td className="w-24">
-                                                    {can.material_show ? (
+                                                <td>
+                                                    {can.document_show ? (
                                                         <Link
-                                                            href={materialUrl}
+                                                            href={documentUrl}
                                                             className={
                                                                 `font-bold flex justify-between border ` +
-                                                                can.material_show
+                                                                can.document_show
                                                                     ? "underline underline-offset-2 hover:text-blue-500"
                                                                     : null
                                                             }
                                                         >
-                                                            {material.id}
+                                                            {document.title}
                                                         </Link>
                                                     ) : (
-                                                        <div>{material.id}</div>
+                                                        <div>{document.title}</div>
                                                     )}
                                                 </td>
-                                                <td>{material.title}</td>
-                                                <td>
-                                                    {
-                                                        material
-                                                            .unit_of_measurement
-                                                            ?.keyword
-                                                    }
-                                                </td>
-                                                <td>
-                                                    {rupiah(material.price)}
-                                                </td>
+                                                <td>{document.uploaded_by?.full_name}</td>
                                             </tr>
                                         );
                                     })}
@@ -183,8 +164,8 @@ export default function Index({ auth, can, materials, unitOfMeasurements }) {
                         </div>
                     </div>
 
-                    {materials.meta.links.length > 3 && (
-                        <Pagination meta={materials.meta} />
+                    {documents.meta.links.length > 3 && (
+                        <Pagination meta={documents.meta} />
                     )}
                 </div>
             </div>

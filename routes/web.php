@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AcCheckController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\EquipmentMaterialController;
 use App\Http\Controllers\EquipmentMovementController;
@@ -46,6 +47,7 @@ Route::middleware('auth')->group(function () {
         'functional-locations' => FunctionalLocationController::class,
         'equipments' => EquipmentController::class,
         'equipment-movements' => EquipmentMovementController::class,
+        'documents' => DocumentController::class,
 
         // MATERIALS
         'material-equipment' => MaterialEquipmentController::class,
