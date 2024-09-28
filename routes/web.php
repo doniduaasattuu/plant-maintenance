@@ -39,7 +39,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('users', UserController::class);
-    Route::post('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::patch('/users/reset/{user}', [UserController::class, 'reset'])->name('users.reset');
 
     Route::resources([

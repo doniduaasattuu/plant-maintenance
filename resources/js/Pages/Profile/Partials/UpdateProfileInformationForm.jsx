@@ -46,6 +46,10 @@ export default function UpdateProfileInformation({
 
         post(route("profile.update"), {
             preserveScroll: true,
+            onSuccess: () => {
+                setData("profile_photo", null);
+                document.getElementById("profile_photo").value = null;
+            },
         });
     };
 

@@ -19,7 +19,7 @@ class DocumentFactory extends Factory
     {
         return [
             'title' => fake()->sentence(),
-            'attachment' => fake()->url(),
+            'attachment' => "documents/" . uniqid() . '.pdf',
             'uploaded_by' => User::all()->random(),
             'created_at' => now(),
             'updated_at' => now(),

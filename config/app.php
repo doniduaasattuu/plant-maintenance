@@ -158,5 +158,7 @@ return [
         "sunset",
     ],
 
-    'custom_error_pages_enabled' => env('CUSTOM_ERROR_PAGES_ENABLED', true)
+    'custom_error_pages_enabled' => env('CUSTOM_ERROR_PAGES_ENABLED', true),
+
+    'upload_max_filesize' => (int) env('UPLOAD_MAX_FILESIZE', str_replace('M', '', ini_get('upload_max_filesize')) * 1024),
 ];

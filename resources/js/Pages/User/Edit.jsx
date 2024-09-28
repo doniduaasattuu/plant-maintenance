@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, useForm, usePage } from "@inertiajs/react";
+import { Head, router, useForm, usePage } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -57,29 +57,44 @@ export default function Edit({
         };
     });
 
-    const { data, post, setData, errors, processing, recentlySuccessful } =
-        useForm(`EditUser:${user.id}`, {
-            first_name: user.first_name ?? "",
-            last_name: user.last_name ?? "",
-            email: user.email ?? "",
-            phone_number: user.phone_number ?? "",
-            department_id: user.department_id ?? "",
-            position_id: user.position_id ?? "",
-            work_center_id: user.work_center_id ?? "",
-            profile_photo: null,
-            roles: selectedRoles ?? [],
-        });
+    const { data, patch, setData } = useForm(`EditUser:${user.id}`, {
+        first_name: user.first_name ?? "",
+        last_name: user.last_name ?? "",
+        email: user.email ?? "",
+        phone_number: user.phone_number ?? "",
+        department_id: user.department_id ?? "",
+        position_id: user.position_id ?? "",
+        work_center_id: user.work_center_id ?? "",
+        roles: selectedRoles ?? [],
+    });
+
+    const { errors } = usePage().props;
+    const [recentlySuccessful, setRecentlySuccessful] = useState(false);
+    const [processing, setProcessing] = useState(false);
 
     function submit(e) {
+        setProcessing(true);
         e.preventDefault();
-        post(route("users.update", user.id), {
-            preserveScroll: true,
-            preserveState: true,
-            onSuccess: () => {
-                setData("profile_photo", null);
-                document.getElementById("profile_photo").value = null;
+        router.post(
+            route("users.update", user.id),
+            {
+                _method: "patch",
+                ...data,
             },
-        });
+            {
+                preserveScroll: true,
+                preserveState: true,
+                onSuccess: (e) => {
+                    setProcessing(false);
+                    setData("profile_photo", null);
+                    document.getElementById("profile_photo").value = null;
+                    setRecentlySuccessful(true);
+                    setTimeout(() => {
+                        setRecentlySuccessful(false);
+                    }, 2000);
+                },
+            }
+        );
     }
 
     // DELETE USER
@@ -136,6 +151,7 @@ export default function Edit({
                             </p>
 
                             <form
+                                encType="multipart/form-data"
                                 id={`EditUser:${user.id}`}
                                 onSubmit={submit}
                                 className="mt-6 space-y-6"

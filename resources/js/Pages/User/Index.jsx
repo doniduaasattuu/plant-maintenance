@@ -192,6 +192,7 @@ export default function Index({ auth, can, users, departments }) {
                                 </thead>
                                 <tbody>
                                     {users.data.map((user) => {
+                                        console.log(user.profile_photo);
                                         return (
                                             <tr
                                                 className="border-b-base-300"
@@ -226,7 +227,11 @@ export default function Index({ auth, can, users, departments }) {
                                                         >
                                                             <div className="mask mask-squircle h-12 w-12">
                                                                 <img
-                                                                    src="https://img.daisyui.com/images/profile/demo/2@94.webp"
+                                                                    src={
+                                                                        user.profile_photo
+                                                                            ? `storage/${user.profile_photo}`
+                                                                            : "storage/assets/photos/users/person.png"
+                                                                    }
                                                                     alt="Avatar Tailwind CSS Component"
                                                                 />
                                                             </div>
