@@ -30,6 +30,7 @@ class UserResource extends JsonResource
             'phone_number' => $this->phone_number,
             'work_center' => WorkCenterResource::make(WorkCenter::find($this->work_center_id)),
             'roles' => $this->roles,
+            'profile_photo' => $this->profile_photo,
             'created_at' => $this->created_at->toFormattedDateString(),
             'updated_at' => $this->updated_at->toFormattedDateString(),
         ];

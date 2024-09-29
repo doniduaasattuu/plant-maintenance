@@ -73,7 +73,7 @@ export default function Index({ auth, can, materials, unitOfMeasurements }) {
                     <div className="flex justify-between items-center">
                         <div>
                             <h2 className="font-semibold text-xl leading-tight">
-                                Materials List
+                                Material List
                             </h2>
 
                             <p className="mt-1 text-sm">

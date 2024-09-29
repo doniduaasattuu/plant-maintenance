@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AcCheckController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\EquipmentMaterialController;
 use App\Http\Controllers\EquipmentMovementController;
@@ -38,7 +39,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('users', UserController::class);
-    Route::post('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::patch('/users/reset/{user}', [UserController::class, 'reset'])->name('users.reset');
 
     Route::resources([
@@ -46,6 +46,7 @@ Route::middleware('auth')->group(function () {
         'functional-locations' => FunctionalLocationController::class,
         'equipments' => EquipmentController::class,
         'equipment-movements' => EquipmentMovementController::class,
+        'documents' => DocumentController::class,
 
         // MATERIALS
         'material-equipment' => MaterialEquipmentController::class,

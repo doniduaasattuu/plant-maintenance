@@ -24,6 +24,25 @@ class PermissionSeeder extends Seeder
             [
                 'title' => 'profile_delete',
             ],
+            // DOCUMENT
+            [
+                'title' => 'document_create',
+            ],
+            [
+                'title' => 'document_edit',
+            ],
+            [
+                'title' => 'document_show',
+            ],
+            [
+                'title' => 'document_update',
+            ],
+            [
+                'title' => 'document_delete',
+            ],
+            [
+                'title' => 'document_access',
+            ],
             // USER
             [
                 'title' => 'user_create',

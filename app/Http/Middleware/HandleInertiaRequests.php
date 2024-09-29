@@ -63,6 +63,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'upload_max_filesize' => config('app.upload_max_filesize'),
             'themes' => config('app.themes', []),
             'can' => $permissions,
             'message' => $message,

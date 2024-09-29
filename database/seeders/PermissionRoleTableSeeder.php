@@ -37,8 +37,14 @@ class PermissionRoleTableSeeder extends Seeder
             'ac_check_record_edit',
             'ac_check_record_update',
             'ac_check_trend_access',
+            'document_create',
+            // 'document_edit',
+            'document_show',
+            // 'document_update',
+            // 'document_delete',
+            'document_access',
             'trend_show',
-            'scan_qr',
+            'qr_scan',
 
         ])->get();
 

@@ -69,6 +69,20 @@ export default function NavbarLinks({ auth, can, orientation }) {
                         </Link>
                     </li>
                 )}
+                {can.document_access && (
+                <li>
+                    <Link
+                        href={route("documents.index")}
+                        className={`${
+                            route().current().includes("documents")
+                                ? "bg-base-200"
+                                : ""
+                        }`}
+                    >
+                        Documents
+                    </Link>
+                    </li>
+                )}
             </>
         );
     }

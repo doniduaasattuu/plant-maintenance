@@ -93,7 +93,7 @@ export default function Index({
                     <div className="flex justify-between items-center">
                         <div>
                             <h2 className="font-semibold text-xl leading-tight">
-                                Equipment
+                                Equipment List
                             </h2>
                             <p className="mt-1 text-sm">
                                 A list of all the equipments.
