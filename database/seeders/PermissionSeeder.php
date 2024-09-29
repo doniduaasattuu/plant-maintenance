@@ -43,9 +43,6 @@ class PermissionSeeder extends Seeder
             [
                 'title' => 'document_access',
             ],
-            [
-                'title' => 'document_reset',
-            ],
             // USER
             [
                 'title' => 'user_create',

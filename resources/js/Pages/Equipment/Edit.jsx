@@ -328,7 +328,9 @@ export default function Edit({
 
                     <MaterialList equipment={equipment} can={can} />
 
-                    <DocumentList equipment={equipment} can={can} />
+                    {equipment.data.documents.length > 0 && (
+                        <DocumentList equipment={equipment} can={can} />
+                    )}
 
                     {can.equipment_delete && equipment.data.status.id != 2 && (
                         <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">

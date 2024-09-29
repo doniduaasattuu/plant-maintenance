@@ -23,6 +23,8 @@ class DocumentResource extends JsonResource
             'uploaded_by' => UserSimpleResource::make(User::find($this->uploaded_by)),
             'created_at' => $this->created_at?->toFormattedDateString(),
             'updated_at' => $this->updated_at?->toFormattedDateString(),
+            'canUpdate' => auth()->user()->can('update', $this->resource),
+            'canDelete' => auth()->user()->can('delete', $this->resource),
         ];
     }
 }

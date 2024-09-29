@@ -28,8 +28,8 @@ export default function Edit({ auth, can, document }) {
         selectedEquipments: selectedEquipments ?? [],
         attachment: "",
     });
-    let [fileSize, setFileSize] = useState("");
 
+    let [fileSize, setFileSize] = useState("");
     const { errors } = usePage().props;
     const [recentlySuccessful, setRecentlySuccessful] = useState(false);
     const [processing, setProcessing] = useState(false);
@@ -68,11 +68,14 @@ export default function Edit({ auth, can, document }) {
 
         if (e.target.files[0].size > uploadMaxFilesize) {
             setProcessing(true);
-            errors.attachment = `The attachment field must not be greater than ${uploadMaxFilesize / 1024
-                } kilobytes.`;
+            errors.attachment = `The attachment field must not be greater than ${
+                uploadMaxFilesize / 1024
+            } kilobytes.`;
         } else {
             setFileSize(
-                `File size: ${Math.round(e.target.files[0].size / 1024)} kilobytes.`
+                `File size: ${Math.round(
+                    e.target.files[0].size / 1024
+                )} kilobytes.`
             );
         }
         setData("attachment", e.target.files[0]);
@@ -104,7 +107,9 @@ export default function Edit({ auth, can, document }) {
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="font-semibold text-xl leading-tight">Edit Document</h2>
+                <h2 className="font-semibold text-xl leading-tight">
+                    Edit Document
+                </h2>
             }
         >
             <Head title="Edit document" />
@@ -115,7 +120,9 @@ export default function Edit({ auth, can, document }) {
                         <section className="max-w-xl">
                             <div className="flex justify-between items-center">
                                 <div>
-                                    <h2 className="text-lg font-medium">Edit Document</h2>
+                                    <h2 className="text-lg font-medium">
+                                        Edit Document
+                                    </h2>
 
                                     <p className="mt-1 text-sm">
                                         Update document attachment and title.
@@ -135,19 +142,27 @@ export default function Edit({ auth, can, document }) {
                             >
                                 {/* TITLE */}
                                 <div>
-                                    <InputLabel htmlFor="title" value="Title*" />
+                                    <InputLabel
+                                        htmlFor="title"
+                                        value="Title*"
+                                    />
 
                                     <TextInput
                                         id="title"
                                         className="mt-1 block w-full"
                                         value={data.title}
-                                        onChange={(e) => setData("title", e.target.value)}
+                                        onChange={(e) =>
+                                            setData("title", e.target.value)
+                                        }
                                         maxLength="100"
                                         required
                                         autoComplete="title"
                                     />
 
-                                    <InputError className="mt-2" message={errors.title} />
+                                    <InputError
+                                        className="mt-2"
+                                        message={errors.title}
+                                    />
                                 </div>
 
                                 {/* EQUIPMENTS */}
@@ -164,28 +179,47 @@ export default function Edit({ auth, can, document }) {
                                         loadOptions={loadOptions}
                                         defaultValue={data.selectedEquipments}
                                         onChange={(selectedEquipments) => {
-                                            setData("selectedEquipments", selectedEquipments);
+                                            setData(
+                                                "selectedEquipments",
+                                                selectedEquipments
+                                            );
                                         }}
                                     />
 
-                                    <InputError className="mt-2" message={errors.equipments} />
+                                    <InputError
+                                        className="mt-2"
+                                        message={errors.equipments}
+                                    />
                                 </div>
 
                                 {/* ATTACHMENT */}
                                 <div>
                                     <label className="form-control w-full">
-                                        <InputLabel htmlFor="attachment" value="Attachment" />
+                                        <InputLabel
+                                            htmlFor="attachment"
+                                            value="Attachment"
+                                        />
 
                                         <FileInput
                                             accept="application/pdf"
                                             id="attachment"
                                             className="mt-1 block w-full"
-                                            onChange={(e) => validateFileSize(e)}
+                                            onChange={(e) =>
+                                                validateFileSize(e)
+                                            }
                                         />
 
-                                        <InputError className="mt-2" message={errors.attachment} />
-
-                                        <InputHelper className="mt-2" message={fileSize} />
+                                        {!errors.attachment ? (
+                                            <InputHelper
+                                                className="mt-2"
+                                                message={fileSize}
+                                            />
+                                        ) : (
+                                            <InputError
+                                                className="mt-2"
+                                                message={errors.attachment}
+                                            />
+                                        )}
                                     </label>
                                 </div>
 
@@ -200,7 +234,9 @@ export default function Edit({ auth, can, document }) {
                                             Back
                                         </SecondaryButton>
 
-                                        <PrimaryButton disabled={processing}>Update</PrimaryButton>
+                                        <PrimaryButton disabled={processing}>
+                                            Update
+                                        </PrimaryButton>
 
                                         <Transition
                                             show={recentlySuccessful}

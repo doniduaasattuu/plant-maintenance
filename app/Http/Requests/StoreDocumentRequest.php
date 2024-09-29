@@ -31,6 +31,7 @@ class StoreDocumentRequest extends FormRequest
 
         return [
             'title' => ['required', 'max:100', 'unique:App\Models\Document,title'],
+            'selectedEquipments' => ['nullable'],
             'attachment' => ['required', 'mimes:pdf', "max:$upload_max_filesize"],
             'uploaded_by' => ['nullable', 'exists:App\Models\User,id'],
             'created_at' => ['nullable'],

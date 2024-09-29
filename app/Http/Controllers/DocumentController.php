@@ -49,7 +49,7 @@ class DocumentController extends Controller
     public function store(StoreDocumentRequest $request)
     {
         Gate::authorize('document_create');
-        $validated = $request->safe()->except(['attachment']);
+        $validated = $request->safe()->except(['attachment', 'selectedEquipments']);
 
         if ($request->hasFile('attachment')) {
             Storage::disk('public')->delete($request->attachment);
@@ -59,7 +59,13 @@ class DocumentController extends Controller
             $validated['attachment'] = $path;
         }
 
-        Document::create($validated);
+        $document = Document::create($validated);
+        $equipments = collect($request->selectedEquipments)->map(function ($equipment) {
+            return $equipment['value'];
+        });
+
+        $document->equipments()->sync($equipments);
+        $document->save();
 
         return redirect()
             ->route('documents.index')
@@ -93,7 +99,9 @@ class DocumentController extends Controller
      */
     public function edit(Document $document)
     {
-        Gate::authorize('document_edit');
+        if (!Gate::allows('document_edit') && !Gate::allows('update', $document)) {
+            abort(403);
+        }
 
         return Inertia::render('Document/Edit', [
             'document' => DocumentSimpleResource::make($document->load('equipments')),
@@ -134,7 +142,9 @@ class DocumentController extends Controller
      */
     public function destroy(Document $document)
     {
-        Gate::authorize('document_delete');
+        if (!Gate::allows('document_delete') && !Gate::allows('delete', $document)) {
+            abort(403);
+        }
 
         Storage::disk('public')->delete($document->attachment);
 

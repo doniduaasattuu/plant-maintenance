@@ -131,7 +131,7 @@ export default function Index({ auth, can, documents }) {
 
             <div className="py-4">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-                    <div className="grid grid-cols-2 gap-1 sm:gap-2 max-w-xl">
+                    <div className="grid sm:grid-cols-2 gap-1 sm:gap-2 max-w-xl">
                         <div>
                             <InputLabel htmlFor="search" value="Search" />
                             <TextInput
@@ -171,11 +171,6 @@ export default function Index({ auth, can, documents }) {
                                 </thead>
                                 <tbody>
                                     {documents.data.map((document) => {
-                                        // const documentRoute = route(
-                                        //     "documents.show",
-                                        //     document.id
-                                        // );
-
                                         return (
                                             <tr
                                                 className="border-b-base-300"
@@ -210,7 +205,8 @@ export default function Index({ auth, can, documents }) {
                                                             ?.full_name
                                                     }
                                                 </td>
-                                                {can.document_edit && (
+                                                {(can.document_edit ||
+                                                    document.canUpdate) && (
                                                     <td
                                                         onClick={() => {
                                                             editDocument(
@@ -230,7 +226,8 @@ export default function Index({ auth, can, documents }) {
                                                         </svg>
                                                     </td>
                                                 )}
-                                                {can.document_delete && (
+                                                {(can.document_delete ||
+                                                    document.canDelete) && (
                                                     <td
                                                         onClick={() =>
                                                             openDeleteConfirm(

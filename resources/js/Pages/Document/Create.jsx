@@ -1,19 +1,23 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, useForm } from "@inertiajs/react";
+import { Head, useForm, usePage } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import SecondaryButton from "@/Components/SecondaryButton";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Transition } from "@headlessui/react";
 import InputError from "@/Components/InputError";
-import SelectInput from "@/Components/SelectInput";
 import FileInput from "@/Components/FileInput";
+import { useState } from "react";
+import InputHelper from "@/Components/InputHelper";
+import AsyncSelect from "react-select/async";
 
 export default function Create({ auth, can }) {
+    const uploadMaxFilesize = usePage().props.upload_max_filesize * 1024;
     const { data, setData, post, errors, processing, recentlySuccessful } =
         useForm("CreateDocument", {
             title: "",
             attachment: "",
+            selectedEquipments: [],
         });
 
     function submit(e) {
@@ -24,6 +28,49 @@ export default function Create({ auth, can }) {
             replace: true,
         });
     }
+
+    // VALIDATE FILE SIZE
+    let [fileSize, setFileSize] = useState("");
+
+    function validateFileSize(e) {
+        errors.attachment = "";
+        setFileSize("");
+
+        if (e.target.files[0].size > uploadMaxFilesize) {
+            errors.attachment = `The attachment field must not be greater than ${
+                uploadMaxFilesize / 1024
+            } kilobytes.`;
+        } else {
+            setFileSize(
+                `File size: ${Math.round(
+                    e.target.files[0].size / 1024
+                )} kilobytes.`
+            );
+        }
+        setData("attachment", e.target.files[0]);
+    }
+
+    // ASYNC
+    const loadOptions = (inputValue, callback) => {
+        if (!inputValue) {
+            callback([]);
+            return;
+        }
+
+        axios
+            .get(`/equipments?search=${inputValue}`)
+            .then((response) => {
+                const options = response.data.map((item) => ({
+                    value: item.id, // the value selected
+                    label: item.id, // what is displayed in the dropdown
+                }));
+                callback(options);
+            })
+            .catch((error) => {
+                console.error("Error fetching data:", error);
+                callback([]);
+            });
+    };
 
     return (
         <AuthenticatedLayout
@@ -88,6 +135,33 @@ export default function Create({ auth, can }) {
                                     />
                                 </div>
 
+                                {/* EQUIPMENTS */}
+                                <div>
+                                    <InputLabel
+                                        htmlFor="selectedEquipments"
+                                        value="Related Equipment"
+                                    />
+
+                                    <AsyncSelect
+                                        id="selectedEquipments"
+                                        className="mt-1 block w-full"
+                                        isMulti={true}
+                                        loadOptions={loadOptions}
+                                        defaultValue={data.selectedEquipments}
+                                        onChange={(selectedEquipments) => {
+                                            setData(
+                                                "selectedEquipments",
+                                                selectedEquipments
+                                            );
+                                        }}
+                                    />
+
+                                    <InputError
+                                        className="mt-2"
+                                        message={errors.equipments}
+                                    />
+                                </div>
+
                                 {/* ATTACHMENT */}
                                 <div>
                                     <label className="form-control w-full">
@@ -102,17 +176,21 @@ export default function Create({ auth, can }) {
                                             className="mt-1 block w-full"
                                             required
                                             onChange={(e) =>
-                                                setData(
-                                                    "attachment",
-                                                    e.target.files[0]
-                                                )
+                                                validateFileSize(e)
                                             }
                                         />
 
-                                        <InputError
-                                            className="mt-2"
-                                            message={errors.attachment}
-                                        />
+                                        {!errors.attachment ? (
+                                            <InputHelper
+                                                className="mt-2"
+                                                message={fileSize}
+                                            />
+                                        ) : (
+                                            <InputError
+                                                className="mt-2"
+                                                message={errors.attachment}
+                                            />
+                                        )}
                                     </label>
                                 </div>
 

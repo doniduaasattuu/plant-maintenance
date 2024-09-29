@@ -1,14 +1,4 @@
-import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
-import { Transition } from "@headlessui/react";
-import { Link, router, useForm } from "@inertiajs/react";
-import axios from "axios";
-import { useState } from "react";
-import AsyncSelect from "react-select/async";
-
 export default function DocumentList({ can, equipment }) {
-
     // HANDLE PDF
     function handleViewPdf(id) {
         window.open(`/documents/${id}`);
@@ -21,15 +11,13 @@ export default function DocumentList({ can, equipment }) {
             <section className="max-w-xl">
                 <div className="flex justify-between items-center">
                     <div>
-                        <h2 className="text-lg font-medium">
-                            Documents
-                        </h2>
+                        <h2 className="text-lg font-medium">Documents</h2>
 
                         <p className="mt-1 text-sm">
-                            A list of related documents that used in this equipment.
+                            A list of related documents that used in this
+                            equipment.
                         </p>
                     </div>
-
                 </div>
 
                 <ul className="menu bg-base-200 rounded-box p-0 mt-6 mx-0">
@@ -40,23 +28,15 @@ export default function DocumentList({ can, equipment }) {
                                     {can.document_show ? (
                                         <div
                                             onClick={() => {
-                                                handleViewPdf(
-                                                    document.id
-                                                );
+                                                handleViewPdf(document.id);
                                             }}
-                                            className={
-                                                `font-bold flex justify-between border ` +
-                                                    can.document_show
-                                                    ? "underline underline-offset-2 hover:text-blue-500 cursor-pointer"
-                                                    : null
-                                            }
+                                            className="flex justify-between underline underline-offset-2 text-blue-500 cursor-pointer"
                                         >
                                             {document.title}
                                         </div>
                                     ) : (
                                         <div>{document.title}</div>
                                     )}
-
                                 </div>
                             </li>
                         );
