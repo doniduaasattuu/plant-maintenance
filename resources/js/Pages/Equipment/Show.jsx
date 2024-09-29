@@ -5,6 +5,7 @@ import TextInput from "@/Components/TextInput";
 import Actions from "./Actions";
 import SecondaryButton from "@/Components/SecondaryButton";
 import MaterialList from "./MaterialList";
+import DocumentList from "./DocumentList";
 
 export default function Show({ auth, can, equipment, links }) {
     return (
@@ -155,6 +156,11 @@ export default function Show({ auth, can, equipment, links }) {
                     {equipment.data.materials.length > 0 && (
                         <MaterialList equipment={equipment} can={can} />
                     )}
+
+                    {equipment.data.documents.length > 0 && (
+                        <DocumentList equipment={equipment} can={can} />
+                    )}
+
                 </div>
             </div>
         </AuthenticatedLayout>

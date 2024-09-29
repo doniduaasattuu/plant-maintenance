@@ -6,16 +6,26 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Transition } from "@headlessui/react";
 import InputError from "@/Components/InputError";
-import SelectInput from "@/Components/SelectInput";
 import FileInput from "@/Components/FileInput";
 import { useState } from "react";
 import InputHelper from "@/Components/InputHelper";
+import axios from "axios";
+import AsyncSelect from "react-select/async";
 
 export default function Edit({ auth, can, document }) {
+    // EQUIPMENT THAT USED THIS DOCUMENT
+    const selectedEquipments = document.data.equipments.map((equipment) => {
+        return {
+            value: equipment.id,
+            label: equipment.id,
+        };
+    });
+
     const uploadMaxFilesize = usePage().props.upload_max_filesize * 1024;
     const { data, setData } = useForm("EditDocument", {
         id: document.data.id,
         title: document.data.title,
+        selectedEquipments: selectedEquipments ?? [],
         attachment: "",
     });
     let [fileSize, setFileSize] = useState("");
@@ -58,26 +68,43 @@ export default function Edit({ auth, can, document }) {
 
         if (e.target.files[0].size > uploadMaxFilesize) {
             setProcessing(true);
-            errors.attachment = `The attachment field must not be greater than ${
-                uploadMaxFilesize / 1024
-            } kilobytes.`;
+            errors.attachment = `The attachment field must not be greater than ${uploadMaxFilesize / 1024
+                } kilobytes.`;
         } else {
             setFileSize(
-                `File size: ${Math.round(
-                    e.target.files[0].size / 1024
-                )} kilobytes.`
+                `File size: ${Math.round(e.target.files[0].size / 1024)} kilobytes.`
             );
         }
         setData("attachment", e.target.files[0]);
     }
 
+    // ASYNC
+    const loadOptions = (inputValue, callback) => {
+        if (!inputValue) {
+            callback([]);
+            return;
+        }
+
+        axios
+            .get(`/equipments?search=${inputValue}`)
+            .then((response) => {
+                const options = response.data.map((item) => ({
+                    value: item.id, // the value selected
+                    label: item.id, // what is displayed in the dropdown
+                }));
+                callback(options);
+            })
+            .catch((error) => {
+                console.error("Error fetching data:", error);
+                callback([]);
+            });
+    };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="font-semibold text-xl leading-tight">
-                    Edit Document
-                </h2>
+                <h2 className="font-semibold text-xl leading-tight">Edit Document</h2>
             }
         >
             <Head title="Edit document" />
@@ -88,9 +115,7 @@ export default function Edit({ auth, can, document }) {
                         <section className="max-w-xl">
                             <div className="flex justify-between items-center">
                                 <div>
-                                    <h2 className="text-lg font-medium">
-                                        Edit Document
-                                    </h2>
+                                    <h2 className="text-lg font-medium">Edit Document</h2>
 
                                     <p className="mt-1 text-sm">
                                         Update document attachment and title.
@@ -110,55 +135,57 @@ export default function Edit({ auth, can, document }) {
                             >
                                 {/* TITLE */}
                                 <div>
-                                    <InputLabel
-                                        htmlFor="title"
-                                        value="Title*"
-                                    />
+                                    <InputLabel htmlFor="title" value="Title*" />
 
                                     <TextInput
                                         id="title"
                                         className="mt-1 block w-full"
                                         value={data.title}
-                                        onChange={(e) =>
-                                            setData("title", e.target.value)
-                                        }
+                                        onChange={(e) => setData("title", e.target.value)}
                                         maxLength="100"
                                         required
                                         autoComplete="title"
                                     />
 
-                                    <InputError
-                                        className="mt-2"
-                                        message={errors.title}
+                                    <InputError className="mt-2" message={errors.title} />
+                                </div>
+
+                                {/* EQUIPMENTS */}
+                                <div>
+                                    <InputLabel
+                                        htmlFor="selectedEquipments"
+                                        value="Related Equipment"
                                     />
+
+                                    <AsyncSelect
+                                        id="selectedEquipments"
+                                        className="mt-1 block w-full"
+                                        isMulti={true}
+                                        loadOptions={loadOptions}
+                                        defaultValue={data.selectedEquipments}
+                                        onChange={(selectedEquipments) => {
+                                            setData("selectedEquipments", selectedEquipments);
+                                        }}
+                                    />
+
+                                    <InputError className="mt-2" message={errors.equipments} />
                                 </div>
 
                                 {/* ATTACHMENT */}
                                 <div>
                                     <label className="form-control w-full">
-                                        <InputLabel
-                                            htmlFor="attachment"
-                                            value="Attachment"
-                                        />
+                                        <InputLabel htmlFor="attachment" value="Attachment" />
 
                                         <FileInput
                                             accept="application/pdf"
                                             id="attachment"
                                             className="mt-1 block w-full"
-                                            onChange={(e) =>
-                                                validateFileSize(e)
-                                            }
+                                            onChange={(e) => validateFileSize(e)}
                                         />
 
-                                        <InputError
-                                            className="mt-2"
-                                            message={errors.attachment}
-                                        />
+                                        <InputError className="mt-2" message={errors.attachment} />
 
-                                        <InputHelper
-                                            className="mt-2"
-                                            message={fileSize}
-                                        />
+                                        <InputHelper className="mt-2" message={fileSize} />
                                     </label>
                                 </div>
 
@@ -173,9 +200,7 @@ export default function Edit({ auth, can, document }) {
                                             Back
                                         </SecondaryButton>
 
-                                        <PrimaryButton disabled={processing}>
-                                            Update
-                                        </PrimaryButton>
+                                        <PrimaryButton disabled={processing}>Update</PrimaryButton>
 
                                         <Transition
                                             show={recentlySuccessful}

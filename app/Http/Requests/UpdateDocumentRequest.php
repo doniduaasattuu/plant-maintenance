@@ -34,6 +34,7 @@ class UpdateDocumentRequest extends FormRequest
         return [
             'title' => ['required', 'max:100', Rule::unique(Document::class)->ignore($document->id)],
             'attachment' => ['nullable', 'mimes:pdf', "max:$upload_max_filesize"],
+            'selectedEquipments' => ['nullable'],
             'uploaded_by' => ['nullable', 'exists:App\Models\User,id'],
             'updated_at' => ['nullable'],
         ];

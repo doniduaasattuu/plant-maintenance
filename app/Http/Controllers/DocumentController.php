@@ -96,7 +96,7 @@ class DocumentController extends Controller
         Gate::authorize('document_edit');
 
         return Inertia::render('Document/Edit', [
-            'document' => DocumentSimpleResource::make($document),
+            'document' => DocumentSimpleResource::make($document->load('equipments')),
         ]);
     }
 
@@ -118,6 +118,11 @@ class DocumentController extends Controller
             $validated['attachment'] = $path;
         }
 
+        $equipments = collect($request->selectedEquipments)->map(function ($equipment) {
+            return $equipment['value'];
+        });
+
+        $document->equipments()->sync($equipments);
         $document->update($validated);
 
         return redirect()

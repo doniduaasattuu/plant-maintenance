@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\Simple;
 
+use App\Http\Resources\EquipmentResource;
+use App\Models\Equipment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,6 +19,7 @@ class DocumentSimpleResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'equipments' => EquipmentSimpleResource::collection($this->whenLoaded('equipments')),
         ];
     }
 }

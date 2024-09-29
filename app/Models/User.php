@@ -54,6 +54,7 @@ class User extends Authenticatable
             })
             ->when($search && is_null($department), function ($query) use ($search) {
                 $query
+                    ->where('id', 'LIKE', "%$search%")
                     ->orWhere('first_name', 'LIKE', "%$search%")
                     ->orWhere('last_name', 'LIKE', "%$search%")
                     ->orWhere('email', 'LIKE', "%$search%")

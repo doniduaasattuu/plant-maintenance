@@ -117,6 +117,16 @@ class Equipment extends Model
             ->withTimestamps();
     }
 
+    public function documents(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Document::class,
+            'document_equipment',
+            'equipment_id',
+            'document_id',
+        );
+    }
+
     public array $links = [
         'ZCLASS_E009' => [
             'check' => 'motor-check.create',

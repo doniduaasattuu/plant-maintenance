@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import ModalConfirm from "@/Components/ModalConfirm";
 import Actions from "./Actions";
 import MaterialList from "./MaterialList";
+import DocumentList from "./DocumentList";
 
 export default function Edit({
     auth,
@@ -326,8 +327,8 @@ export default function Edit({
                     </div>
 
                     <MaterialList equipment={equipment} can={can} />
-                    {/* {equipment.data.materials.length > 0 && (
-                        )} */}
+
+                    <DocumentList equipment={equipment} can={can} />
 
                     {can.equipment_delete && equipment.data.status.id != 2 && (
                         <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">

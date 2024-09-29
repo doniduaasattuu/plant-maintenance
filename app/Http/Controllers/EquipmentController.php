@@ -31,6 +31,13 @@ class EquipmentController extends Controller
     {
         Gate::authorize('equipment_access');
 
+        if ($request->expectsJson()) {
+            $equipments = Equipment::search($request)
+                ->get();
+
+            return response()->json($equipments);
+        }
+
         $equipments = Equipment::search($request)
             ->paginate(10)
             ->withQueryString();
@@ -91,7 +98,7 @@ class EquipmentController extends Controller
         $equipment_status = EquipmentStatus::all();
 
         return Inertia::render('Equipment/Show', [
-            'equipment' => EquipmentResource::make($equipment->load('materials')),
+            'equipment' => EquipmentResource::make($equipment->load(['materials', 'documents'])),
             'classifications' => ClassificationResource::collection($classifications),
             'equipment_status' => EquipmentStatusResource::collection($equipment_status),
             'links' => $equipment->links,
@@ -105,12 +112,11 @@ class EquipmentController extends Controller
     {
         Gate::authorize('equipment_edit');
 
-        $equipment->load('materials');
         $classifications = Classification::all();
         $equipment_status = EquipmentStatus::all();
 
         return Inertia::render('Equipment/Edit', [
-            'equipment' => EquipmentResource::make($equipment),
+            'equipment' => EquipmentResource::make($equipment->load(['materials', 'documents'])),
             'classifications' => ClassificationResource::collection($classifications),
             'equipment_status' => EquipmentStatusResource::collection($equipment_status),
             'links' => $equipment->links,
