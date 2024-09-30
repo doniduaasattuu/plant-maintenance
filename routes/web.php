@@ -6,6 +6,7 @@ use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\EquipmentMaterialController;
 use App\Http\Controllers\EquipmentMovementController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\FindingController;
 use App\Http\Controllers\FunctionalLocationController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MaterialEquipmentController;
@@ -47,6 +48,7 @@ Route::middleware('auth')->group(function () {
         'equipments' => EquipmentController::class,
         'equipment-movements' => EquipmentMovementController::class,
         'documents' => DocumentController::class,
+        'findings' => FindingController::class,
 
         // MATERIALS
         'material-equipment' => MaterialEquipmentController::class,

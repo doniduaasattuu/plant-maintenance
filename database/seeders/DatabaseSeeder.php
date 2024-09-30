@@ -14,6 +14,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('findings')->delete();
+        DB::table('finding_statuses')->delete();
         DB::table('document_equipment')->delete();
         DB::table('documents')->delete();
         DB::table('material_equipment')->delete();
@@ -70,6 +72,8 @@ class DatabaseSeeder extends Seeder
             MaterialEquipmentTableSeeder::class,
             DocumentSeeder::class,
             DocumentEquipmentTableSeeder::class,
+            FindingStatusSeeder::class,
+            FindingSeeder::class,
         ]);
     }
 }

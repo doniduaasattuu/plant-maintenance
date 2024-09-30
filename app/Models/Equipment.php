@@ -29,10 +29,6 @@ class Equipment extends Model
         'updated_at',
     ];
 
-    protected $attributes = [
-        'equipment_status_id' => 1,
-    ];
-
     public function scopeSearch(Builder $builder, Request $request)
     {
         $search = $request->search;
