@@ -13,6 +13,7 @@ import InputHelper from "@/Components/InputHelper";
 import { useState } from "react";
 import DateInput from "@/Components/DateInput";
 import { today } from "@/Utils/Helper";
+import { useEffect } from "react";
 
 export default function Create({ auth, can, finding_status }) {
     const uploadMaxFilesize = usePage().props.upload_max_filesize * 1024;
@@ -59,29 +60,43 @@ export default function Create({ auth, can, finding_status }) {
 
     function validateFileSize(e, setter, field) {
         errors[field] = "";
-        setter('');
+        setter("");
 
         if (e.target.files[0].size > uploadMaxFilesize) {
-            errors.attachment = `The attachment field must not be greater than ${uploadMaxFilesize / 1024
-                } kilobytes.`;
+            errors.attachment = `The attachment field must not be greater than ${
+                uploadMaxFilesize / 1024
+            } kilobytes.`;
         } else {
-            setter(`File size: ${Math.round(
-                e.target.files[0].size / 1024
-            )} kilobytes.`
+            setter(
+                `File size: ${Math.round(
+                    e.target.files[0].size / 1024
+                )} kilobytes.`
             );
         }
         setData(field, e.target.files[0]);
     }
 
-    function resetAttachmentAfter() {
-        setData('attachment_after', "");
-        document.getElementById('attachment_after').value = "";
-        setFileSize1('');
-
-        setData('updated_at', "");
-        document.getElementById('updated_at').value = "";
-
+    function resetAttachmentAfterField() {
+        setData("attachment_after", "");
+        document.getElementById("attachment_after").value = "";
+        setFileSize1("");
     }
+
+    function resetUpdatedAtField() {
+        setData("updated_at", "");
+        document.getElementById("updated_at").value = "";
+    }
+
+    function resetFieldsValue() {
+        resetUpdatedAtField();
+        resetAttachmentAfterField();
+    }
+
+    useEffect(() => {
+        if (data.finding_status_id != 2) {
+            resetFieldsValue();
+        }
+    }, [data.finding_status_id]);
 
     return (
         <AuthenticatedLayout
@@ -98,13 +113,9 @@ export default function Create({ auth, can, finding_status }) {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
                     <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
                         <section className="max-w-xl">
-                            <h2 className="text-lg font-medium">
-                                New Finding
-                            </h2>
+                            <h2 className="text-lg font-medium">New Finding</h2>
 
-                            <p className="mt-1 text-sm">
-                                Create new finding.
-                            </p>
+                            <p className="mt-1 text-sm">Create new finding.</p>
 
                             <form
                                 id="CreateFinding"
@@ -123,9 +134,9 @@ export default function Create({ auth, can, finding_status }) {
                                         value={data.finding_status_id}
                                         withSelectName={false}
                                         onChange={(e) => {
-                                            if (e.target.value == 1) {
-                                                resetAttachmentAfter();
-                                            }
+                                            // if (e.target.value == 1) {
+                                            //     resetAttachmentAfter();
+                                            // }
 
                                             setData(
                                                 "finding_status_id",
@@ -154,7 +165,10 @@ export default function Create({ auth, can, finding_status }) {
                                         className="mt-1 block w-full"
                                         value={data.equipment_id}
                                         onChange={(e) =>
-                                            setData("equipment_id", e.target.value)
+                                            setData(
+                                                "equipment_id",
+                                                e.target.value
+                                            )
                                         }
                                         maxLength="9"
                                         autoComplete="equipment_id"
@@ -178,7 +192,10 @@ export default function Create({ auth, can, finding_status }) {
                                         className="mt-1 block w-full"
                                         value={data.functional_location_id}
                                         onChange={(e) =>
-                                            setData("functional_location_id", e.target.value)
+                                            setData(
+                                                "functional_location_id",
+                                                e.target.value
+                                            )
                                         }
                                         maxLength="25"
                                         autoComplete="functional_location_id"
@@ -187,6 +204,34 @@ export default function Create({ auth, can, finding_status }) {
                                     <InputError
                                         className="mt-2"
                                         message={errors.functional_location_id}
+                                    />
+                                </div>
+
+                                {/* NOTIFICATION */}
+                                <div>
+                                    <InputLabel
+                                        htmlFor="notification"
+                                        value="Notification"
+                                    />
+
+                                    <TextInput
+                                        id="notification"
+                                        className="mt-1 block w-full"
+                                        value={data.notification}
+                                        onChange={(e) =>
+                                            setData(
+                                                "notification",
+                                                e.target.value
+                                            )
+                                        }
+                                        inputMode="numeric"
+                                        maxLength="8"
+                                        autoComplete="notification"
+                                    />
+
+                                    <InputError
+                                        className="mt-2"
+                                        message={errors.notification}
                                     />
                                 </div>
 
@@ -204,7 +249,10 @@ export default function Create({ auth, can, finding_status }) {
                                             placeholder="Finding description"
                                             value={data.description}
                                             onChange={(e) =>
-                                                setData("description", e.target.value)
+                                                setData(
+                                                    "description",
+                                                    e.target.value
+                                                )
                                             }
                                             required
                                         />
@@ -230,7 +278,11 @@ export default function Create({ auth, can, finding_status }) {
                                             className="mt-1 block w-full"
                                             required
                                             onChange={(e) =>
-                                                validateFileSize(e, setFileSize0, 'attachment_before')
+                                                validateFileSize(
+                                                    e,
+                                                    setFileSize0,
+                                                    "attachment_before"
+                                                )
                                             }
                                         />
 
@@ -242,7 +294,9 @@ export default function Create({ auth, can, finding_status }) {
                                         ) : (
                                             <InputError
                                                 className="mt-2"
-                                                message={errors.attachment_before}
+                                                message={
+                                                    errors.attachment_before
+                                                }
                                             />
                                         )}
                                     </label>
@@ -252,7 +306,11 @@ export default function Create({ auth, can, finding_status }) {
                                 <label className="form-control w-full">
                                     <InputLabel
                                         htmlFor="attachment_after"
-                                        value={data.finding_status_id == 2 ? 'Attachment after*' : 'Attachment after'}
+                                        value={
+                                            data.finding_status_id == 2
+                                                ? "Attachment after*"
+                                                : "Attachment after"
+                                        }
                                     />
 
                                     <FileInput
@@ -260,7 +318,11 @@ export default function Create({ auth, can, finding_status }) {
                                         id="attachment_after"
                                         className="mt-1 block w-full"
                                         onChange={(e) =>
-                                            validateFileSize(e, setFileSize1, 'attachment_after')
+                                            validateFileSize(
+                                                e,
+                                                setFileSize1,
+                                                "attachment_after"
+                                            )
                                         }
                                         disabled={data.finding_status_id != 2}
                                         required={data.finding_status_id == 2}
@@ -292,7 +354,10 @@ export default function Create({ auth, can, finding_status }) {
                                         className="mt-1 block w-full"
                                         value={data.created_at}
                                         onChange={(e) =>
-                                            setData("created_at", e.target.value)
+                                            setData(
+                                                "created_at",
+                                                e.target.value
+                                            )
                                         }
                                         required
                                     />
@@ -307,7 +372,11 @@ export default function Create({ auth, can, finding_status }) {
                                 <div>
                                     <InputLabel
                                         htmlFor="updated_at"
-                                        value={data.finding_status_id == 2 ? 'Date completed*' : 'Date completed'}
+                                        value={
+                                            data.finding_status_id == 2
+                                                ? "Date completed*"
+                                                : "Date completed"
+                                        }
                                     />
 
                                     <DateInput
@@ -315,7 +384,10 @@ export default function Create({ auth, can, finding_status }) {
                                         type="date"
                                         className="mt-1 block w-full"
                                         onChange={(e) =>
-                                            setData("updated_at", e.target.value)
+                                            setData(
+                                                "updated_at",
+                                                e.target.value
+                                            )
                                         }
                                         disabled={data.finding_status_id != 2}
                                         required={data.finding_status_id == 2}
@@ -327,7 +399,7 @@ export default function Create({ auth, can, finding_status }) {
                                     />
                                 </div>
 
-                                {can.finding_create &&
+                                {can.finding_create && (
                                     <div className="flex items-center gap-4">
                                         <SecondaryButton
                                             onClick={(e) => {
@@ -352,7 +424,7 @@ export default function Create({ auth, can, finding_status }) {
                                             <p className="text-sm">Saved.</p>
                                         </Transition>
                                     </div>
-                                }
+                                )}
                             </form>
                         </section>
                     </div>

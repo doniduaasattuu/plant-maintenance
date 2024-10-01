@@ -27,6 +27,9 @@ class StoreFindingRequest extends FormRequest
             'reported_by' => auth()->user()->id,
             'closed_by' => $this->finding_status_id == 2 ? auth()->user()->id : null,
             'created_at' => now(),
+        ]);
+
+        $this->mergeIfMissing([
             'updated_at' => now(),
         ]);
 
@@ -35,7 +38,7 @@ class StoreFindingRequest extends FormRequest
             'equipment_id' => ['nullable', 'exists:App\Models\Equipment,id'],
             'functional_location_id' => ['nullable', 'exists:App\Models\FunctionalLocation,id'],
             'description' => ['required'],
-            'notification' => ['nullable', 'digits:8'],
+            'notification' => ['nullable', 'digits:8', 'numeric'],
             'attachment_before' => ['required', 'image', "max:$upload_max_filesize"],
             'attachment_after' => ['nullable', 'image', 'required_if:finding_status_id,2', 'prohibited_if:finding_status_id,1', "max:$upload_max_filesize"],
             'reported_by' => ['required', 'exists:App\Models\User,id'],
