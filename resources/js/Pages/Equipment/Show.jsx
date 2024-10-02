@@ -160,7 +160,6 @@ export default function Show({ auth, can, equipment, links }) {
                     {equipment.data.documents.length > 0 && (
                         <DocumentList equipment={equipment} can={can} />
                     )}
-
                 </div>
             </div>
         </AuthenticatedLayout>

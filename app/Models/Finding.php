@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
 
 class Finding extends Model
@@ -31,6 +32,11 @@ class Finding extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function equipment(): BelongsTo
+    {
+        return $this->belongsTo(Equipment::class, 'equipment_id', 'id');
+    }
 
     public function scopeSearch(Builder $builder, Request $request)
     {

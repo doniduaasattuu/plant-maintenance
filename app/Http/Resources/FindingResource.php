@@ -23,9 +23,9 @@ class FindingResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'finding_status_id' => FindingStatusResource::make(FindingStatus::find($this->finding_status_id)),
-            'equipment_id' => EquipmentSimpleResource::make(Equipment::find($this->equipment_id)),
-            'functional_location_id' => FunctionalLocationSimpleResource::make(FunctionalLocation::find($this->functional_location_id)),
+            'status' => FindingStatusResource::make(FindingStatus::find($this->finding_status_id)),
+            'equipment' => EquipmentSimpleResource::make(Equipment::find($this->equipment_id)),
+            'functional_location' => FunctionalLocationSimpleResource::make(FunctionalLocation::find($this->functional_location_id)),
             'description' => $this->description,
             'notification' => $this->notification,
             'attachment_before' => $this->attachment_before,
@@ -34,6 +34,8 @@ class FindingResource extends JsonResource
             'closed_by' => UserSimpleResource::make(User::find($this->closed_by)),
             'created_at' => $this->created_at->toFormattedDateString(),
             'updated_at' => $this->updated_at->toFormattedDateString(),
+            'canUpdate' => auth()->user()->can('update', $this->resource),
+            'canDelete' => auth()->user()->can('delete', $this->resource),
         ];
     }
 }

@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFindingRequest;
+use App\Http\Requests\UpdateFindingRequest;
+use App\Http\Resources\FindingResource;
 use App\Http\Resources\FindingStatusResource;
 use App\Http\Resources\Simple\FindingSimpleResource;
 use App\Models\Finding;
 use App\Models\FindingStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class FindingController extends Controller
@@ -28,7 +31,7 @@ class FindingController extends Controller
         }
 
         $findings = Finding::search($request)
-            ->latest()
+            ->orderBy('id', 'DESC')
             ->paginate(10)
             ->withQueryString();
 
@@ -47,10 +50,10 @@ class FindingController extends Controller
     {
         Gate::authorize('finding_create');
 
-        $finding_status = FindingStatus::all();
+        $findingStatuses = FindingStatus::all();
 
         return Inertia::render('Finding/Create', [
-            'finding_status' => FindingStatusResource::collection($finding_status),
+            'findingStatuses' => FindingStatusResource::collection($findingStatuses),
         ]);
     }
 
@@ -62,22 +65,22 @@ class FindingController extends Controller
         Gate::authorize('finding_create');
         $validated = $request->safe()->except(['attachment_before', 'attachment_after']);
 
-        if ($request->hasFile('attachment_before')) {
+        if ($request->hasFile('attachment_before') && !$request->hasFile('attachment_after')) {
 
             // OPEN FINDING
-            $AttachmentBefore = uniqid() .  '.' . strtolower($request->file('attachment_before')->extension());
-            $pathBefore = $request->file('attachment_before')->storeAs('findings', $AttachmentBefore, 'public');
+            $attachmentBefore = fake()->uuid() .  '.' . strtolower($request->file('attachment_before')->extension());
+            $pathBefore = $request->file('attachment_before')->storeAs('findings', $attachmentBefore, 'public');
             $validated['attachment_before'] = $pathBefore;
-        } elseif ($request->hasFile('attachment_before') && $request->hasFile('attachment_after')) {
+        } else if ($request->hasFile('attachment_before') && $request->hasFile('attachment_after')) {
 
             // CLOSED FINDING
-            $AttachmentBefore = uniqid() .  '.' . strtolower($request->file('attachment_before')->extension());
-            $pathBefore = $request->file('attachment_before')->storeAs('findings', $AttachmentBefore, 'public');
+            $attachmentBefore = fake()->uuid() .  '.' . strtolower($request->file('attachment_before')->extension());
+            $pathBefore = $request->file('attachment_before')->storeAs('findings', $attachmentBefore, 'public');
             $validated['attachment_before'] = $pathBefore;
 
-            $AttachmentAfter = uniqid() .  '.' . strtolower($request->file('attachment_after')->extension());
-            $pathBefore = $request->file('attachment_after')->storeAs('findings', $AttachmentAfter, 'public');
-            $validated['attachment_after'] = $pathBefore;
+            $attachmentAfter = fake()->uuid() .  '.' . strtolower($request->file('attachment_after')->extension());
+            $pathAfter = $request->file('attachment_after')->storeAs('findings', $attachmentAfter, 'public');
+            $validated['attachment_after'] = $pathAfter;
         }
 
         Finding::insert($validated);
@@ -100,15 +103,35 @@ class FindingController extends Controller
      */
     public function edit(Finding $finding)
     {
-        //
+        Gate::authorize('finding_edit');
+        $findingStatuses = FindingStatus::all();
+
+        return Inertia::render('Finding/Edit', [
+            'finding' => FindingResource::make($finding),
+            'findingStatuses' => FindingStatusResource::collection($findingStatuses),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Finding $finding)
+    public function update(UpdateFindingRequest $request, Finding $finding)
     {
-        //
+        Gate::authorize('finding_update');
+        $validated = $request->safe()->except('attachment_after');
+
+        if ($request->hasFile('attachment_after')) {
+
+            if ($request->attachment_after) {
+                Storage::disk('public')->delete($request->attachment_after);
+            }
+
+            $attachmentAfter = fake()->uuid() .  '.' . strtolower($request->file('attachment_after')->extension());
+            $pathAfter = $request->file('attachment_after')->storeAs('findings', $attachmentAfter, 'public');
+            $validated['attachment_after'] = $pathAfter;
+        }
+
+        $finding->update($validated);
     }
 
     /**

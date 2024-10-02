@@ -12,10 +12,10 @@ import FileInput from "@/Components/FileInput";
 import InputHelper from "@/Components/InputHelper";
 import { useState } from "react";
 import DateInput from "@/Components/DateInput";
-import { today } from "@/Utils/Helper";
+import { date } from "@/Utils/Helper";
 import { useEffect } from "react";
 
-export default function Create({ auth, can, findingStatuses }) {
+export default function Edit({ auth, can, finding, findingStatuses }) {
     const uploadMaxFilesize = usePage().props.upload_max_filesize * 1024;
 
     findingStatuses = findingStatuses.data.map((status) => {
@@ -25,37 +25,48 @@ export default function Create({ auth, can, findingStatuses }) {
         };
     });
 
-    const {
-        data,
-        setData,
-        post,
-        errors,
-        reset,
-        processing,
-        recentlySuccessful,
-    } = useForm("CreateFinding", {
-        finding_status_id: 1,
-        equipment_id: "",
-        functional_location_id: "",
-        description: "",
-        notification: "",
-        attachment_before: "",
+    const { data, setData } = useForm(`EditFinding:${finding.data.id}`, {
+        finding_status_id: finding.data.status.id ?? 1,
+        equipment_id: finding.data.equipment?.id ?? "",
+        functional_location_id: finding.data.functional_location?.id ?? "",
+        description: finding.data.description ?? "",
+        notification: finding.data.notification ?? "",
+        // attachment_before: "",
         attachment_after: "",
-        created_at: today(),
-        updated_at: "",
+        // created_at: finding.data.created_at ?? "",
+        updated_at: date() ?? "",
     });
 
+    const { errors } = usePage().props;
+    const [recentlySuccessful, setRecentlySuccessful] = useState(false);
+    const [processing, setProcessing] = useState(false);
+
     function submit(e) {
+        setProcessing(true);
         e.preventDefault();
-        post(route("findings.store"), {
-            preserveScroll: true,
-            preserveState: true,
-            replace: true,
-        });
+        router.post(
+            route("findings.update", finding.data.id),
+            {
+                _method: "patch",
+                ...data,
+            },
+            {
+                preserveScroll: true,
+                preserveState: true,
+                replace: true,
+                onSuccess: (e) => {
+                    setProcessing(false);
+                    setRecentlySuccessful(true);
+                    setTimeout(() => {
+                        setRecentlySuccessful(false);
+                    }, 2000);
+                },
+            }
+        );
     }
 
     // VALIDATE FILE SIZE
-    let [fileSize0, setFileSize0] = useState("");
+    // let [fileSize0, setFileSize0] = useState("");
     let [fileSize1, setFileSize1] = useState("");
 
     function validateFileSize(e, setter, field) {
@@ -118,7 +129,7 @@ export default function Create({ auth, can, findingStatuses }) {
                             <p className="mt-1 text-sm">Create new finding.</p>
 
                             <form
-                                id="CreateFinding"
+                                id={`EditFinding:${finding.data.id}`}
                                 onSubmit={submit}
                                 className="mt-6 space-y-6"
                             >
@@ -265,7 +276,7 @@ export default function Create({ auth, can, findingStatuses }) {
                                 </div>
 
                                 {/* ATTACHMENT BEFORE */}
-                                <div>
+                                {/* <div>
                                     <label className="form-control w-full">
                                         <InputLabel
                                             htmlFor="attachment_before"
@@ -300,7 +311,7 @@ export default function Create({ auth, can, findingStatuses }) {
                                             />
                                         )}
                                     </label>
-                                </div>
+                                </div> */}
 
                                 {/* ATTACHMENT AFTER */}
                                 <label className="form-control w-full">
@@ -325,7 +336,6 @@ export default function Create({ auth, can, findingStatuses }) {
                                             )
                                         }
                                         disabled={data.finding_status_id != 2}
-                                        required={data.finding_status_id == 2}
                                     />
 
                                     {!errors.attachment_after ? (
@@ -342,7 +352,7 @@ export default function Create({ auth, can, findingStatuses }) {
                                 </label>
 
                                 {/* CREATED AT */}
-                                <div>
+                                {/* <div>
                                     <InputLabel
                                         htmlFor="created_at"
                                         value="Date created*"
@@ -356,7 +366,9 @@ export default function Create({ auth, can, findingStatuses }) {
                                         onChange={(e) =>
                                             setData(
                                                 "created_at",
-                                                e.target.value
+                                                toFormattedDateTimeString(
+                                                    e.target.value
+                                                )
                                             )
                                         }
                                         required
@@ -366,7 +378,7 @@ export default function Create({ auth, can, findingStatuses }) {
                                         className="mt-2"
                                         message={errors.created_at}
                                     />
-                                </div>
+                                </div> */}
 
                                 {/* UPDATED AT */}
                                 <div>
@@ -383,6 +395,7 @@ export default function Create({ auth, can, findingStatuses }) {
                                         id="updated_at"
                                         type="date"
                                         className="mt-1 block w-full"
+                                        value={data.updated_at}
                                         onChange={(e) =>
                                             setData(
                                                 "updated_at",
@@ -411,7 +424,7 @@ export default function Create({ auth, can, findingStatuses }) {
                                         </SecondaryButton>
 
                                         <PrimaryButton disabled={processing}>
-                                            Save
+                                            Update
                                         </PrimaryButton>
 
                                         <Transition
@@ -421,7 +434,7 @@ export default function Create({ auth, can, findingStatuses }) {
                                             leave="transition ease-in-out"
                                             leaveTo="opacity-0"
                                         >
-                                            <p className="text-sm">Saved.</p>
+                                            <p className="text-sm">Updated.</p>
                                         </Transition>
                                     </div>
                                 )}

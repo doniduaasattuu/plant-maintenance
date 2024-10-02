@@ -32,8 +32,8 @@ class FindingFactory extends Factory
             'attachment_after' => $status == 2 ? "findings/" . uniqid() . '.png' : null,
             'reported_by' => User::all()->random()->id,
             'closed_by' => $status == 2 ? User::all()->random()->id : null,
-            'created_at' => now(),
-            'updated_at' => now(),
+            'created_at' => now()->subDay(),
+            'updated_at' => now()->subDay(),
         ];
     }
 }

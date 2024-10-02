@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 
 class Equipment extends Model
@@ -121,6 +123,11 @@ class Equipment extends Model
             'equipment_id',
             'document_id',
         );
+    }
+
+    public function findings(): HasMany
+    {
+        return $this->hasMany(Finding::class, 'equipment_id', 'id');
     }
 
     public array $links = [
