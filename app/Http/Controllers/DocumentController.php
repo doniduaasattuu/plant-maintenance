@@ -113,7 +113,10 @@ class DocumentController extends Controller
      */
     public function update(UpdateDocumentRequest $request, Document $document)
     {
-        Gate::authorize('document_update');
+        if (!Gate::allows('document_update') && !Gate::allows('update', $document)) {
+            abort(403);
+        }
+
         $validated = $request->safe()->except(['attachment']);
 
         if ($request->hasFile('attachment')) {

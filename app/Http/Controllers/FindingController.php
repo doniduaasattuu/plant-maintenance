@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFindingRequest;
 use App\Http\Resources\FindingStatusResource;
+use App\Http\Resources\Simple\FindingSimpleResource;
 use App\Models\Finding;
 use App\Models\FindingStatus;
 use Illuminate\Http\Request;
@@ -15,9 +16,28 @@ class FindingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        Gate::authorize('finding_access');
+
+        if ($request->expectsJson()) {
+            $findings = Finding::search($request)
+                ->get();
+
+            return response()->json($findings);
+        }
+
+        $findings = Finding::search($request)
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        $findingStatuses = FindingStatus::all();
+
+        return Inertia::render('Finding/Index', [
+            'findings' => FindingSimpleResource::collection($findings),
+            'findingStatuses' => FindingStatusResource::collection($findingStatuses)
+        ]);
     }
 
     /**
@@ -40,8 +60,31 @@ class FindingController extends Controller
     public function store(StoreFindingRequest $request)
     {
         Gate::authorize('finding_create');
+        $validated = $request->safe()->except(['attachment_before', 'attachment_after']);
 
-        dd($request->validated());
+        if ($request->hasFile('attachment_before')) {
+
+            // OPEN FINDING
+            $AttachmentBefore = uniqid() .  '.' . strtolower($request->file('attachment_before')->extension());
+            $pathBefore = $request->file('attachment_before')->storeAs('findings', $AttachmentBefore, 'public');
+            $validated['attachment_before'] = $pathBefore;
+        } elseif ($request->hasFile('attachment_before') && $request->hasFile('attachment_after')) {
+
+            // CLOSED FINDING
+            $AttachmentBefore = uniqid() .  '.' . strtolower($request->file('attachment_before')->extension());
+            $pathBefore = $request->file('attachment_before')->storeAs('findings', $AttachmentBefore, 'public');
+            $validated['attachment_before'] = $pathBefore;
+
+            $AttachmentAfter = uniqid() .  '.' . strtolower($request->file('attachment_after')->extension());
+            $pathBefore = $request->file('attachment_after')->storeAs('findings', $AttachmentAfter, 'public');
+            $validated['attachment_after'] = $pathBefore;
+        }
+
+        Finding::insert($validated);
+
+        return redirect()
+            ->route('findings.index')
+            ->with('success', 'Successfully created');
     }
 
     /**

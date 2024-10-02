@@ -26,11 +26,8 @@ class StoreFindingRequest extends FormRequest
         $this->merge([
             'reported_by' => auth()->user()->id,
             'closed_by' => $this->finding_status_id == 2 ? auth()->user()->id : null,
-            'created_at' => now(),
-        ]);
-
-        $this->mergeIfMissing([
-            'updated_at' => now(),
+            'created_at' => $this->created_at ?? now(),
+            'updated_at' => $this->updated_at ?? now(),
         ]);
 
         return [

@@ -68,9 +68,8 @@ export default function Edit({ auth, can, document }) {
 
         if (e.target.files[0].size > uploadMaxFilesize) {
             setProcessing(true);
-            errors.attachment = `The attachment field must not be greater than ${
-                uploadMaxFilesize / 1024
-            } kilobytes.`;
+            errors.attachment = `The attachment field must not be greater than ${uploadMaxFilesize / 1024
+                } kilobytes.`;
         } else {
             setFileSize(
                 `File size: ${Math.round(
@@ -223,7 +222,7 @@ export default function Edit({ auth, can, document }) {
                                     </label>
                                 </div>
 
-                                {can.document_update && (
+                                {document.data.canUpdate && (
                                     <div className="flex items-center gap-4">
                                         <SecondaryButton
                                             onClick={(e) => {

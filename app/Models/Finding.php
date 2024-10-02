@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class Finding extends Model
 {
@@ -29,4 +31,30 @@ class Finding extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function scopeSearch(Builder $builder, Request $request)
+    {
+        $search = $request->search;
+        $finding_status_id = $request->finding_status_id;
+
+        $builder
+            ->when(($search && $finding_status_id), function ($query) use ($search, $finding_status_id) {
+                $query
+                    ->where('finding_status_id', '=', $finding_status_id)
+                    ->where(function ($query) use ($search) {
+                        $query
+                            ->where('id', 'LIKE', "%{$search}%")
+                            ->orWhere('description', 'LIKE', "%{$search}%");
+                    });
+            })
+            ->when($search && is_null($finding_status_id), function ($query) use ($search) {
+                $query
+                    ->where('id', 'LIKE', "%{$search}%")
+                    ->orWhere('description', 'LIKE', "%{$search}%");
+            })
+            ->when($finding_status_id && is_null($search), function ($query) use ($finding_status_id) {
+                $query
+                    ->where('finding_status_id', '=', $finding_status_id);
+            });
+    }
 }
