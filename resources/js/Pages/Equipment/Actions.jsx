@@ -29,8 +29,7 @@ export default function Actions({ auth, can, equipment, links }) {
                 className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow border border-neutral-600/40"
             >
                 {/* EQUIPMENT CHECKING FORM */}
-                {can.motor_check_create &&
-                    links[equipment.data.classification.id]?.check &&
+                {links[equipment.data.classification.id]?.check &&
                     equipment.data.status.id == 2 && (
                         <li>
                             <Link
@@ -115,6 +114,24 @@ export default function Actions({ auth, can, equipment, links }) {
                             <path d="M6 13a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" />
                         </svg>
                         Moving History
+                    </div>
+                </li>
+                <li>
+                    <div
+                        onClick={() =>
+                            router.get(
+                                route("findings.create", {
+                                    equipment_id: equipment.data?.id,
+                                    functional_location_id: equipment.data?.functional_location?.id,
+                                })
+                            )
+                        }
+                        className="py-2"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="size-4">
+                            <path d="M3.75 2A1.75 1.75 0 0 0 2 3.75v1.5a.75.75 0 0 0 1.5 0v-1.5a.25.25 0 0 1 .25-.25h1.5a.75.75 0 0 0 0-1.5h-1.5ZM10.75 2a.75.75 0 0 0 0 1.5h1.5a.25.25 0 0 1 .25.25v1.5a.75.75 0 0 0 1.5 0v-1.5A1.75 1.75 0 0 0 12.25 2h-1.5ZM3.5 10.75a.75.75 0 0 0-1.5 0v1.5c0 .966.784 1.75 1.75 1.75h1.5a.75.75 0 0 0 0-1.5h-1.5a.25.25 0 0 1-.25-.25v-1.5ZM14 10.75a.75.75 0 0 0-1.5 0v1.5a.25.25 0 0 1-.25.25h-1.5a.75.75 0 0 0 0 1.5h1.5A1.75 1.75 0 0 0 14 12.25v-1.5ZM8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+                        </svg>
+                        Create finding
                     </div>
                 </li>
                 {can.equipment_edit && !route().current().includes("edit") && (

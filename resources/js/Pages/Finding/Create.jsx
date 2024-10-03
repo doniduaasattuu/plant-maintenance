@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, router, useForm, usePage } from "@inertiajs/react";
+import { Head, useForm, usePage } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
@@ -12,10 +12,10 @@ import FileInput from "@/Components/FileInput";
 import InputHelper from "@/Components/InputHelper";
 import { useState } from "react";
 import DateInput from "@/Components/DateInput";
-import { today } from "@/Utils/Helper";
+import { date } from "@/Utils/Helper";
 import { useEffect } from "react";
 
-export default function Create({ auth, can, findingStatuses }) {
+export default function Create({ auth, can, findingStatuses, equipment_id, functional_location_id }) {
     const uploadMaxFilesize = usePage().props.upload_max_filesize * 1024;
 
     findingStatuses = findingStatuses.data.map((status) => {
@@ -35,13 +35,13 @@ export default function Create({ auth, can, findingStatuses }) {
         recentlySuccessful,
     } = useForm("CreateFinding", {
         finding_status_id: 1,
-        equipment_id: "",
-        functional_location_id: "",
+        equipment_id: equipment_id ?? "",
+        functional_location_id: functional_location_id ?? "",
         description: "",
         notification: "",
         attachment_before: "",
         attachment_after: "",
-        created_at: today(),
+        created_at: date(),
         updated_at: "",
     });
 
@@ -63,9 +63,8 @@ export default function Create({ auth, can, findingStatuses }) {
         setter("");
 
         if (e.target.files[0].size > uploadMaxFilesize) {
-            errors.attachment = `The attachment field must not be greater than ${
-                uploadMaxFilesize / 1024
-            } kilobytes.`;
+            errors.attachment = `The attachment field must not be greater than ${uploadMaxFilesize / 1024
+                } kilobytes.`;
         } else {
             setter(
                 `File size: ${Math.round(

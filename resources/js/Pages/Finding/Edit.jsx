@@ -55,11 +55,13 @@ export default function Edit({ auth, can, finding, findingStatuses }) {
                 preserveState: true,
                 replace: true,
                 onSuccess: (e) => {
-                    setProcessing(false);
                     setRecentlySuccessful(true);
                     setTimeout(() => {
                         setRecentlySuccessful(false);
                     }, 2000);
+                },
+                onFinish: (e) => {
+                    setProcessing(false);
                 },
             }
         );
@@ -74,9 +76,8 @@ export default function Edit({ auth, can, finding, findingStatuses }) {
         setter("");
 
         if (e.target.files[0].size > uploadMaxFilesize) {
-            errors.attachment = `The attachment field must not be greater than ${
-                uploadMaxFilesize / 1024
-            } kilobytes.`;
+            errors.attachment = `The attachment field must not be greater than ${uploadMaxFilesize / 1024
+                } kilobytes.`;
         } else {
             setter(
                 `File size: ${Math.round(

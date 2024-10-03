@@ -46,7 +46,7 @@ class FindingController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         Gate::authorize('finding_create');
 
@@ -54,6 +54,8 @@ class FindingController extends Controller
 
         return Inertia::render('Finding/Create', [
             'findingStatuses' => FindingStatusResource::collection($findingStatuses),
+            'equipment_id' => $request->equipment_id,
+            'functional_location_id' => $request->functional_location_id,
         ]);
     }
 
@@ -103,7 +105,10 @@ class FindingController extends Controller
      */
     public function edit(Finding $finding)
     {
-        Gate::authorize('finding_edit');
+        if (!Gate::allows('finding_edit') && !Gate::allows('update', $finding)) {
+            abort(403);
+        }
+
         $findingStatuses = FindingStatus::all();
 
         return Inertia::render('Finding/Edit', [
@@ -117,7 +122,10 @@ class FindingController extends Controller
      */
     public function update(UpdateFindingRequest $request, Finding $finding)
     {
-        Gate::authorize('finding_update');
+        if (!Gate::allows('finding_update') && !Gate::allows('update', $finding)) {
+            abort(403);
+        }
+
         $validated = $request->safe()->except('attachment_after');
 
         if ($request->hasFile('attachment_after')) {
@@ -139,6 +147,17 @@ class FindingController extends Controller
      */
     public function destroy(Finding $finding)
     {
-        //
+        if (!Gate::allows('finding_delete') && !Gate::allows('delete', $finding)) {
+            abort(403);
+        }
+
+        Storage::disk('public')->delete($finding->attachment_before);
+        Storage::disk('public')->delete($finding->attachment_after);
+
+        $finding->delete();
+
+        return redirect()
+            ->back()
+            ->with('success', 'Finding successfully deleted');
     }
 }
