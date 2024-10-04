@@ -167,7 +167,7 @@ export default function Index({ auth, can, findings, findingStatuses }) {
                     </div>
                     <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
                         <div className="overflow-x-auto">
-                            <table className="table min-w-max">
+                            <table className="table">
                                 <thead>
                                     <tr>
                                         <th>Status</th>
@@ -176,7 +176,7 @@ export default function Index({ auth, can, findings, findingStatuses }) {
                                         <th className="text-center">After</th> */}
                                         <th>Attachment</th>
                                         <th>Reported by</th>
-                                        <th>Closed by</th>
+                                        <th>Updated by</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -191,13 +191,12 @@ export default function Index({ auth, can, findings, findingStatuses }) {
                                                     {finding.equipment_id}
                                                     <br />
                                                     <span
-                                                        className={`badge ${
-                                                            finding
-                                                                .finding_status
-                                                                .id == 2
-                                                                ? "text-green-500"
-                                                                : "text-red-500"
-                                                        }`}
+                                                        className={`badge ${finding
+                                                            .finding_status
+                                                            .id == 2
+                                                            ? "text-green-500"
+                                                            : "text-red-500"
+                                                            }`}
                                                     >
                                                         {
                                                             finding
@@ -206,7 +205,15 @@ export default function Index({ auth, can, findings, findingStatuses }) {
                                                         }
                                                     </span>
                                                 </td>
-                                                <td>{finding.description}</td>
+                                                <td
+
+                                                >
+                                                    <p
+                                                        className="text-balance min-w-sm"
+                                                    >
+                                                        {finding.description}
+                                                    </p>
+                                                </td>
 
                                                 <td>
                                                     {finding.attachment_before && (
@@ -215,8 +222,8 @@ export default function Index({ auth, can, findings, findingStatuses }) {
                                                             onClick={(e) =>
                                                                 finding.attachment_before
                                                                     ? handleAttachment(
-                                                                          finding.attachment_before
-                                                                      )
+                                                                        finding.attachment_before
+                                                                    )
                                                                     : undefined
                                                             }
                                                         >
@@ -230,8 +237,8 @@ export default function Index({ auth, can, findings, findingStatuses }) {
                                                             onClick={(e) =>
                                                                 finding.attachment_after
                                                                     ? handleAttachment(
-                                                                          finding.attachment_after
-                                                                      )
+                                                                        finding.attachment_after
+                                                                    )
                                                                     : undefined
                                                             }
                                                         >
@@ -297,20 +304,22 @@ export default function Index({ auth, can, findings, findingStatuses }) {
                                                         </svg>
                                                     )}
                                                 </td> */}
-                                                <td>
+                                                <td className="w-28">
                                                     {
-                                                        finding.reported_by
-                                                            ?.full_name
+                                                        `${finding.reported_by
+                                                            ?.first_name} ${finding.reported_by
+                                                                ?.last_name[0]}`
                                                     }
                                                     <br />
                                                     <span className="opacity-50">
                                                         {finding.created_at}
                                                     </span>
                                                 </td>
-                                                <td>
+                                                <td className="w-28">
                                                     {
-                                                        finding.closed_by
-                                                            ?.full_name
+                                                        `${finding.reported_by
+                                                            ?.first_name} ${finding.reported_by
+                                                                ?.last_name[0]}`
                                                     }
                                                     <br />
                                                     <span className="opacity-50">
@@ -320,49 +329,49 @@ export default function Index({ auth, can, findings, findingStatuses }) {
 
                                                 {(can.finding_edit ||
                                                     finding.canUpdate) && (
-                                                    <td
-                                                        onClick={() => {
-                                                            editFinding(
-                                                                finding.id
-                                                            );
-                                                        }}
-                                                        className="w-12 text-center text-blue-500 cursor-pointer"
-                                                    >
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            viewBox="0 0 20 20"
-                                                            fill="currentColor"
-                                                            className="size-5"
+                                                        <td
+                                                            onClick={() => {
+                                                                editFinding(
+                                                                    finding.id
+                                                                );
+                                                            }}
+                                                            className="w-12 text-center text-blue-500 cursor-pointer"
                                                         >
-                                                            <path d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
-                                                            <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
-                                                        </svg>
-                                                    </td>
-                                                )}
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 20 20"
+                                                                fill="currentColor"
+                                                                className="size-5"
+                                                            >
+                                                                <path d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
+                                                                <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
+                                                            </svg>
+                                                        </td>
+                                                    )}
                                                 {(can.finding_delete ||
                                                     finding.canDelete) && (
-                                                    <td
-                                                        onClick={() =>
-                                                            openDeleteConfirm(
-                                                                finding.id
-                                                            )
-                                                        }
-                                                        className="w-12 text-center text-red-500 cursor-pointer"
-                                                    >
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            viewBox="0 0 20 20"
-                                                            fill="currentColor"
-                                                            className="size-5"
+                                                        <td
+                                                            onClick={() =>
+                                                                openDeleteConfirm(
+                                                                    finding.id
+                                                                )
+                                                            }
+                                                            className="w-12 text-center text-red-500 cursor-pointer"
                                                         >
-                                                            <path
-                                                                fillRule="evenodd"
-                                                                d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
-                                                                clipRule="evenodd"
-                                                            />
-                                                        </svg>
-                                                    </td>
-                                                )}
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 20 20"
+                                                                fill="currentColor"
+                                                                className="size-5"
+                                                            >
+                                                                <path
+                                                                    fillRule="evenodd"
+                                                                    d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
+                                                                    clipRule="evenodd"
+                                                                />
+                                                            </svg>
+                                                        </td>
+                                                    )}
 
                                                 {/* <td className="w-24">
                                                     {can.finding_show ? (
