@@ -25,7 +25,7 @@ class UpdateFindingRequest extends FormRequest
 
         $this->merge([
             'closed_by' => $this->finding_status_id == 2 ? auth()->user()->id : null,
-            'updated_at' => now(),
+            'updated_at' => $this->updated_at ?? now(),
         ]);
 
         return [

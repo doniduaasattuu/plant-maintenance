@@ -50,13 +50,27 @@ class Finding extends Model
                     ->where(function ($query) use ($search) {
                         $query
                             ->where('id', 'LIKE', "%{$search}%")
-                            ->orWhere('description', 'LIKE', "%{$search}%");
+                            ->orWhere('equipment_id', 'LIKE', "%{$search}%")
+                            ->orWhere('functional_location_id', 'LIKE', "%{$search}%")
+                            ->orWhere('reported_by', 'LIKE', "%{$search}%")
+                            ->orWhere('closed_by', 'LIKE', "%{$search}%")
+                            ->orWhere('description', 'LIKE', "%{$search}%")
+                            ->orWhere(function ($query) use ($search) {
+                                $query->whereRelation('users', 'first_name', 'LIKE', "%{$search}%");
+                            });
                     });
             })
             ->when($search && is_null($finding_status_id), function ($query) use ($search) {
                 $query
                     ->where('id', 'LIKE', "%{$search}%")
-                    ->orWhere('description', 'LIKE', "%{$search}%");
+                    ->orWhere('equipment_id', 'LIKE', "%{$search}%")
+                    ->orWhere('functional_location_id', 'LIKE', "%{$search}%")
+                    ->orWhere('reported_by', 'LIKE', "%{$search}%")
+                    ->orWhere('closed_by', 'LIKE', "%{$search}%")
+                    ->orWhere('description', 'LIKE', "%{$search}%")
+                    ->orWhere(function ($query) use ($search) {
+                        $query->whereRelation('users', 'first_name', 'LIKE', "%{$search}%");
+                    });
             })
             ->when($finding_status_id && is_null($search), function ($query) use ($finding_status_id) {
                 $query

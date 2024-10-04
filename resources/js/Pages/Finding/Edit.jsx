@@ -76,8 +76,12 @@ export default function Edit({ auth, can, finding, findingStatuses }) {
         setter("");
 
         if (e.target.files[0].size > uploadMaxFilesize) {
-            errors.attachment = `The attachment field must not be greater than ${uploadMaxFilesize / 1024
-                } kilobytes.`;
+            errors[field] = `The ${field.replace(
+                "_",
+                " "
+            )} field must not be greater than ${
+                uploadMaxFilesize / 1024
+            } kilobytes.`;
         } else {
             setter(
                 `File size: ${Math.round(

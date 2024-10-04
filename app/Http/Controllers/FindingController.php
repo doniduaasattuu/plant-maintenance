@@ -130,8 +130,8 @@ class FindingController extends Controller
 
         if ($request->hasFile('attachment_after')) {
 
-            if ($request->attachment_after) {
-                Storage::disk('public')->delete($request->attachment_after);
+            if ($finding->attachment_after) {
+                Storage::disk('public')->delete($finding->attachment_after);
             }
 
             $attachmentAfter = fake()->uuid() .  '.' . strtolower($request->file('attachment_after')->extension());
