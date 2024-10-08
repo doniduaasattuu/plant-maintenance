@@ -20,6 +20,8 @@ class DocumentSimpleResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'equipments' => EquipmentSimpleResource::collection($this->whenLoaded('equipments')),
+            'canUpdate' => auth()->user()->can('update', $this->resource),
+            'canDelete' => auth()->user()->can('delete', $this->resource),
         ];
     }
 }

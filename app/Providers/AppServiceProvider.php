@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Document;
+use App\Models\Finding;
 use App\Policies\DocumentPolicy;
+use App\Policies\FindingPolicy;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -28,6 +30,9 @@ class AppServiceProvider extends ServiceProvider
             'ac_check' => 'App\Models\AcCheck',
         ]);
 
-        Gate::policy(Document::class, DocumentPolicy::class);
+        Gate::policies([
+            Document::class => DocumentPolicy::class,
+            Finding::class => FindingPolicy::class,
+        ]);
     }
 }

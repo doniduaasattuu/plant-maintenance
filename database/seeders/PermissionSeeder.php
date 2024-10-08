@@ -160,6 +160,25 @@ class PermissionSeeder extends Seeder
             [
                 'title' => 'material_delete',
             ],
+            // FINDING
+            [
+                'title' => 'finding_access'
+            ],
+            [
+                'title' => 'finding_create',
+            ],
+            [
+                'title' => 'finding_edit',
+            ],
+            [
+                'title' => 'finding_show',
+            ],
+            [
+                'title' => 'finding_update',
+            ],
+            [
+                'title' => 'finding_delete',
+            ],
             // MOTOR CHECK RECORD
             [
                 'title' => 'motor_check_access'

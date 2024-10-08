@@ -31,6 +31,7 @@ class EquipmentResource extends JsonResource
             'updated_at' => $this->updated_at->toFormattedDateString(),
             'materials' => MaterialResource::collection($this->whenLoaded('materials')),
             'documents' => DocumentResource::collection($this->whenLoaded('documents')),
+            'findings' => FindingResource::collection($this->whenLoaded('findings')),
         ];
     }
 }

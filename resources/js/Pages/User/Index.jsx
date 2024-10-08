@@ -87,28 +87,6 @@ export default function Index({ auth, can, users, departments }) {
         setIsOpen(true);
     };
 
-    // EXPORT DATA USERS
-    const exportUsers = () => {
-        axios({
-            url: route("export.motor-checks"), // Laravel named route
-            method: "GET",
-            responseType: "blob", // Important for file download
-        })
-            .then((response) => {
-                const url = window.URL.createObjectURL(
-                    new Blob([response.data])
-                );
-                const link = document.createElement("a");
-                link.href = url;
-                link.setAttribute("download", "motor-checks.xlsx"); // Filename for download
-                document.body.appendChild(link);
-                link.click();
-            })
-            .catch((error) => {
-                console.error("Export failed:", error);
-            });
-    };
-
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -122,11 +100,6 @@ export default function Index({ auth, can, users, departments }) {
                             <p className="mt-1 text-sm">
                                 A list of all the users.
                             </p>
-                        </div>
-                        <div>
-                            <PrimaryButton onClick={exportUsers}>
-                                Export
-                            </PrimaryButton>
                         </div>
                     </div>
                 </>
@@ -182,7 +155,7 @@ export default function Index({ auth, can, users, departments }) {
                                         <th>Name</th>
                                         <th>Department</th>
                                         <th>Contact</th>
-                                        <th>Roles</th>
+                                        {/* <th>Roles</th> */}
                                         {can.user_reset && (
                                             <th className="text-center">
                                                 Reset
@@ -192,7 +165,6 @@ export default function Index({ auth, can, users, departments }) {
                                 </thead>
                                 <tbody>
                                     {users.data.map((user) => {
-                                        console.log(user.profile_photo);
                                         return (
                                             <tr
                                                 className="border-b-base-300"
@@ -207,23 +179,22 @@ export default function Index({ auth, can, users, departments }) {
                                                     onClick={
                                                         can.user_edit
                                                             ? () => {
-                                                                  router.get(
-                                                                      route(
-                                                                          "users.edit",
-                                                                          user.id
-                                                                      )
-                                                                  );
-                                                              }
+                                                                router.get(
+                                                                    route(
+                                                                        "users.edit",
+                                                                        user.id
+                                                                    )
+                                                                );
+                                                            }
                                                             : undefined
                                                     }
                                                 >
                                                     <div className="flex items-center gap-3">
                                                         <div
-                                                            className={`avatar ${
-                                                                user.isOnline
-                                                                    ? "online"
-                                                                    : "offline"
-                                                            }`}
+                                                            className={`avatar ${user.isOnline
+                                                                ? "online"
+                                                                : "offline"
+                                                                }`}
                                                         >
                                                             <div className="mask mask-squircle h-12 w-12">
                                                                 <img
@@ -292,7 +263,7 @@ export default function Index({ auth, can, users, departments }) {
                                                     <br />
                                                     {user.phone_number}
                                                 </td>
-                                                <td>
+                                                {/* <td>
                                                     {user?.roles?.map(
                                                         (role) => {
                                                             return (
@@ -307,7 +278,7 @@ export default function Index({ auth, can, users, departments }) {
                                                             );
                                                         }
                                                     )}
-                                                </td>
+                                                </td> */}
                                                 {can.user_reset && (
                                                     <td className="text-center text-blue-500">
                                                         <button

@@ -85,14 +85,16 @@ export default function Edit({
                 preserveScroll: true,
                 preserveState: true,
                 onSuccess: (e) => {
-                    setProcessing(false);
-                    setData("profile_photo", null);
-                    document.getElementById("profile_photo").value = null;
                     setRecentlySuccessful(true);
                     setTimeout(() => {
                         setRecentlySuccessful(false);
                     }, 2000);
+                    setData("profile_photo", null);
+                    document.getElementById("profile_photo").value = null;
                 },
+                onFinish: (e) => {
+                    setProcessing(false);
+                }
             }
         );
     }
