@@ -71,6 +71,7 @@ class EquipmentFactory extends Factory
             'IOV',
             'IPD',
             'IPH',
+            'APR',
         ];
 
         $classifications_id = Classification::all()->pluck('id');

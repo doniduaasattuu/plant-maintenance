@@ -74,6 +74,12 @@ class ClassificationSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'id' => 'ZCLASS_S001',
+                'description' => 'FIRE EXTINGUISHER',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ];
 
         Classification::insert($classifications);

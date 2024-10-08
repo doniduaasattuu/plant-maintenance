@@ -141,5 +141,10 @@ class Equipment extends Model
             'trend' => 'trend.show',
             'export' => 'export.ac-checks',
         ],
+        'ZCLASS_S001' => [
+            'check' => 'apar-check.create',
+            'trend' => 'trend.show',
+            'export' => 'export.apar-checks',
+        ],
     ];
 }

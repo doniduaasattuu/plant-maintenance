@@ -217,6 +217,25 @@ class PermissionSeeder extends Seeder
             [
                 'title' => 'ac_check_delete',
             ],
+            // APAR CHECK RECORD
+            [
+                'title' => 'apar_check_access'
+            ],
+            [
+                'title' => 'apar_check_create',
+            ],
+            [
+                'title' => 'apar_check_edit',
+            ],
+            [
+                'title' => 'apar_check_show',
+            ],
+            [
+                'title' => 'apar_check_update',
+            ],
+            [
+                'title' => 'apar_check_delete',
+            ],
             // TREND
             [
                 'title' => 'trend_show'

@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         Relation::enforceMorphMap([
             'motor_check' => 'App\Models\MotorCheck',
             'ac_check' => 'App\Models\AcCheck',
+            'apar_check' => 'App\Models\AparCheck',
         ]);
 
         Gate::policies([

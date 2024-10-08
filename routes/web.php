@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AcCheckController;
+use App\Http\Controllers\AparCheckController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\EquipmentMaterialController;
@@ -57,6 +58,7 @@ Route::middleware('auth')->group(function () {
         // EQUIPMENT CHECKING
         'motor-check' => MotorCheckController::class,
         'ac-check' => AcCheckController::class,
+        'apar-check' => AparCheckController::class,
 
         // TREND
         'trend' => TrendController::class,
@@ -68,6 +70,7 @@ Route::middleware('auth')->group(function () {
     Route::get('export-users', [ExportController::class, 'exportUsers'])->name('export.users');
     Route::get('export-motor-checks/{equipment_id}', [ExportController::class, 'exportMotorChecks'])->name('export.motor-checks');
     Route::get('export-ac-checks/{equipment_id}', [ExportController::class, 'exportAcChecks'])->name('export.ac-checks');
+    Route::get('export-apar-checks/{equipment_id}', [ExportController::class, 'exportAparChecks'])->name('export.apar-checks');
 
     Route::resource('scanner', ScannerController::class)->only(['index']);
 });

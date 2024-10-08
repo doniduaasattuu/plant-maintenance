@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\AcCheck;
+use App\Models\AparCheck;
 use App\Models\Equipment;
 use App\Models\MotorCheck;
 use Inertia\Inertia;
@@ -182,6 +183,46 @@ class TrendService
                 'remote' => $remote,
                 'pressure' => $pressure,
                 'cleanings' => $cleanings,
+                'links' => $links,
+                'classification_id' => $classification_id,
+            ]);
+        } else if ($classification_id == 'ZCLASS_S001') {
+            $seal = $equipmentChecks->map(function (AparCheck $aparCheck, int $index) {
+                return [
+                    'Seal' => $aparCheck->seal == 1 ? $aparCheck->seal : 0,
+                    'Date' => $aparCheck->created_at->format('d/m/y')
+                ];
+            });
+
+            $weight = $equipmentChecks->map(function (AparCheck $aparCheck, int $index) {
+                return [
+                    'Weight' => $aparCheck->weight == 1 ? $aparCheck->weight : 0,
+                    'Date' => $aparCheck->created_at->format('d/m/y')
+                ];
+            });
+
+            $pressure = $equipmentChecks->map(function (AparCheck $aparCheck, int $index) {
+                return [
+                    'Pressure' => $aparCheck->pressure == 1 ? $aparCheck->pressure : 0,
+                    'Date' => $aparCheck->created_at->format('d/m/y')
+                ];
+            });
+
+            $body = $equipmentChecks->map(function (AparCheck $aparCheck, int $index) {
+                return [
+                    'Body' => $aparCheck->body == 1 ? $aparCheck->body : 0,
+                    'Date' => $aparCheck->created_at->format('d/m/y')
+                ];
+            });
+
+
+            // APAR TREND
+            return Inertia::render('Trends/Apar/Index', [
+                'equipment_id' => $equipment->id,
+                'seal' => $seal,
+                'weight' => $weight,
+                'pressure' => $pressure,
+                'body' => $body,
                 'links' => $links,
                 'classification_id' => $classification_id,
             ]);
