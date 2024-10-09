@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\AcCheckExport;
+use App\Exports\AparCheckExport;
 use App\Exports\MotorChecksExport;
 use App\Exports\UsersExport;
 use App\Http\Controllers\Controller;
@@ -26,5 +27,10 @@ class ExportController extends Controller
     public function exportAcChecks(string $equipment_id)
     {
         return Excel::download(new AcCheckExport($equipment_id), 'ac-checks.xlsx');
+    }
+
+    public function exportAparChecks(string $equipment_id)
+    {
+        return Excel::download(new AparCheckExport($equipment_id), 'apar-checks.xlsx');
     }
 }
