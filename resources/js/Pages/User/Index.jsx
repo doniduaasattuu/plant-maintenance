@@ -128,6 +128,7 @@ export default function Index({ auth, can, users, departments }) {
                                 value={inputSearch}
                                 onChange={(e) => setInputSearch(e.target.value)}
                                 placeholder="Search user data..."
+                                isFocused
                             />
                         </div>
                         <div>

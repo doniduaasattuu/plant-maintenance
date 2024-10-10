@@ -81,6 +81,7 @@ export default function Index({ auth, can, equipment_movements }) {
                                         setInputSearch(e.target.value)
                                     }
                                     placeholder="Search movement data..."
+                                    isFocused
                                 />
                             </div>
                         </div>
