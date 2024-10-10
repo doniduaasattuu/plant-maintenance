@@ -92,7 +92,7 @@ class FunctionalLocationController extends Controller
         $functionalLocation->update($validated);
 
         return redirect()
-            ->back();
+            ->route('functional-locations.edit', $validated['id']);
     }
 
     /**

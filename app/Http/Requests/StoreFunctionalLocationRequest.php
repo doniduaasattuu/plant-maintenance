@@ -28,7 +28,7 @@ class StoreFunctionalLocationRequest extends FormRequest
         ]);
 
         return [
-            'id' => ['required', 'min:9', 'max:24', 'string', 'uppercase', 'unique:App\Models\FunctionalLocation,id'],
+            'id' => ['required', 'max:50', 'string', 'uppercase', 'unique:App\Models\FunctionalLocation,id', 'regex:/^[A-Z0-9]+(-[A-Z0-9]+)*$/',],
             'description' => ['required', 'max:100', 'string'],
             'updated_by' => ['nullable', 'exists:App\Models\User,id'],
             'created_at' => ['nullable'],

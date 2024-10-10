@@ -132,7 +132,7 @@ export default function Edit({ auth, can, functional_location }) {
                                             setData("id", e.target.value)
                                         }
                                         required
-                                        maxLength="25"
+                                        maxLength="50"
                                         autoComplete="id"
                                     />
 

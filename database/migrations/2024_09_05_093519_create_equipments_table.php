@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('equipments', function (Blueprint $table) {
             $table->string('id', 9)->nullable(false)->primary(true);
             $table->string('classification_id')->nullable(false);
-            $table->string('functional_location_id', 25)->nullable(true);
+            $table->string('functional_location_id', 50)->nullable(true);
             $table->string('sort_field', 50)->nullable(true);
             $table->string('description', 100)->nullable(true);
             $table->foreignId('equipment_status_id')->nullable(false)->constrained('equipment_status')->cascadeOnUpdate()->cascadeOnDelete();

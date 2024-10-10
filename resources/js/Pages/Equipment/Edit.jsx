@@ -224,7 +224,7 @@ export default function Edit({
                                             );
                                         }}
                                         required={data.equipment_status_id == 2}
-                                        maxLength="25"
+                                        maxLength="50"
                                         autoComplete="functional_location_id"
                                     />
 

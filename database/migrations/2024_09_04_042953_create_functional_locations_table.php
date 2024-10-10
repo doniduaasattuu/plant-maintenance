@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('functional_locations', function (Blueprint $table) {
-            $table->string('id', 25)->nullable(false)->primary();
+            $table->string('id', 50)->nullable(false)->primary();
             $table->string('description', 100)->nullable(false);
             $table->string('updated_by', 8)->nullable();
             $table->timestamps();

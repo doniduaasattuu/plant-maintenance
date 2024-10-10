@@ -31,7 +31,7 @@ class UpdateFunctionalLocationRequest extends FormRequest
         ]);
 
         return [
-            'id' => ['required', 'min:9', 'max:24', 'string', 'uppercase', Rule::unique(FunctionalLocation::class)->ignore($functional_location->id)],
+            'id' => ['required', 'max:50', 'string', 'uppercase', Rule::unique(FunctionalLocation::class)->ignore($functional_location?->id), 'regex:/^[A-Z0-9]+(-[A-Z0-9]+)*$/',],
             'description' => ['required', 'max:100', 'string'],
             'updated_by' => ['nullable', 'exists:App\Models\User,id'],
             'updated_at' => ['nullable'],

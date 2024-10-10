@@ -15,7 +15,13 @@ import DateInput from "@/Components/DateInput";
 import { date } from "@/Utils/Helper";
 import { useEffect } from "react";
 
-export default function Create({ auth, can, findingStatuses, equipment_id, functional_location_id }) {
+export default function Create({
+    auth,
+    can,
+    findingStatuses,
+    equipment_id,
+    functional_location_id,
+}) {
     const uploadMaxFilesize = usePage().props.upload_max_filesize * 1024;
 
     findingStatuses = findingStatuses.data.map((status) => {
@@ -63,8 +69,9 @@ export default function Create({ auth, can, findingStatuses, equipment_id, funct
         setter("");
 
         if (e.target.files[0].size > uploadMaxFilesize) {
-            errors.attachment = `The attachment field must not be greater than ${uploadMaxFilesize / 1024
-                } kilobytes.`;
+            errors.attachment = `The attachment field must not be greater than ${
+                uploadMaxFilesize / 1024
+            } kilobytes.`;
         } else {
             setter(
                 `File size: ${Math.round(
@@ -196,7 +203,7 @@ export default function Create({ auth, can, findingStatuses, equipment_id, funct
                                                 e.target.value
                                             )
                                         }
-                                        maxLength="25"
+                                        maxLength="50"
                                         autoComplete="functional_location_id"
                                     />
 

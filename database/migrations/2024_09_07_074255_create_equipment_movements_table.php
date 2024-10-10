@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('equipment_movements', function (Blueprint $table) {
             $table->id();
-            $table->string('functional_location_id', 25)->nullable(false);
+            $table->string('functional_location_id', 50)->nullable(false);
             $table->string('functional_location_description', 100)->nullable(true);
             $table->string('equipment_id', 9)->nullable(false);
             $table->string('equipment_sort_field', 50)->nullable(true);

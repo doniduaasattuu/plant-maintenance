@@ -67,7 +67,7 @@ export default function Create({ auth }) {
                                             setData("id", e.target.value)
                                         }
                                         required
-                                        maxLength="25"
+                                        maxLength="50"
                                         autoComplete="id"
                                     />
 

@@ -213,7 +213,7 @@ export default function Edit({ auth, can, finding, findingStatuses }) {
                                                 e.target.value
                                             )
                                         }
-                                        maxLength="25"
+                                        maxLength="50"
                                         autoComplete="functional_location_id"
                                     />
 

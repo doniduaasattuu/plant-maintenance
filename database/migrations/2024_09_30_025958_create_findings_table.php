@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('finding_status_id')->constrained('finding_statuses')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('equipment_id', 9)->nullable();
-            $table->string('functional_location_id', 25)->nullable();
+            $table->string('functional_location_id', 50)->nullable();
             $table->text('description')->nullable(false);
             $table->string('notification', 8)->nullable();
             $table->string('attachment_before')->nullable();
