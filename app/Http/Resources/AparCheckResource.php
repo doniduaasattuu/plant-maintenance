@@ -27,8 +27,8 @@ class AparCheckResource extends JsonResource
             'body' => RustinessResource::make(Rustiness::find($this->body)),
             'remark' => $this->remark,
             'checked_by' => UserSimpleResource::make(User::find($this->checked_by)),
-            'created_at' => $this->created_at->toFormattedDateString(),
-            'updated_at' => $this->updated_at->toFormattedDateString(),
+            'created_at' => $this->created_at?->toFormattedDateString(),
+            'updated_at' => $this->updated_at?->toFormattedDateString(),
         ];
     }
 }

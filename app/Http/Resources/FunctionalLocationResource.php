@@ -21,8 +21,8 @@ class FunctionalLocationResource extends JsonResource
             'id' => $this->id,
             'description' => $this->description,
             'updated_by' => UserSimpleResource::make(User::find($this->updated_by)),
-            'created_at' => $this->created_at->toFormattedDateString(),
-            'updated_at' => $this->updated_at->toFormattedDateString(),
+            'created_at' => $this->created_at?->toFormattedDateString(),
+            'updated_at' => $this->updated_at?->toFormattedDateString(),
             'equipments' => EquipmentSimpleResource::collection($this->equipments),
         ];
     }

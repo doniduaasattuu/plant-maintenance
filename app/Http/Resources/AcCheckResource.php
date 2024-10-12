@@ -35,8 +35,8 @@ class AcCheckResource extends JsonResource
             'cleaning_filter_indoor' => ConfirmationResource::make(Confirmation::find($this->cleaning_filter_indoor)),
             'cleaning_indoor' => ConfirmationResource::make(Confirmation::find($this->cleaning_indoor)),
             'cleaning_outdoor' => ConfirmationResource::make(Confirmation::find($this->cleaning_outdoor)),
-            'created_at' => $this->created_at->toFormattedDateString(),
-            'updated_at' => $this->updated_at->toFormattedDateString(),
+            'created_at' => $this->created_at?->toFormattedDateString(),
+            'updated_at' => $this->updated_at?->toFormattedDateString(),
             'checked_by' => UserSimpleResource::make(User::find($this->checked_by)),
         ];
     }
