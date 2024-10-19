@@ -151,8 +151,13 @@ class FindingController extends Controller
             abort(403);
         }
 
-        Storage::disk('public')->delete($finding->attachment_before);
-        Storage::disk('public')->delete($finding->attachment_after);
+        if ($finding->attachment_before) {
+            Storage::disk('public')->delete($finding->attachment_before);
+        }
+
+        if ($finding->attachment_after) {
+            Storage::disk('public')->delete($finding->attachment_after);
+        }
 
         $finding->delete();
 
