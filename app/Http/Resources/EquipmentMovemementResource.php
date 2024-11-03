@@ -30,8 +30,8 @@ class EquipmentMovemementResource extends JsonResource
             'equipment_sort_field' => $this->equipment_sort_field,
             'movement_status' => MovementStatusResource::make(MovementStatus::find($this->movement_status_id)),
             'replaced_by' => UserSimpleResource::make(User::find($this->replaced_by)),
-            'created_at' => $this->created_at->toFormattedDateString(),
-            'updated_at' => $this->updated_at->toFormattedDateString(),
+            'created_at' => $this->created_at?->toFormattedDateString(),
+            'updated_at' => $this->updated_at?->toFormattedDateString(),
         ];
     }
 }

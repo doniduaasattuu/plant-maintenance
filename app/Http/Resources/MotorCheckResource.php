@@ -37,8 +37,8 @@ class MotorCheckResource extends JsonResource
             'vibration_ndeh' => $this->vibration_ndeh,
             'vibration_ndef' => $this->vibration_ndef,
             'noise_nde' => NormalityResource::make(Normality::find($this->noise_nde)),
-            'created_at' => $this->created_at->toFormattedDateString(),
-            'updated_at' => $this->updated_at->toFormattedDateString(),
+            'created_at' => $this->created_at?->toFormattedDateString(),
+            'updated_at' => $this->updated_at?->toFormattedDateString(),
             'checked_by' => UserSimpleResource::make(User::find($this->checked_by)),
         ];
     }

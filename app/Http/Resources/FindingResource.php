@@ -32,8 +32,8 @@ class FindingResource extends JsonResource
             'attachment_after' => $this->attachment_after,
             'reported_by' => UserSimpleResource::make(User::find($this->reported_by)),
             'closed_by' => UserSimpleResource::make(User::find($this->closed_by)),
-            'created_at' => $this->created_at->toFormattedDateString(),
-            'updated_at' => $this->updated_at->toFormattedDateString(),
+            'created_at' => $this->created_at?->toFormattedDateString(),
+            'updated_at' => $this->updated_at?->toFormattedDateString(),
             'canUpdate' => auth()->user()->can('update', $this->resource),
             'canDelete' => auth()->user()->can('delete', $this->resource),
         ];

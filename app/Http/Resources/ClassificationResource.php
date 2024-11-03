@@ -17,8 +17,8 @@ class ClassificationResource extends JsonResource
         return [
             'id' => $this->id,
             'description' => $this->description,
-            'created_at' => $this->created_at->toFormattedDateString(),
-            'updated_at' => $this->updated_at->toFormattedDateString(),
+            'created_at' => $this->created_at?->toFormattedDateString(),
+            'updated_at' => $this->updated_at?->toFormattedDateString(),
         ];
     }
 }
