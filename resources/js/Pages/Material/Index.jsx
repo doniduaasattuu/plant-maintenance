@@ -5,7 +5,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { rupiah } from "@/Utils/Helper";
+import { isMobile, rupiah } from "@/Utils/Helper";
 import { Head, Link, router } from "@inertiajs/react";
 import { useEffect } from "react";
 import { useMemo } from "react";
@@ -104,7 +104,7 @@ export default function Index({ auth, can, materials, unitOfMeasurements }) {
                                 value={inputSearch}
                                 onChange={(e) => setInputSearch(e.target.value)}
                                 placeholder="Search material data..."
-                                isFocused
+                                isFocused={!isMobile()}
                             />
                         </div>
                         <div>
@@ -154,7 +154,7 @@ export default function Index({ auth, can, materials, unitOfMeasurements }) {
                                                             href={materialUrl}
                                                             className={
                                                                 `font-bold flex justify-between border ` +
-                                                                    can.material_show
+                                                                can.material_show
                                                                     ? "underline underline-offset-2 hover:text-blue-500"
                                                                     : null
                                                             }

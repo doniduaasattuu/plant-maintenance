@@ -4,6 +4,7 @@ import Pagination from "@/Components/Pagination";
 import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { isMobile } from "@/Utils/Helper";
 import { Head, router } from "@inertiajs/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -126,7 +127,7 @@ export default function Index({ auth, can, users, departments }) {
                                 value={inputSearch}
                                 onChange={(e) => setInputSearch(e.target.value)}
                                 placeholder="Search user data..."
-                                isFocused
+                                isFocused={!isMobile()}
                             />
                         </div>
                         <div>

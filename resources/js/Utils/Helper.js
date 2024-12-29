@@ -52,3 +52,7 @@ export function toFormattedDateTimeString(date) {
 
     return `${date} ${time}`;
 }
+
+export const isMobile = () => {
+    return window.innerWidth <= 768;
+};

@@ -6,6 +6,7 @@ import { Link, useForm, usePage } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
 import SelectInput from "@/Components/SelectInput";
 import FileInput from "@/Components/FileInput";
+import { isMobile } from "@/Utils/Helper";
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,
@@ -79,7 +80,7 @@ export default function UpdateProfileInformation({
                         onChange={(e) => setData("first_name", e.target.value)}
                         maxLength="50"
                         required
-                        isFocused
+                        isFocused={!isMobile()}
                         autoComplete="first_name"
                     />
 

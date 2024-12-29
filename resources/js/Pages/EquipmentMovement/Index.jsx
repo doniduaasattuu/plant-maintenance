@@ -2,6 +2,7 @@ import InputLabel from "@/Components/InputLabel";
 import Pagination from "@/Components/Pagination";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { isMobile } from "@/Utils/Helper";
 import { Head, router } from "@inertiajs/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -81,7 +82,7 @@ export default function Index({ auth, can, equipment_movements }) {
                                         setInputSearch(e.target.value)
                                     }
                                     placeholder="Search movement data..."
-                                    isFocused
+                                    isFocused={!isMobile()}
                                 />
                             </div>
                         </div>

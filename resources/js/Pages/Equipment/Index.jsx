@@ -4,6 +4,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { isMobile } from "@/Utils/Helper";
 import { Head, Link, router } from "@inertiajs/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -123,7 +124,7 @@ export default function Index({
                                 value={inputSearch}
                                 onChange={(e) => setInputSearch(e.target.value)}
                                 placeholder="Search equipment data..."
-                                isFocused
+                                isFocused={!isMobile()}
                             />
                         </div>
                         <div className="grid grid-cols-2 gap-1 sm:gap-2 max-w-xl">
@@ -193,7 +194,7 @@ export default function Index({
                                                             href={equipmentUrl}
                                                             className={
                                                                 `font-bold flex justify-between border ` +
-                                                                    can.equipment_show
+                                                                can.equipment_show
                                                                     ? "underline underline-offset-2 hover:text-blue-500"
                                                                     : null
                                                             }
@@ -227,9 +228,9 @@ export default function Index({
                                                         className={
                                                             `font-bold flex justify-between border ` +
                                                                 can.functional_location_show &&
-                                                                equipment
-                                                                    ?.functional_location
-                                                                    ?.id
+                                                            equipment
+                                                                ?.functional_location
+                                                                ?.id
                                                                 ? "underline underline-offset-2 hover:text-blue-500 cursor-pointer"
                                                                 : ""
                                                         }
@@ -258,17 +259,17 @@ export default function Index({
                                                     {equipment?.updated_at}
                                                     {equipment?.updated_by
                                                         ?.full_name && (
-                                                            <div className="opacity-50">
-                                                                <span>
-                                                                    {
-                                                                        equipment
-                                                                            ?.updated_by
-                                                                            ?.full_name
-                                                                    }
-                                                                </span>
-                                                                <br />
-                                                            </div>
-                                                        )}
+                                                        <div className="opacity-50">
+                                                            <span>
+                                                                {
+                                                                    equipment
+                                                                        ?.updated_by
+                                                                        ?.full_name
+                                                                }
+                                                            </span>
+                                                            <br />
+                                                        </div>
+                                                    )}
                                                 </td>
                                             </tr>
                                         );

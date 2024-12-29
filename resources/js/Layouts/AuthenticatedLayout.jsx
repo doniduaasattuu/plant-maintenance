@@ -12,9 +12,6 @@ export default function Authenticated({ user, header, children }) {
     const can = page?.props?.can;
     const noPermissionsUser = can.length == 0;
     let message = page?.props?.message;
-    const isMobile = () => {
-        return window.innerWidth <= 768;
-    };
 
     useEffect(() => {
         themeChange(false);
@@ -51,7 +48,7 @@ export default function Authenticated({ user, header, children }) {
 
     return (
         <>
-            <Toastify message={message} isMobile={isMobile} />
+            <Toastify message={message} />
             <div className="w-full shadow-md bg-base-100 fixed z-50">
                 <nav className="navbar max-w-7xl mx-auto lg:px-8">
                     <div className="navbar-start">
