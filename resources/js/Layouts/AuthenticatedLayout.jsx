@@ -10,13 +10,14 @@ import NavbarLinks from "@/Components/NavbarLinks";
 export default function Authenticated({ user, header, children }) {
     const page = usePage();
     const can = page?.props?.can;
+    const noPermissionsUser = can.length == 0;
 
     useEffect(() => {
         themeChange(false);
     }, []);
 
     router.on("navigate", (event) => {
-        toast.remove();
+        page.props.message = null;
     });
 
     function setTheme(button) {
@@ -49,7 +50,12 @@ export default function Authenticated({ user, header, children }) {
             <div className="w-full shadow-md bg-base-100 fixed z-50">
                 <nav className="navbar max-w-7xl mx-auto lg:px-8">
                     <div className="navbar-start">
-                        <div className="dropdown">
+                        <div
+                            className={
+                                "dropdown" +
+                                (noPermissionsUser ? " hidden" : "")
+                            }
+                        >
                             <div
                                 tabIndex={0}
                                 role="button"

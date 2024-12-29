@@ -1,12 +1,10 @@
 import InputLabel from "@/Components/InputLabel";
 import ModalConfirm from "@/Components/ModalConfirm";
 import Pagination from "@/Components/Pagination";
-import PrimaryButton from "@/Components/PrimaryButton";
 import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, router } from "@inertiajs/react";
-import axios from "axios";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 export default function Index({ auth, can, users, departments }) {
@@ -180,22 +178,23 @@ export default function Index({ auth, can, users, departments }) {
                                                     onClick={
                                                         can.user_edit
                                                             ? () => {
-                                                                router.get(
-                                                                    route(
-                                                                        "users.edit",
-                                                                        user.id
-                                                                    )
-                                                                );
-                                                            }
+                                                                  router.get(
+                                                                      route(
+                                                                          "users.edit",
+                                                                          user.id
+                                                                      )
+                                                                  );
+                                                              }
                                                             : undefined
                                                     }
                                                 >
                                                     <div className="flex items-center gap-3">
                                                         <div
-                                                            className={`avatar ${user.isOnline
-                                                                ? "online"
-                                                                : "offline"
-                                                                }`}
+                                                            className={`avatar ${
+                                                                user.isOnline
+                                                                    ? "online"
+                                                                    : "offline"
+                                                            }`}
                                                         >
                                                             <div className="mask mask-squircle h-12 w-12">
                                                                 <img

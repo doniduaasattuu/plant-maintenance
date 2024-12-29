@@ -10,13 +10,14 @@ export default function NavbarLinks({ auth, can, orientation }) {
                     <li>
                         <Link
                             href={route("functional-locations.index")}
-                            className={`${route().current("functional-locations.index") ||
+                            className={`${
+                                route().current("functional-locations.index") ||
                                 route()
                                     .current()
                                     .includes("functional-locations")
-                                ? "bg-base-200"
-                                : ""
-                                }`}
+                                    ? "bg-base-200"
+                                    : ""
+                            }`}
                         >
                             Functional Locations
                         </Link>
@@ -25,11 +26,12 @@ export default function NavbarLinks({ auth, can, orientation }) {
                 {can.equipment_access && (
                     <li>
                         <Link
-                            className={`${route().current("equipments.index") ||
+                            className={`${
+                                route().current("equipments.index") ||
                                 route().current().includes("equipments")
-                                ? "bg-base-200"
-                                : ""
-                                }`}
+                                    ? "bg-base-200"
+                                    : ""
+                            }`}
                             href={route("equipments.index")}
                         >
                             Equipments
@@ -39,11 +41,12 @@ export default function NavbarLinks({ auth, can, orientation }) {
                 {can.material_access && (
                     <li>
                         <Link
-                            className={`${route().current("materials.index") ||
+                            className={`${
+                                route().current("materials.index") ||
                                 route().current().includes("materials")
-                                ? "bg-base-200"
-                                : ""
-                                }`}
+                                    ? "bg-base-200"
+                                    : ""
+                            }`}
                             href={route("materials.index")}
                         >
                             Materials
@@ -54,12 +57,13 @@ export default function NavbarLinks({ auth, can, orientation }) {
                     <li>
                         <Link
                             href={route("equipment-movements.index")}
-                            className={`${route()
-                                .current()
-                                .includes("equipment-movements")
-                                ? "bg-base-200"
-                                : ""
-                                }`}
+                            className={`${
+                                route()
+                                    .current()
+                                    .includes("equipment-movements")
+                                    ? "bg-base-200"
+                                    : ""
+                            }`}
                         >
                             History
                         </Link>
@@ -75,11 +79,12 @@ export default function NavbarLinks({ auth, can, orientation }) {
                 <li>
                     <Link
                         href={route("scanner.index")}
-                        className={`${route().current("scanner.index") ||
+                        className={`${
+                            route().current("scanner.index") ||
                             route().current().includes("scanner")
-                            ? "bg-base-200"
-                            : ""
-                            }`}
+                                ? "bg-base-200"
+                                : ""
+                        }`}
                     >
                         Scanner
                     </Link>
@@ -101,10 +106,11 @@ export default function NavbarLinks({ auth, can, orientation }) {
                 <li>
                     <Link
                         href={route("documents.index")}
-                        className={`${route().current().includes("documents")
-                            ? "bg-base-200"
-                            : ""
-                            }`}
+                        className={`${
+                            route().current().includes("documents")
+                                ? "bg-base-200"
+                                : ""
+                        }`}
                     >
                         Documents
                     </Link>
@@ -114,10 +120,11 @@ export default function NavbarLinks({ auth, can, orientation }) {
                 <li>
                     <Link
                         href={route("findings.index")}
-                        className={`${route().current().includes("findings")
-                            ? "bg-base-200"
-                            : ""
-                            }`}
+                        className={`${
+                            route().current().includes("findings")
+                                ? "bg-base-200"
+                                : ""
+                        }`}
                     >
                         Findings
                     </Link>
@@ -127,11 +134,12 @@ export default function NavbarLinks({ auth, can, orientation }) {
                 <li>
                     <Link
                         href={route("users.index")}
-                        className={`${route().current("users.index") ||
+                        className={`${
+                            route().current("users.index") ||
                             route().current().includes("users")
-                            ? "bg-base-200"
-                            : ""
-                            }`}
+                                ? "bg-base-200"
+                                : ""
+                        }`}
                     >
                         Users
                     </Link>
@@ -141,10 +149,11 @@ export default function NavbarLinks({ auth, can, orientation }) {
                 <li>
                     <Link
                         href={route("roles.index")}
-                        className={`${route().current().includes("roles")
-                            ? "bg-base-200"
-                            : ""
-                            }`}
+                        className={`${
+                            route().current().includes("roles")
+                                ? "bg-base-200"
+                                : ""
+                        }`}
                     >
                         Roles
                     </Link>
