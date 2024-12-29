@@ -1,22 +1,19 @@
 import { usePage } from "@inertiajs/react";
+import { useRef } from "react";
 import { useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
-export default function Toastify() {
-    const page = usePage();
-
+export default function Toastify({ message, isMobile }) {
     useEffect(() => {
-        if (page?.props?.message?.body && page.props.message != null) {
-            toast(page?.props?.message?.body, {
-                type: page.props.message.type,
-                position: "bottom-right",
+        if (message.body && message.body != undefined && message.body != null) {
+            toast(message.body, {
+                type: message.type,
+                position: isMobile() ? "top-center" : "bottom-right",
             });
         }
-    }, [page.props.message]);
 
-    return (
-        <>
-            <Toaster />
-        </>
-    );
+        message.body = null;
+    });
+
+    return <Toaster />;
 }

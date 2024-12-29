@@ -11,13 +11,18 @@ export default function Authenticated({ user, header, children }) {
     const page = usePage();
     const can = page?.props?.can;
     const noPermissionsUser = can.length == 0;
+    let message = page?.props?.message;
+    const isMobile = () => {
+        return window.innerWidth <= 768;
+    };
 
     useEffect(() => {
         themeChange(false);
     }, []);
 
     router.on("navigate", (event) => {
-        page.props.message = null;
+        message.body = null;
+        toast.remove();
     });
 
     function setTheme(button) {
@@ -46,7 +51,7 @@ export default function Authenticated({ user, header, children }) {
 
     return (
         <>
-            <Toastify />
+            <Toastify message={message} isMobile={isMobile} />
             <div className="w-full shadow-md bg-base-100 fixed z-50">
                 <nav className="navbar max-w-7xl mx-auto lg:px-8">
                     <div className="navbar-start">
