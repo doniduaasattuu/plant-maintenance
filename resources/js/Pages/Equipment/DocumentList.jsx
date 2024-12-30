@@ -2,8 +2,6 @@ export default function DocumentList({ can, equipment }) {
     // HANDLE PDF
     function handleViewPdf(id) {
         window.open(`/documents/${id}`);
-        // window.open(`/storage/${path}`, "_blank");
-        // router.get(route("documents.show", id));
     }
 
     return (

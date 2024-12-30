@@ -1,19 +1,14 @@
-import PrimaryButton from "@/Components/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import Temperatures from "@/Pages/Checks/Motor/Partials/Temperatures";
-import { Head, Link } from "@inertiajs/react";
+import { Head } from "@inertiajs/react";
 import Header from "../Header";
 import {
     Area,
     AreaChart,
-    CartesianGrid,
     ResponsiveContainer,
     Tooltip,
     XAxis,
     YAxis,
     Legend,
-    BarChart,
-    Bar,
 } from "recharts";
 
 export default function Index({

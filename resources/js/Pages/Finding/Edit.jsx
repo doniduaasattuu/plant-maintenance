@@ -31,9 +31,7 @@ export default function Edit({ auth, can, finding, findingStatuses }) {
         functional_location_id: finding.data.functional_location?.id ?? "",
         description: finding.data.description ?? "",
         notification: finding.data.notification ?? "",
-        // attachment_before: "",
         attachment_after: "",
-        // created_at: finding.data.created_at ?? "",
         updated_at: date() ?? "",
     });
 
@@ -68,7 +66,6 @@ export default function Edit({ auth, can, finding, findingStatuses }) {
     }
 
     // VALIDATE FILE SIZE
-    // let [fileSize0, setFileSize0] = useState("");
     let [fileSize1, setFileSize1] = useState("");
 
     function validateFileSize(e, setter, field) {
@@ -79,9 +76,8 @@ export default function Edit({ auth, can, finding, findingStatuses }) {
             errors[field] = `The ${field.replace(
                 "_",
                 " "
-            )} field must not be greater than ${
-                uploadMaxFilesize / 1024
-            } kilobytes.`;
+            )} field must not be greater than ${uploadMaxFilesize / 1024
+                } kilobytes.`;
         } else {
             setter(
                 `File size: ${Math.round(
@@ -150,10 +146,6 @@ export default function Edit({ auth, can, finding, findingStatuses }) {
                                         value={data.finding_status_id}
                                         withSelectName={false}
                                         onChange={(e) => {
-                                            // if (e.target.value == 1) {
-                                            //     resetAttachmentAfter();
-                                            // }
-
                                             setData(
                                                 "finding_status_id",
                                                 e.target.value
@@ -279,45 +271,6 @@ export default function Edit({ auth, can, finding, findingStatuses }) {
                                         />
                                     </label>
                                 </div>
-
-                                {/* ATTACHMENT BEFORE */}
-                                {/* <div>
-                                    <label className="form-control w-full">
-                                        <InputLabel
-                                            htmlFor="attachment_before"
-                                            value="Attachment before*"
-                                        />
-
-                                        <FileInput
-                                            accept="image/png, image/jpeg, image/jpg"
-                                            id="attachment_before"
-                                            className="mt-1 block w-full"
-                                            required
-                                            onChange={(e) =>
-                                                validateFileSize(
-                                                    e,
-                                                    setFileSize0,
-                                                    "attachment_before"
-                                                )
-                                            }
-                                        />
-
-                                        {!errors.attachment_before ? (
-                                            <InputHelper
-                                                className="mt-2"
-                                                message={fileSize0}
-                                            />
-                                        ) : (
-                                            <InputError
-                                                className="mt-2"
-                                                message={
-                                                    errors.attachment_before
-                                                }
-                                            />
-                                        )}
-                                    </label>
-                                </div> */}
-
                                 {/* ATTACHMENT AFTER */}
                                 <label className="form-control w-full">
                                     <InputLabel

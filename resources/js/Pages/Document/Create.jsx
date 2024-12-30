@@ -11,7 +11,7 @@ import { useState } from "react";
 import InputHelper from "@/Components/InputHelper";
 import AsyncSelect from "react-select/async";
 
-export default function Create({ auth, can }) {
+export default function Create({ auth }) {
     const uploadMaxFilesize = usePage().props.upload_max_filesize * 1024;
     const { data, setData, post, errors, processing, recentlySuccessful } =
         useForm("CreateDocument", {
@@ -37,9 +37,8 @@ export default function Create({ auth, can }) {
         setFileSize("");
 
         if (e.target.files[0].size > uploadMaxFilesize) {
-            errors.attachment = `The attachment field must not be greater than ${
-                uploadMaxFilesize / 1024
-            } kilobytes.`;
+            errors.attachment = `The attachment field must not be greater than ${uploadMaxFilesize / 1024
+                } kilobytes.`;
         } else {
             setFileSize(
                 `File size: ${Math.round(
@@ -98,12 +97,6 @@ export default function Create({ auth, can }) {
                                         information.
                                     </p>
                                 </div>
-
-                                {/* <Actions
-                                    document={document}
-                                    can={can}
-                                    links={links}
-                                /> */}
                             </div>
                             <form
                                 id="CreateDocument"

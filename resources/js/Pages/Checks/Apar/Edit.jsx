@@ -8,8 +8,6 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Transition } from "@headlessui/react";
 import { Head, useForm } from "@inertiajs/react";
-import { useEffect } from "react";
-import { useState } from "react";
 
 export default function Create({ auth, can, aparCheck, goodness, rustiness }) {
     const equipment_id = aparCheck.data.equipment_id;

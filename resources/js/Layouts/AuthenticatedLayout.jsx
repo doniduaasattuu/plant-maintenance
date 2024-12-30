@@ -1,8 +1,7 @@
 import ModalConfirm from "@/Components/ModalConfirm";
 import Toastify from "@/Components/Toastify";
 import { Link, router, usePage } from "@inertiajs/react";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { themeChange } from "theme-change";
 import toast from "react-hot-toast";
 import NavbarLinks from "@/Components/NavbarLinks";
@@ -24,11 +23,9 @@ export default function Authenticated({ user, header, children }) {
 
     function setTheme(button) {
         controllers = document.getElementsByClassName("theme-controller");
-
         for (let btn of controllers) {
             btn.firstChild.classList.add("hidden");
         }
-
         button.firstChild.classList.remove("hidden");
         button.firstChild.classList.add("block");
     }
@@ -49,6 +46,7 @@ export default function Authenticated({ user, header, children }) {
     return (
         <>
             <Toastify message={message} />
+
             <div className="w-full shadow-md bg-base-100 fixed z-50">
                 <nav className="navbar max-w-7xl mx-auto lg:px-8">
                     <div className="navbar-start">
@@ -104,9 +102,8 @@ export default function Authenticated({ user, header, children }) {
                         <div className="dropdown dropdown-end">
                             <div className="flex justify-center align-middle space-x-4">
                                 <div className="hidden md:inline-block my-auto text-sm">
-                                    {`${user.first_name} ${
-                                        user.last_name ?? ""
-                                    }`}
+                                    {`${user.first_name} ${user.last_name ?? ""
+                                        }`}
                                 </div>
                                 <div
                                     tabIndex={0}
@@ -116,12 +113,11 @@ export default function Authenticated({ user, header, children }) {
                                     <div className="w-10 rounded-full">
                                         <img
                                             alt={user.id}
-                                            src={`${
+                                            src={`${user.profile_photo
+                                                ? "/storage/" +
                                                 user.profile_photo
-                                                    ? "/storage/" +
-                                                      user.profile_photo
-                                                    : "/storage/assets/photos/users/person.png"
-                                            }`}
+                                                : "/storage/assets/photos/users/person.png"
+                                                }`}
                                         />
                                     </div>
                                 </div>
@@ -134,11 +130,10 @@ export default function Authenticated({ user, header, children }) {
                                     <li>
                                         <Link
                                             href={route("profile.edit")}
-                                            className={`${
-                                                route().current("profile.edit")
-                                                    ? "bg-base-200"
-                                                    : ""
-                                            }`}
+                                            className={`${route().current("profile.edit")
+                                                ? "bg-base-200"
+                                                : ""
+                                                }`}
                                         >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -178,7 +173,7 @@ export default function Authenticated({ user, header, children }) {
                                             Theme
                                         </summary>
                                         <ul className="max-h-32 overflow-scroll min-w-max">
-                                            {page.props.themes.map((theme) => {
+                                            {page?.props?.themes.map((theme) => {
                                                 return (
                                                     <li key={theme}>
                                                         <button
@@ -197,12 +192,11 @@ export default function Authenticated({ user, header, children }) {
                                                                 xmlns="http://www.w3.org/2000/svg"
                                                                 viewBox="0 0 16 16"
                                                                 fill="currentColor"
-                                                                className={`size-4 ${
-                                                                    currentTheme ==
+                                                                className={`size-4 ${currentTheme ==
                                                                     theme
-                                                                        ? "block"
-                                                                        : "hidden"
-                                                                }`}
+                                                                    ? "block"
+                                                                    : "hidden"
+                                                                    }`}
                                                             >
                                                                 <path
                                                                     fillRule="evenodd"

@@ -127,12 +127,6 @@ export default function Edit({ auth, can, document }) {
                                         Update document attachment and title.
                                     </p>
                                 </div>
-
-                                {/* <Actions
-                                    document={document}
-                                    can={can}
-                                    links={links}
-                                /> */}
                             </div>
                             <form
                                 id="EditDocument"

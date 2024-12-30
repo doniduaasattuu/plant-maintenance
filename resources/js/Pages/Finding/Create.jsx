@@ -69,9 +69,8 @@ export default function Create({
         setter("");
 
         if (e.target.files[0].size > uploadMaxFilesize) {
-            errors.attachment = `The attachment field must not be greater than ${
-                uploadMaxFilesize / 1024
-            } kilobytes.`;
+            errors.attachment = `The attachment field must not be greater than ${uploadMaxFilesize / 1024
+                } kilobytes.`;
         } else {
             setter(
                 `File size: ${Math.round(
@@ -140,10 +139,6 @@ export default function Create({
                                         value={data.finding_status_id}
                                         withSelectName={false}
                                         onChange={(e) => {
-                                            // if (e.target.value == 1) {
-                                            //     resetAttachmentAfter();
-                                            // }
-
                                             setData(
                                                 "finding_status_id",
                                                 e.target.value

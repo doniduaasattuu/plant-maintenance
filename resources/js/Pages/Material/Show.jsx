@@ -1,20 +1,12 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, router, useForm } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import SecondaryButton from "@/Components/SecondaryButton";
-import DangerButton from "@/Components/DangerButton";
-import PrimaryButton from "@/Components/PrimaryButton";
-import { Transition } from "@headlessui/react";
-import { useState } from "react";
-import ModalConfirm from "@/Components/ModalConfirm";
-import InputError from "@/Components/InputError";
-import SelectInput from "@/Components/SelectInput";
 import EquipmentList from "./EquipmentList";
 import { rupiah } from "@/Utils/Helper";
 
 export default function Show({ auth, can, material }) {
-    const materialId = material.data.id;
 
     return (
         <AuthenticatedLayout

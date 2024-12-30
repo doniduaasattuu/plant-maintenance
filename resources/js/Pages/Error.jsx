@@ -1,5 +1,4 @@
 import Exception from "@/Layouts/ExceptionLayout";
-import { Head, router } from "@inertiajs/react";
 import { useMemo } from "react";
 
 export default function Error({ status }) {
@@ -28,10 +27,3 @@ export default function Error({ status }) {
     }, [status]);
     return <Exception title={title} description={description} />;
 }
-
-// <GuestLayout>
-//     <Head title={title} />
-//     <div class="mb-4 font-medium text-sm text-red-600">
-//         {description}
-//     </div>
-// </GuestLayout>

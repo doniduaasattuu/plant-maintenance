@@ -1,7 +1,6 @@
 import PrimaryButton from "@/Components/PrimaryButton";
 import axios from "axios";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 
 export default function Header({ can, equipment_id, exportLink, table }) {
     const [loading, setLoading] = useState(false);

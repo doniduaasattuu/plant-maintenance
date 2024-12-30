@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef } from "react";
+import { forwardRef } from "react";
 
 export default forwardRef(function SelectInput(
     {
@@ -12,13 +12,6 @@ export default forwardRef(function SelectInput(
     },
     ref
 ) {
-    // const input = ref ? ref : useRef();
-
-    // useEffect(() => {
-    //     if (isFocused) {
-    //         input.current.focus();
-    //     }
-    // }, []);
 
     return (
         <select
@@ -38,13 +31,5 @@ export default forwardRef(function SelectInput(
                 );
             })}
         </select>
-        // <input
-        //     {...props}
-        //     className={
-        //         "focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm input input-bordered w-full flex items-center gap-2 " +
-        //         className
-        //     }
-        //     ref={input}
-        // />
     );
 });

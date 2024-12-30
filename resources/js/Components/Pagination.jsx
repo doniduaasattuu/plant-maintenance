@@ -1,6 +1,6 @@
 import { router } from "@inertiajs/react";
 
-export default function Pagination({ meta, updatePage }) {
+export default function Pagination({ meta }) {
     return (
         <div className="p-4 px-6 bg-base-200 rounded-xl">
             <div className="flex justify-between align-middle flex-wrap flex-row sm:align-middle gap-3">
@@ -36,11 +36,10 @@ export default function Pagination({ meta, updatePage }) {
                                         });
                                     }
                                 }}
-                                className={`join-item btn btn-sm sm:btn-md text-sm border-transparent hover:bg-neutral-300 hover:text-neutral-900 ${
-                                    link.active ? "btn-active" : ""
-                                }`}
+                                className={`join-item btn btn-sm sm:btn-md text-sm border-transparent hover:bg-neutral-300 hover:text-neutral-900 ${link.active ? "btn-active" : ""
+                                    }`}
                             >
-                                {/* bg-neutral text-neutral-300 */}
+
                                 <span
                                     dangerouslySetInnerHTML={{
                                         __html: link.label,

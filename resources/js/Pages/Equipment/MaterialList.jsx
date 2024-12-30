@@ -115,13 +115,6 @@ export default function MaterialList({ can, equipment }) {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    {/* <SecondaryButton
-                        onClick={() => {
-                            setEditing(false);
-                        }}
-                    >
-                        Close
-                    </SecondaryButton> */}
 
                     <PrimaryButton disabled={processing}>Update</PrimaryButton>
 

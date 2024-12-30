@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Html5QrcodeScanner } from "html5-qrcode";
 import { router } from "@inertiajs/react";
-import { useState } from "react";
 
 export default function QRScanner({ auth, can }) {
     function waitForElement(id) {

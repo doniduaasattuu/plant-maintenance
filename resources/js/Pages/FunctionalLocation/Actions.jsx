@@ -1,7 +1,7 @@
 import React from "react";
 import { router } from "@inertiajs/react";
 
-export default function Actions({ auth, can, functional_location }) {
+export default function Actions({ can, functional_location }) {
     return (
         <div className="dropdown dropdown-bottom dropdown-end">
             <div

@@ -1,5 +1,4 @@
 import InputLabel from "@/Components/InputLabel";
-import ModalConfirm from "@/Components/ModalConfirm";
 import Pagination from "@/Components/Pagination";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SelectInput from "@/Components/SelectInput";
@@ -7,10 +6,7 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { isMobile, rupiah } from "@/Utils/Helper";
 import { Head, Link, router } from "@inertiajs/react";
-import { useEffect } from "react";
-import { useMemo } from "react";
-import { useRef } from "react";
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 export default function Index({ auth, can, materials, unitOfMeasurements }) {
     const initialRender = useRef(true);
@@ -154,7 +150,7 @@ export default function Index({ auth, can, materials, unitOfMeasurements }) {
                                                             href={materialUrl}
                                                             className={
                                                                 `font-bold flex justify-between border ` +
-                                                                can.material_show
+                                                                    can.material_show
                                                                     ? "underline underline-offset-2 hover:text-blue-500"
                                                                     : null
                                                             }

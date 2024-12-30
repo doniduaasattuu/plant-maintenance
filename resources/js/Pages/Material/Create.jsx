@@ -59,12 +59,6 @@ export default function Create({ auth, can, unitOfMeasurements }) {
                                         information.
                                     </p>
                                 </div>
-
-                                {/* <Actions
-                                    material={material}
-                                    can={can}
-                                    links={links}
-                                /> */}
                             </div>
                             <form
                                 id="CreateMaterial"
