@@ -1,41 +1,61 @@
 <?php
 
 use App\Models\User;
+use Database\Seeders\DepartmentSeeder;
+use Database\Seeders\DivisionSeeder;
+use Database\Seeders\PositionSeeder;
+use Database\Seeders\UserSeeder;
+use Database\Seeders\WorkCenterSeeder;
 
-test('login screen can be rendered', function () {
-    $response = $this->get('/login');
+describe("login authentication", function () {
 
-    $response->assertStatus(200);
-});
+    beforeEach(function () {
+        $this->seed([
+            DivisionSeeder::class,
+            DepartmentSeeder::class,
+            PositionSeeder::class,
+            WorkCenterSeeder::class,
+            UserSeeder::class,
+        ]);
+    });
 
-test('users can authenticate using the login screen', function () {
-    $user = User::factory()->create();
+    test('login screen can be rendered', function () {
+        $response = $this->get('/login');
 
-    $response = $this->post('/login', [
-        'id' => $user->id,
-        'password' => 'password',
-    ]);
+        $response->assertStatus(200);
+    });
 
-    $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
-});
+    test('users can authenticate using the login screen', function () {
+        $user = User::find("55000154");
 
-test('users can not authenticate with invalid password', function () {
-    $user = User::factory()->create();
+        $response = $this->post('/login', [
+            'id' => $user->id,
+            'password' => 'password',
+        ]);
 
-    $this->post('/login', [
-        'email' => $user->email,
-        'password' => 'wrong-password',
-    ]);
+        $this->assertAuthenticated();
+        $response->assertRedirect(route('dashboard', absolute: false));
+    });
 
-    $this->assertGuest();
-});
+    test('users can not authenticate with invalid password', function () {
+        $user = User::find("55000154");
 
-test('users can logout', function () {
-    $user = User::factory()->create();
 
-    $response = $this->actingAs($user)->post('/logout');
+        $this->post('/login', [
+            'email' => $user->email,
+            'password' => 'wrong-password',
+        ]);
 
-    $this->assertGuest();
-    $response->assertRedirect('/');
+        $this->assertGuest();
+    });
+
+    test('users can logout', function () {
+        $user = User::find("55000154");
+
+
+        $response = $this->actingAs($user)->post('/logout');
+
+        $this->assertGuest();
+        $response->assertRedirect('/');
+    });
 });

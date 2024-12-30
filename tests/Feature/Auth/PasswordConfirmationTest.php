@@ -1,32 +1,50 @@
 <?php
 
 use App\Models\User;
+use Database\Seeders\DepartmentSeeder;
+use Database\Seeders\DivisionSeeder;
+use Database\Seeders\PositionSeeder;
+use Database\Seeders\UserSeeder;
+use Database\Seeders\WorkCenterSeeder;
 
-test('confirm password screen can be rendered', function () {
-    $user = User::factory()->create();
+describe("password confirmation", function () {
 
-    $response = $this->actingAs($user)->get('/confirm-password');
+    beforeEach(function () {
+        $this->seed([
+            DivisionSeeder::class,
+            DepartmentSeeder::class,
+            PositionSeeder::class,
+            WorkCenterSeeder::class,
+            UserSeeder::class,
+        ]);
+    });
 
-    $response->assertStatus(200);
-});
+    test('confirm password screen can be rendered', function () {
+        $user = User::factory()->create();
 
-test('password can be confirmed', function () {
-    $user = User::factory()->create();
+        $response = $this->actingAs($user)->get('/confirm-password');
 
-    $response = $this->actingAs($user)->post('/confirm-password', [
-        'password' => 'password',
-    ]);
+        $response->assertStatus(200);
+    });
 
-    $response->assertRedirect();
-    $response->assertSessionHasNoErrors();
-});
+    test('password can be confirmed', function () {
+        $user = User::find("55000153");
 
-test('password is not confirmed with invalid password', function () {
-    $user = User::factory()->create();
+        $response = $this->actingAs($user)->post('/confirm-password', [
+            'password' => 'password',
+        ]);
 
-    $response = $this->actingAs($user)->post('/confirm-password', [
-        'password' => 'wrong-password',
-    ]);
+        $response->assertRedirect();
+        $response->assertSessionHasNoErrors();
+    });
 
-    $response->assertSessionHasErrors();
+    test('password is not confirmed with invalid password', function () {
+        $user = User::find("55000153");
+
+        $response = $this->actingAs($user)->post('/confirm-password', [
+            'password' => 'wrong-password',
+        ]);
+
+        $response->assertSessionHasErrors();
+    });
 });
