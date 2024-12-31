@@ -3,7 +3,11 @@
 use App\Models\User;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\DivisionSeeder;
+use Database\Seeders\PermissionRoleTableSeeder;
+use Database\Seeders\PermissionSeeder;
 use Database\Seeders\PositionSeeder;
+use Database\Seeders\RoleSeeder;
+use Database\Seeders\RoleUserTableSeeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\WorkCenterSeeder;
 
@@ -16,11 +20,18 @@ describe("profile", function () {
             PositionSeeder::class,
             WorkCenterSeeder::class,
             UserSeeder::class,
+            RoleSeeder::class,
+            PermissionSeeder::class,
+            PermissionRoleTableSeeder::class,
+            RoleUserTableSeeder::class,
         ]);
     });
 
     test('profile page is displayed', function () {
-        $user = User::find("55000153");
+        $user = User::find("55000154");
+
+        $this->assertNotNull($user);
+        $this->assertEquals($user->first_name, "Doni");
 
         $response = $this
             ->actingAs($user)
@@ -49,7 +60,7 @@ describe("profile", function () {
         $this->assertSame('Olaf', $user->first_name);
         $this->assertSame('test@example.com', $user->email);
         $this->assertNull($user->email_verified_at);
-    })->skip();
+    });
 
     test('email verification status is unchanged when the email address is unchanged', function () {
         $user = User::find("55000153");
@@ -81,10 +92,10 @@ describe("profile", function () {
 
         $this->assertGuest();
         $this->assertNull($user->fresh());
-    })->skip();
+    });
 
     test('correct password must be provided to delete account', function () {
-        $user = User::find("55000153");
+        $user = User::find("55000154");
 
         $response = $this
             ->actingAs($user)
@@ -98,5 +109,38 @@ describe("profile", function () {
             ->assertRedirect('/profile');
 
         $this->assertNotNull($user->fresh());
-    })->skip();
+    });
+
+    test('should can delete account if user is admin', function () {
+        $user = User::find("55000154");
+
+        $response = $this
+            ->actingAs($user)
+            ->from('/profile')
+            ->delete('/profile', [
+                'password' => 'password',
+            ]);
+
+        $response
+            ->assertSessionHasNoErrors('password')
+            ->assertRedirect('/');
+
+        $this->assertNull($user->fresh());
+    });
+
+    test('should reject delete account if user is not admin', function () {
+        $user = User::find("55000153");
+
+        $response = $this
+            ->actingAs($user)
+            ->from('/profile')
+            ->delete('/profile', [
+                'password' => 'password',
+            ]);
+
+        $response
+            ->assertStatus(403);
+
+        $this->assertNotNull($user->fresh());
+    });
 });

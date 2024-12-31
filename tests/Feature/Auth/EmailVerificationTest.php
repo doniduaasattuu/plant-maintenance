@@ -6,9 +6,6 @@ use Database\Seeders\DivisionSeeder;
 use Database\Seeders\PositionSeeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\WorkCenterSeeder;
-use Illuminate\Auth\Events\Verified;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\URL;
 
 describe("email verification", function () {
 
@@ -30,35 +27,35 @@ describe("email verification", function () {
         $response->assertStatus(200);
     });
 
-    test('email can be verified', function () {
-        $user = User::find("55000153");
+    // test('email can be verified', function () {
+    //     $user = User::find("55000153");
 
-        Event::fake();
+    //     Event::fake();
 
-        $verificationUrl = URL::temporarySignedRoute(
-            'verification.verify',
-            now()->addMinutes(60),
-            ['id' => $user->id, 'hash' => sha1($user->email)]
-        );
+    //     $verificationUrl = URL::temporarySignedRoute(
+    //         'verification.verify',
+    //         now()->addMinutes(60),
+    //         ['id' => $user->id, 'hash' => sha1($user->email)]
+    //     );
 
-        $response = $this->actingAs($user)->get($verificationUrl);
+    //     $response = $this->actingAs($user)->get($verificationUrl);
 
-        Event::assertDispatched(Verified::class);
-        expect($user->fresh()->hasVerifiedEmail())->toBeTrue();
-        $response->assertRedirect(route('dashboard', absolute: false) . '?verified=1');
-    })->skip();
+    //     Event::assertDispatched(Verified::class);
+    //     expect($user->fresh()->hasVerifiedEmail())->toBeTrue();
+    //     $response->assertRedirect(route('dashboard', absolute: false) . '?verified=1');
+    // })->skip();
 
-    test('email is not verified with invalid hash', function () {
-        $user = User::find("55000153");
+    // test('email is not verified with invalid hash', function () {
+    //     $user = User::find("55000153");
 
-        $verificationUrl = URL::temporarySignedRoute(
-            'verification.verify',
-            now()->addMinutes(60),
-            ['id' => $user->id, 'hash' => sha1('wrong-email')]
-        );
+    //     $verificationUrl = URL::temporarySignedRoute(
+    //         'verification.verify',
+    //         now()->addMinutes(60),
+    //         ['id' => $user->id, 'hash' => sha1('wrong-email')]
+    //     );
 
-        $this->actingAs($user)->get($verificationUrl);
+    //     $this->actingAs($user)->get($verificationUrl);
 
-        expect($user->fresh()->hasVerifiedEmail())->toBeFalse();
-    })->skip();
+    //     expect($user->fresh()->hasVerifiedEmail())->toBeFalse();
+    // })->skip();
 });
