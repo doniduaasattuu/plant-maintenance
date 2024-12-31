@@ -35,15 +35,14 @@ describe("admin users management", function () {
 
         $response = $this
             ->actingAs($user)
-            ->get('/users');
-
-        $response->assertInertia(
-            fn(Assert $page) =>
-            $page->component("User/Index")
-                ->has("can")
-                ->has("users", 3)
-                ->has("departments.data", 16)
-        );
+            ->get('/users')
+            ->assertInertia(
+                fn(Assert $page) =>
+                $page->component("User/Index")
+                    ->has("can")
+                    ->has("users.data", 4)
+                    ->has("departments.data", 16)
+            );
 
         $response->assertOk();
     });
@@ -81,15 +80,76 @@ describe("admin users management", function () {
     });
 
     test('can update user', function () {
-        $user = User::find("55000154");
-        $this->assertNotNull($user);
+        $admin = User::find("55000154");
+        $this->assertNotNull($admin);
+        $user = User::find("55000153");
 
         $response = $this
-            ->actingAs($user)
-            ->patch("/users/55000153", [
-                "first_name" => "Eko"
+            ->actingAs($admin)
+            ->from(route('users.edit', $user->id))
+            ->patch(route('users.update', $user->id), [
+                "first_name" => "Eko",
+                "email" => "eko@gmail.com"
             ]);
 
+        $response->assertRedirect(route('users.edit', $user->id));
         $response->assertStatus(302);
+        $this->assertEquals("Eko", $user->refresh()->first_name);
+    });
+
+    test('can filter user by department', function () {
+        $admin = User::find("55000154");
+        $this->assertNotNull($admin);
+
+        $this
+            ->actingAs($admin)
+            ->get('/users?department=EI6')
+            ->assertInertia(
+                fn(Assert $page) =>
+                $page->component("User/Index")
+                    ->has("users.data", 1)
+            );
+    });
+
+    test('not found filter user by department', function () {
+        $admin = User::find("55000154");
+        $this->assertNotNull($admin);
+
+        $this
+            ->actingAs($admin)
+            ->get('/users?department=EI4')
+            ->assertInertia(
+                fn(Assert $page) =>
+                $page->component("User/Index")
+                    ->has("users.data", 0)
+            );
+    });
+
+    test('can filter user by search', function () {
+        $admin = User::find("55000154");
+        $this->assertNotNull($admin);
+
+        $this
+            ->actingAs($admin)
+            ->get('/users?search=Doni')
+            ->assertInertia(
+                fn(Assert $page) =>
+                $page->component("User/Index")
+                    ->has("users.data", 1)
+            );
+    });
+
+    test('not found filter user by search', function () {
+        $admin = User::find("55000154");
+        $this->assertNotNull($admin);
+
+        $this
+            ->actingAs($admin)
+            ->get('/users?search=x')
+            ->assertInertia(
+                fn(Assert $page) =>
+                $page->component("User/Index")
+                    ->has("users.data", 0)
+            );
     });
 });

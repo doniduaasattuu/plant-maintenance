@@ -44,33 +44,33 @@ Route::middleware('auth')->group(function () {
     Route::patch('/users/reset/{user}', [UserController::class, 'reset'])->name('users.reset');
 
     Route::resources([
-        'roles' => RoleController::class,
-        'functional-locations' => FunctionalLocationController::class,
-        'equipments' => EquipmentController::class,
-        'equipment-movements' => EquipmentMovementController::class,
-        'documents' => DocumentController::class,
-        'findings' => FindingController::class,
+        '/roles' => RoleController::class,
+        '/functional-locations' => FunctionalLocationController::class,
+        '/equipments' => EquipmentController::class,
+        '/equipment-movements' => EquipmentMovementController::class,
+        '/documents' => DocumentController::class,
+        '/findings' => FindingController::class,
 
         // MATERIALS
-        'material-equipment' => MaterialEquipmentController::class,
-        'materials' => MaterialController::class,
+        '/material-equipment' => MaterialEquipmentController::class,
+        '/materials' => MaterialController::class,
 
         // EQUIPMENT CHECKING
-        'motor-check' => MotorCheckController::class,
-        'ac-check' => AcCheckController::class,
-        'apar-check' => AparCheckController::class,
+        '/motor-check' => MotorCheckController::class,
+        '/ac-check' => AcCheckController::class,
+        '/apar-check' => AparCheckController::class,
 
         // TREND
-        'trend' => TrendController::class,
+        '/trend' => TrendController::class,
     ]);
 
     // Route::get('api/materials', [MaterialController::class, 'search'])->name('api.materials');
-    Route::post('equipment-movements/filter', [EquipmentMovementController::class, 'filter'])->name('equipment-movements.filter');
+    Route::post('/equipment-movements/filter', [EquipmentMovementController::class, 'filter'])->name('equipment-movements.filter');
 
-    Route::get('export-users', [ExportController::class, 'exportUsers'])->name('export.users');
-    Route::get('export-motor-checks/{equipment_id}', [ExportController::class, 'exportMotorChecks'])->name('export.motor-checks');
-    Route::get('export-ac-checks/{equipment_id}', [ExportController::class, 'exportAcChecks'])->name('export.ac-checks');
-    Route::get('export-apar-checks/{equipment_id}', [ExportController::class, 'exportAparChecks'])->name('export.apar-checks');
+    Route::get('/export-users', [ExportController::class, 'exportUsers'])->name('export.users');
+    Route::get('/export-motor-checks/{equipment_id}', [ExportController::class, 'exportMotorChecks'])->name('export.motor-checks');
+    Route::get('/export-ac-checks/{equipment_id}', [ExportController::class, 'exportAcChecks'])->name('export.ac-checks');
+    Route::get('/export-apar-checks/{equipment_id}', [ExportController::class, 'exportAparChecks'])->name('export.apar-checks');
 
     Route::resource('scanner', ScannerController::class)->only(['index']);
 });
