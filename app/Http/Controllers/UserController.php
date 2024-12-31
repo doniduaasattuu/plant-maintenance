@@ -114,7 +114,8 @@ class UserController extends Controller
         $user->update($validated);
 
         return redirect()
-            ->back();
+            ->back()
+            ->with('success', 'ok');
     }
 
     /**

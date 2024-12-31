@@ -27,12 +27,6 @@ describe("login test", function () {
         ]);
     });
 
-    it("login screen can be rendered", function () {
-        $response = $this->get('/login');
-
-        $response->assertStatus(200);
-    });
-
     it("authentic user should can do login", function () {
         $user = User::find("55000153");
 

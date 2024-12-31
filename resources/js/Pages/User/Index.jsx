@@ -179,23 +179,22 @@ export default function Index({ auth, can, users, departments }) {
                                                     onClick={
                                                         can.user_edit
                                                             ? () => {
-                                                                  router.get(
-                                                                      route(
-                                                                          "users.edit",
-                                                                          user.id
-                                                                      )
-                                                                  );
-                                                              }
+                                                                router.get(
+                                                                    route(
+                                                                        "users.edit",
+                                                                        user.id
+                                                                    )
+                                                                );
+                                                            }
                                                             : undefined
                                                     }
                                                 >
                                                     <div className="flex items-center gap-3">
                                                         <div
-                                                            className={`avatar ${
-                                                                user.isOnline
+                                                            className={`avatar ${user.isOnline
                                                                     ? "online"
                                                                     : "offline"
-                                                            }`}
+                                                                }`}
                                                         >
                                                             <div className="mask mask-squircle h-12 w-12">
                                                                 <img
@@ -264,22 +263,6 @@ export default function Index({ auth, can, users, departments }) {
                                                     <br />
                                                     {user.phone_number}
                                                 </td>
-                                                {/* <td>
-                                                    {user?.roles?.map(
-                                                        (role) => {
-                                                            return (
-                                                                <div
-                                                                    key={
-                                                                        role.id
-                                                                    }
-                                                                    className="badge"
-                                                                >
-                                                                    {role.title}
-                                                                </div>
-                                                            );
-                                                        }
-                                                    )}
-                                                </td> */}
                                                 {can.user_reset && (
                                                     <td className="text-center text-blue-500">
                                                         <button

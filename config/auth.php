@@ -112,6 +112,6 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
-    'default_password' => env('DEFAULT_PASSWORD', 'rahasia'),
+    'default_password' => env('DEFAULT_PASSWORD', 'password'),
 
 ];

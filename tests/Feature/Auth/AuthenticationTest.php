@@ -6,6 +6,7 @@ use Database\Seeders\DivisionSeeder;
 use Database\Seeders\PositionSeeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\WorkCenterSeeder;
+use Inertia\Testing\AssertableInertia as Assert;
 
 describe("login authentication", function () {
 
@@ -21,6 +22,13 @@ describe("login authentication", function () {
 
     test('login screen can be rendered', function () {
         $response = $this->get('/login');
+
+        $response->assertInertia(
+            fn(Assert $page) =>
+            $page->component("Auth/Login")
+                ->has("status")
+                ->has("canResetPassword")
+        );
 
         $response->assertStatus(200);
     });
