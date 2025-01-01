@@ -20,12 +20,12 @@ class FunctionalLocationController extends Controller
     {
         Gate::authorize('functional_location_access');
 
-        $functional_locations = FunctionalLocation::search($request)
+        $functionalLocations = FunctionalLocation::search($request)
             ->paginate(10)
             ->withQueryString();
 
         return Inertia::render('FunctionalLocation/Index', [
-            'functional_locations' => FunctionalLocationResource::collection($functional_locations),
+            'functionalLocations' => FunctionalLocationResource::collection($functionalLocations),
         ]);
     }
 

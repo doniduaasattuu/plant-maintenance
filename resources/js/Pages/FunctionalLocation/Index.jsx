@@ -8,7 +8,7 @@ import { isMobile } from "@/Utils/Helper";
 import { Head, Link, router } from "@inertiajs/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-export default function Index({ auth, can, functional_locations }) {
+export default function Index({ auth, can, functionalLocations }) {
     const initialRender = useRef(true);
     const urlParams = new URLSearchParams(window.location.search);
     const [inputSearch, setInputSearch] = useState(
@@ -172,7 +172,7 @@ export default function Index({ auth, can, functional_locations }) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {functional_locations.data.map(
+                                    {functionalLocations.data.map(
                                         (functional_location) => {
                                             return (
                                                 <tr
@@ -194,7 +194,7 @@ export default function Index({ auth, can, functional_locations }) {
                                                         }}
                                                         className={
                                                             `font-bold flex justify-between border ` +
-                                                            can.functional_location_show
+                                                                can.functional_location_show
                                                                 ? "underline underline-offset-2 hover:text-blue-500 cursor-pointer"
                                                                 : null
                                                         }
@@ -227,8 +227,8 @@ export default function Index({ auth, can, functional_locations }) {
                         </div>
                     </div>
 
-                    {functional_locations.meta.links.length > 3 && (
-                        <Pagination meta={functional_locations.meta} />
+                    {functionalLocations.meta.links.length > 3 && (
+                        <Pagination meta={functionalLocations.meta} />
                     )}
                 </div>
             </div>

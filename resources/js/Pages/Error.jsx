@@ -25,5 +25,5 @@ export default function Error({ status }) {
             }[status] || "An Error Occurred"
         );
     }, [status]);
-    return <Exception title={title} description={description} />;
+    return <Exception status={status} title={title} description={description} />;
 }

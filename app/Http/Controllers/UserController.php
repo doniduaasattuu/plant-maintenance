@@ -115,7 +115,7 @@ class UserController extends Controller
 
         return redirect()
             ->back()
-            ->with('success', 'ok');
+            ->with('success', 'Updated');
     }
 
     /**

@@ -2,7 +2,7 @@ import { Head } from "@inertiajs/react";
 import { useEffect } from "react";
 import { themeChange } from "theme-change";
 
-export default function Exception({ title, description }) {
+export default function Exception({ status, title, description }) {
     useEffect(() => {
         themeChange(false);
     }, []);
@@ -11,7 +11,7 @@ export default function Exception({ title, description }) {
             <Head title={title} />
             <div className="hero-content text-center">
                 <div className="max-w-md">
-                    <h1 className="text-4xl font-bold">{title}</h1>
+                    <h1 className="text-4xl font-bold">{status} {title}</h1>
                     <p className="py-6">{description}</p>
                 </div>
             </div>
