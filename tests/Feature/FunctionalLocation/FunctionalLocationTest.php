@@ -79,7 +79,7 @@ describe("admin functional location management", function () {
         );
     });
 
-    test('can edit functional location', function () {
+    test('edit functional location page can be rendered', function () {
         $user = User::find("55000154");
 
         $response = $this
@@ -186,7 +186,7 @@ describe("user functional location management", function () {
         );
     });
 
-    test('should rejected to edit functional location', function () {
+    test('edit functional location page should not be rendered', function () {
         $user = User::find("55000153");
 
         $response = $this

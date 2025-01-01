@@ -23,10 +23,16 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->respond(function (Response $response) {
-            if (config('app.custom_error_pages_enabled') && in_array($response->getStatusCode(), [403, 404, 419, 204, 500])) {
+            $statusCode = $response->getStatusCode();
+            $title = config("http_statuses.$statusCode.title", "Error Occured");
+            $description = config("http_statuses.$statusCode.description", "We are working to fix this issue. Please try again later.");
+
+            if (config('app.custom_error_pages_enabled') && !in_array($statusCode, [200, 302, 303])) {
                 return Inertia::render("Error", [
-                    'status' => $response->getStatusCode(),
-                ]);
+                    'status' => $statusCode,
+                    'title' => $title,
+                    'description' => $description
+                ])->toResponse(request())->setStatusCode($statusCode);
             }
 
             return $response;
