@@ -29,7 +29,7 @@ class MaterialEquipmentTableSeeder extends Seeder
         //     $material->equipments()->attach('EMO000123');
         // });
 
-        $equipment = Equipment::find('EMO000123');
-        $equipment->materials()->attach(Material::first());
+        // $equipment = Equipment::find('EMO000123');
+        // $equipment->materials()->attach(Material::first());
     }
 }
