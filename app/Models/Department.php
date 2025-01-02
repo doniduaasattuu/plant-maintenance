@@ -13,9 +13,4 @@ class Department extends Model
     protected $table = 'departments';
     protected $primaryKey = 'id';
     protected $keyType = 'string';
-
-    // public function division(): BelongsToMany
-    // {
-    //     return $this->belongsToMany(Division::class);
-    // }
 }

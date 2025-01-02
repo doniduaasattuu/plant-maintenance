@@ -2,7 +2,12 @@
 
 use App\Models\Material;
 use App\Models\User;
+use Database\Seeders\DatabaseCleaner;
 use Inertia\Testing\AssertableInertia as Assert;
+
+beforeAll(function () {
+    DatabaseCleaner::class;
+});
 
 describe("admin material management", function () {
 

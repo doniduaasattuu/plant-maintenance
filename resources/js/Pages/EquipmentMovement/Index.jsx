@@ -6,7 +6,7 @@ import { isMobile } from "@/Utils/Helper";
 import { Head, router } from "@inertiajs/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-export default function Index({ auth, can, equipment_movements }) {
+export default function Index({ auth, can, equipmentMovements }) {
     const initialRender = useRef(true);
     const urlParams = new URLSearchParams(window.location.search);
     const [inputSearch, setInputSearch] = useState(
@@ -99,7 +99,7 @@ export default function Index({ auth, can, equipment_movements }) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {equipment_movements.data.map(
+                                    {equipmentMovements.data.map(
                                         (equipment_movement) => {
                                             return (
                                                 <tr
@@ -203,8 +203,8 @@ export default function Index({ auth, can, equipment_movements }) {
                         </div>
                     </div>
 
-                    {equipment_movements.meta.links.length > 3 && (
-                        <Pagination meta={equipment_movements.meta} />
+                    {equipmentMovements.meta.links.length > 3 && (
+                        <Pagination meta={equipmentMovements.meta} />
                     )}
                 </div>
             </div>

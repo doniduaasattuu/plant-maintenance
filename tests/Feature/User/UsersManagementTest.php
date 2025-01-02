@@ -41,7 +41,7 @@ describe("admin users management", function () {
                 $page->component("User/Index")
                     ->has("can")
                     ->has("users.data", 4)
-                    ->has("departments.data", 16)
+                    ->has("departments.data", 6)
             );
 
         $response->assertOk();

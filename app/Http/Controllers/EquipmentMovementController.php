@@ -18,13 +18,13 @@ class EquipmentMovementController extends Controller
     {
         Gate::authorize('equipment_movement_access');
 
-        $equipment_movements = EquipmentMovement::latest()
+        $equipmentMovements = EquipmentMovement::latest()
             ->search($request)
             ->paginate(10)
             ->withQueryString();
 
         return Inertia::render('EquipmentMovement/Index', [
-            'equipment_movements' => EquipmentMovemementResource::collection($equipment_movements),
+            'equipmentMovements' => EquipmentMovemementResource::collection($equipmentMovements),
         ]);
     }
 
