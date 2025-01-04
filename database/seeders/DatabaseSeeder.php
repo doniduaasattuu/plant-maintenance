@@ -14,7 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('rustiness')->delete();
         DB::table('findings')->delete();
         DB::table('finding_statuses')->delete();
         DB::table('document_equipment')->delete();
@@ -23,13 +22,8 @@ class DatabaseSeeder extends Seeder
         DB::table('materials')->delete();
         DB::table('unit_of_measurements')->delete();
         DB::table('ac_checks')->delete();
-        DB::table('confirmations')->delete();
-        DB::table('goodness')->delete();
         DB::table('motor_checks')->delete();
         DB::table('equipment_checking_forms')->delete();
-        DB::table('normality')->delete();
-        DB::table('cleanliness')->delete();
-        DB::table('operational_statuses')->delete();
         DB::table('equipment_movements')->delete();
         DB::table('movement_status')->delete();
         DB::table('equipments')->delete();
@@ -62,12 +56,7 @@ class DatabaseSeeder extends Seeder
             EquipmentSeeder::class,
             MovementStatusSeeder::class,
             EquipmentMovementSeeder::class,
-            OperationalStatusSeeder::class,
-            CleanlinessSeeder::class,
-            NormalitySeeder::class,
-            GoodnessSeeder::class,
-            ConfirmationSeeder::class,
-            EquipmentCheckingFormSeeder::class,
+            // EquipmentCheckingFormSeeder::class,
             UnitOfMeasurementSeeder::class,
             MaterialSeeder::class,
             MaterialEquipmentTableSeeder::class,
@@ -75,7 +64,6 @@ class DatabaseSeeder extends Seeder
             DocumentEquipmentTableSeeder::class,
             FindingStatusSeeder::class,
             FindingSeeder::class,
-            RustinessSeeder::class,
         ]);
     }
 }

@@ -13,18 +13,17 @@ return new class extends Migration
     {
         Schema::create('ac_checks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('operational_status_id')->nullable(false)->constrained('operational_statuses')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('leakage')->nullable(false)->constrained('confirmations')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('evaporator')->nullable(false)->constrained('cleanliness')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('condensor')->nullable(false)->constrained('cleanliness')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->decimal('current_before_cleaning', 5, 2)->nullable();
-            $table->decimal('current_after_cleaning', 5, 2)->nullable();
-            $table->decimal('temperature', 4, 2)->nullable();
-            $table->foreignId('remote')->nullable(false)->constrained('goodness')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->integer('compressor_pressure')->nullable();
-            $table->foreignId('cleaning_filter_indoor')->nullable(false)->constrained('confirmations')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('cleaning_indoor')->nullable(false)->constrained('confirmations')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('cleaning_outdoor')->nullable(false)->constrained('confirmations')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->boolean('is_operational')->nullable();
+            $table->decimal('blowing_temperature', 4, 2)->nullable();
+            $table->decimal('ambient_temperature', 4, 2)->nullable();
+            $table->boolean('is_filter_clean')->nullable();
+            $table->boolean('is_evaporator_clean')->nullable();
+            $table->boolean('is_condensor_clean')->nullable();
+            $table->boolean('is_drain_leakage')->nullable();
+            $table->boolean('cleaning_filter')->nullable();
+            $table->boolean('cleaning_evaporator')->nullable();
+            $table->boolean('cleaning_condensor')->nullable();
+            $table->decimal('load', 5, 2)->nullable();
             $table->string('checked_by', 8)->nullable();
             $table->timestamps();
 

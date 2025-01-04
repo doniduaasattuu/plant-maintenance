@@ -1,0 +1,6 @@
+deleted: operational_statuses,
+deleted: cleanliness,
+deleted: normality,
+deleted: goodness,
+deleted: confirmations,
+deleted: rustiness,

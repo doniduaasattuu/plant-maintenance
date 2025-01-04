@@ -12,16 +12,13 @@ import Temperatures from "./Partials/Temperatures";
 
 export default function Create({
     auth,
-    equipment_id,
-    operational_statuses,
-    cleanliness,
-    normality,
+    equipmentId,
 }) {
     const { data, setData, post, errors, processing, recentlySuccessful } =
-        useForm(`MotorCheck:${equipment_id}`, {
-            equipment_id: equipment_id ?? "",
-            operational_status_id: 1,
-            cleanliness_id: 1,
+        useForm(`MotorCheck:${equipmentId}`, {
+            equipment_id: equipmentId ?? "",
+            is_operational: 1,
+            is_clean: 1,
             number_of_greasing: "",
             temperature_de: "",
             temperature_body: "",
@@ -30,52 +27,27 @@ export default function Create({
             vibration_deh: "",
             vibration_dea: "",
             vibration_def: "",
-            noise_de: 1,
+            is_noisy_de: 0,
             vibration_ndev: "",
             vibration_ndeh: "",
             vibration_ndef: "",
-            noise_nde: 1,
+            is_noisy_nde: 0,
         });
 
     const [inputErrors, setInputErrors] = useState(errors);
-
-    let statusLabel = {
-        Active: "Running",
-        Inactive: "Stop",
-    };
-
-    operational_statuses = operational_statuses.data.map(
-        (operational_status) => {
-            const original = operational_status.keyword;
-
-            return {
-                value: operational_status.id,
-                label: statusLabel[original],
-            };
-        }
-    );
-
-    cleanliness = cleanliness.data.map((item) => {
-        return {
-            value: item.id,
-            label: item.keyword,
-        };
-    });
-
-    normality = normality.data.map((item) => {
-        return {
-            value: item.id,
-            label: item.keyword,
-        };
-    });
 
     useEffect(() => {
         setInputErrors(errors);
     }, [errors]);
 
-    const handleFocus = (field) => {
-        setInputErrors({ ...inputErrors, [field]: null });
+    const handleFocus = (e) => {
+        setInputErrors({ ...inputErrors, [e.target.name]: null });
     };
+
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setData(name, value);
+    }
 
     function submit(e) {
         e.preventDefault();
@@ -92,7 +64,7 @@ export default function Create({
                     <div className="flex justify-between items-center">
                         <div>
                             <h2 className="font-semibold text-xl leading-tight">
-                                Motor check {equipment_id}
+                                Motor check {equipmentId}
                             </h2>
                             <p className="mt-1 text-sm">
                                 Form daily check of motor equipment.
@@ -107,7 +79,7 @@ export default function Create({
             <div className="py-4">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
                     <form
-                        id={`MotorCheck:${equipment_id}`}
+                        id={`MotorCheck:${equipmentId}`}
                         onSubmit={submit}
                         className="space-y-6"
                     >
@@ -122,19 +94,11 @@ export default function Create({
 
                                     <TextInput
                                         id="equipment_id"
+                                        name="equipment_id"
                                         className="mt-1 block w-full"
                                         value={data.equipment_id}
-                                        onChange={(e) =>
-                                            setData(
-                                                "equipment_id",
-                                                e.target.value
-                                            )
-                                        }
                                         required
                                         readOnly={true}
-                                        onFocus={(e) =>
-                                            handleFocus(e.target.id)
-                                        }
                                     />
 
                                     <InputError
@@ -148,31 +112,33 @@ export default function Create({
                                     {/* OPERATIONAL STATUS */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="operational_status_id"
-                                            value="Status"
+                                            htmlFor="is_operational"
+                                            value="Operational"
                                         />
 
                                         <SelectInput
-                                            id="operational_status_id"
+                                            id="is_operational"
+                                            name="is_operational"
                                             className="mt-1 block w-full"
-                                            value={data.operational_status_id}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "operational_status_id",
-                                                    e.target.value
-                                                )
-                                            }
+                                            value={data.is_operational}
+                                            onChange={handleChange}
+                                            options={[
+                                                {
+                                                    value: 1,
+                                                    label: "Running"
+                                                }, {
+                                                    value: 0,
+                                                    label: "Stoped"
+                                                },
+                                            ]}
                                             withSelectName={false}
-                                            options={operational_statuses}
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
+                                            onFocus={handleFocus}
                                         />
 
                                         <InputError
                                             className="mt-2"
                                             message={
-                                                inputErrors.operational_status_id
+                                                inputErrors.is_operational
                                             }
                                         />
                                     </div>
@@ -180,30 +146,33 @@ export default function Create({
                                     {/* CLEANLINESS */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="cleanliness_id"
+                                            htmlFor="is_clean"
                                             value="Cleanliness"
                                         />
 
                                         <SelectInput
-                                            id="cleanliness_id"
+                                            id="is_clean"
+                                            name="is_clean"
                                             className="mt-1 block w-full"
-                                            value={data.cleanliness_id}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "cleanliness_id",
-                                                    e.target.value
-                                                )
-                                            }
+                                            value={data.is_clean}
+                                            onChange={handleChange}
                                             withSelectName={false}
-                                            options={cleanliness}
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
+                                            options={[
+                                                {
+                                                    value: 1,
+                                                    label: "Clean"
+                                                },
+                                                {
+                                                    value: 0,
+                                                    label: "Dirty"
+                                                },
+                                            ]}
+                                            onFocus={handleFocus}
                                         />
 
                                         <InputError
                                             className="mt-2"
-                                            message={inputErrors.cleanliness_id}
+                                            message={inputErrors.is_clean}
                                         />
                                     </div>
                                 </div>
@@ -217,14 +186,10 @@ export default function Create({
 
                                     <TextInput
                                         id="number_of_greasing"
+                                        name="number_of_greasing"
                                         className="mt-1 block w-full"
                                         value={data.number_of_greasing}
-                                        onChange={(e) =>
-                                            setData(
-                                                "number_of_greasing",
-                                                e.target.value
-                                            )
-                                        }
+                                        onChange={handleChange}
                                         inputMode="numeric"
                                         onFocus={(e) =>
                                             handleFocus(e.target.id)
@@ -244,6 +209,7 @@ export default function Create({
                             data={data}
                             setData={setData}
                             inputErrors={inputErrors}
+                            handleChange={handleChange}
                             handleFocus={handleFocus}
                         />
 
@@ -263,19 +229,13 @@ export default function Create({
 
                                         <TextInput
                                             id="vibration_dev"
+                                            name="vibration_dev"
                                             className="mt-1 block w-full"
                                             value={data.vibration_dev}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "vibration_dev",
-                                                    e.target.value
-                                                )
-                                            }
+                                            onChange={handleChange}
                                             placeholder="mm/s"
                                             inputMode="numeric"
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
+                                            onFocus={handleFocus}
                                         />
 
                                         <InputError
@@ -293,19 +253,13 @@ export default function Create({
 
                                         <TextInput
                                             id="vibration_deh"
+                                            name="vibration_deh"
                                             className="mt-1 block w-full"
                                             value={data.vibration_deh}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "vibration_deh",
-                                                    e.target.value
-                                                )
-                                            }
+                                            onChange={handleChange}
                                             placeholder="mm/s"
                                             inputMode="numeric"
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
+                                            onFocus={handleFocus}
                                         />
 
                                         <InputError
@@ -326,19 +280,13 @@ export default function Create({
 
                                         <TextInput
                                             id="vibration_dea"
+                                            name="vibration_dea"
                                             className="mt-1 block w-full"
                                             value={data.vibration_dea}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "vibration_dea",
-                                                    e.target.value
-                                                )
-                                            }
+                                            onChange={handleChange}
                                             placeholder="mm/s"
                                             inputMode="numeric"
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
+                                            onFocus={handleFocus}
                                         />
 
                                         <InputError
@@ -356,19 +304,13 @@ export default function Create({
 
                                         <TextInput
                                             id="vibration_def"
+                                            name="vibration_def"
                                             className="mt-1 block w-full"
                                             value={data.vibration_def}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "vibration_def",
-                                                    e.target.value
-                                                )
-                                            }
+                                            onChange={handleChange}
                                             placeholder="mm/s"
                                             inputMode="numeric"
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
+                                            onFocus={handleFocus}
                                         />
 
                                         <InputError
@@ -381,27 +323,23 @@ export default function Create({
                                 {/* NOISE DE */}
                                 <div>
                                     <InputLabel
-                                        htmlFor="noise_de"
+                                        htmlFor="is_noisy_de"
                                         value="Noise DE"
                                     />
 
                                     <SelectInput
-                                        id="noise_de"
+                                        id="is_noisy_de"
+                                        name="is_noisy_de"
                                         className="mt-1 block w-full"
-                                        value={data.noise_de}
-                                        onChange={(e) =>
-                                            setData("noise_de", e.target.value)
-                                        }
+                                        value={data.is_noisy_de}
+                                        onChange={handleChange}
                                         withSelectName={false}
-                                        options={normality}
-                                        onFocus={(e) =>
-                                            handleFocus(e.target.id)
-                                        }
+                                        onFocus={handleFocus}
                                     />
 
                                     <InputError
                                         className="mt-2"
-                                        message={inputErrors.noise_de}
+                                        message={inputErrors.is_noisy_de}
                                     />
                                 </div>
                             </section>
@@ -424,19 +362,13 @@ export default function Create({
 
                                         <TextInput
                                             id="vibration_ndev"
+                                            name="vibration_ndev"
                                             className="mt-1 block w-full"
                                             value={data.vibration_ndev}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "vibration_ndev",
-                                                    e.target.value
-                                                )
-                                            }
+                                            onChange={handleChange}
                                             placeholder="mm/s"
                                             inputMode="numeric"
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
+                                            onFocus={handleFocus}
                                         />
 
                                         <InputError
@@ -454,19 +386,13 @@ export default function Create({
 
                                         <TextInput
                                             id="vibration_ndeh"
+                                            name="vibration_ndeh"
                                             className="mt-1 block w-full"
                                             value={data.vibration_ndeh}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "vibration_ndeh",
-                                                    e.target.value
-                                                )
-                                            }
+                                            onChange={handleChange}
                                             placeholder="mm/s"
                                             inputMode="numeric"
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
+                                            onFocus={handleFocus}
                                         />
 
                                         <InputError
@@ -484,19 +410,13 @@ export default function Create({
 
                                         <TextInput
                                             id="vibration_ndef"
+                                            name="vibration_ndef"
                                             className="mt-1 block w-full"
                                             value={data.vibration_ndef}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "vibration_ndef",
-                                                    e.target.value
-                                                )
-                                            }
+                                            onChange={handleChange}
                                             placeholder="mm/s"
                                             inputMode="numeric"
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
+                                            onFocus={handleFocus}
                                         />
 
                                         <InputError
@@ -509,27 +429,23 @@ export default function Create({
                                 {/* NOISE NDE */}
                                 <div>
                                     <InputLabel
-                                        htmlFor="noise_nde"
+                                        htmlFor="is_noisy_nde"
                                         value="Noise NDE"
                                     />
 
                                     <SelectInput
-                                        id="noise_nde"
+                                        id="is_noisy_nde"
+                                        name="is_noisy_nde"
                                         className="mt-1 block w-full"
-                                        value={data.noise_nde}
-                                        onChange={(e) =>
-                                            setData("noise_nde", e.target.value)
-                                        }
+                                        value={data.is_noisy_nde}
+                                        onChange={handleChange}
                                         withSelectName={false}
-                                        options={normality}
-                                        onFocus={(e) =>
-                                            handleFocus(e.target.id)
-                                        }
+                                        onFocus={handleFocus}
                                     />
 
                                     <InputError
                                         className="mt-2"
-                                        message={inputErrors.noise_nde}
+                                        message={inputErrors.is_noisy_nde}
                                     />
                                 </div>
 

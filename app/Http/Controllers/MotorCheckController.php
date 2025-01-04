@@ -6,15 +6,9 @@ use App\Models\MotorCheck;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreMotorCheckRequest;
 use App\Http\Requests\UpdateMotorCheckRequest;
-use App\Http\Resources\CleanlinessResource;
 use App\Http\Resources\MotorCheckResource;
-use App\Http\Resources\NormalityResource;
-use App\Http\Resources\OperationalStatusResource;
 use App\Http\Resources\Simple\MotorCheckSimpleResource;
-use App\Models\Cleanliness;
 use App\Models\EquipmentCheckingForm;
-use App\Models\Normality;
-use App\Models\OperationalStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -36,16 +30,10 @@ class MotorCheckController extends Controller
     {
         Gate::authorize('motor_check_create');
 
-        $equipment_id = $request->equipment_id;
-        $operational_statuses = OperationalStatus::all();
-        $cleanliness = Cleanliness::all();
-        $normality = Normality::all();
+        $equipmentId = $request->equipment_id;
 
         return Inertia::render('Checks/Motor/Create', [
-            'equipment_id' => $equipment_id,
-            'operational_statuses' => OperationalStatusResource::collection($operational_statuses),
-            'cleanliness' => CleanlinessResource::collection($cleanliness),
-            'normality' => NormalityResource::collection($normality),
+            'equipmentId' => $equipmentId,
         ]);
     }
 
@@ -79,15 +67,8 @@ class MotorCheckController extends Controller
     {
         Gate::authorize('motor_check_show');
 
-        // $operationalStatuses = OperationalStatus::all();
-        // $cleanliness = Cleanliness::all();
-        // $normality = Normality::all();
-
         return Inertia::render('Checks/Motor/Show', [
             'motorCheck' => MotorCheckResource::make($motorCheck),
-            // 'operationalStatuses' => OperationalStatusResource::collection($operationalStatuses),
-            // 'cleanliness' => CleanlinessResource::collection($cleanliness),
-            // 'normality' => NormalityResource::collection($normality),
         ]);
     }
 
@@ -98,15 +79,8 @@ class MotorCheckController extends Controller
     {
         Gate::authorize('motor_check_edit');
 
-        $operationalStatuses = OperationalStatus::all();
-        $cleanliness = Cleanliness::all();
-        $normality = Normality::all();
-
         return Inertia::render('Checks/Motor/Edit', [
             'motorCheck' => MotorCheckSimpleResource::make($motorCheck),
-            'operationalStatuses' => OperationalStatusResource::collection($operationalStatuses),
-            'cleanliness' => CleanlinessResource::collection($cleanliness),
-            'normality' => NormalityResource::collection($normality),
         ]);
     }
 

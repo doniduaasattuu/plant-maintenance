@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('apar_checks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('seal')->constrained('goodness')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('weight')->constrained('goodness')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('pressure')->constrained('goodness')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('body')->constrained('rustiness')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->string('remark')->nullable(true);
-            $table->string('checked_by', 8)->nullable(true);
+            $table->boolean('is_seal_ok')->nullable();
+            $table->boolean('is_weight_ok')->nullable();
+            $table->boolean('is_pressure_ok')->nullable();
+            $table->boolean('is_body_ok')->nullable();
+            $table->string('remark')->nullable();
+            $table->string('checked_by', 8)->nullable();
             $table->timestamps();
 
             $table->foreign('checked_by')->on('users')->references('id')->cascadeOnUpdate()->nullOnDelete();

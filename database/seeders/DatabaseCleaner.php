@@ -13,7 +13,6 @@ class DatabaseCleaner extends Seeder
      */
     public function run(): void
     {
-        DB::table('rustiness')->delete();
         DB::table('findings')->delete();
         DB::table('finding_statuses')->delete();
         DB::table('document_equipment')->delete();
@@ -22,13 +21,8 @@ class DatabaseCleaner extends Seeder
         DB::table('materials')->delete();
         DB::table('unit_of_measurements')->delete();
         DB::table('ac_checks')->delete();
-        DB::table('confirmations')->delete();
-        DB::table('goodness')->delete();
         DB::table('motor_checks')->delete();
         DB::table('equipment_checking_forms')->delete();
-        DB::table('normality')->delete();
-        DB::table('cleanliness')->delete();
-        DB::table('operational_statuses')->delete();
         DB::table('equipment_movements')->delete();
         DB::table('movement_status')->delete();
         DB::table('equipments')->delete();

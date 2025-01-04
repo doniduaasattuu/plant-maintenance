@@ -2,7 +2,16 @@ import { forwardRef } from "react";
 
 export default forwardRef(function SelectInput(
     {
-        options = [],
+        options = [
+            {
+                value: 1,
+                label: "Yes"
+            },
+            {
+                value: 0,
+                label: "No"
+            }
+        ],
         selectName = "-- Choose --",
         withSelectName = true,
         className = "",

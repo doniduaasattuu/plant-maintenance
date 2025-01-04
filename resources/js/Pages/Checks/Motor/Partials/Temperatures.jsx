@@ -6,8 +6,8 @@ import React from "react";
 
 export default function Temperatures({
     data,
-    setData,
     inputErrors,
+    handleChange,
     handleFocus,
     temperatures = ["temperature_de", "temperature_body", "temperature_nde"],
 }) {
@@ -27,14 +27,13 @@ export default function Temperatures({
 
                             <TextInput
                                 id={temperature}
+                                name={temperature}
                                 className="mt-1 block w-full"
                                 value={data[temperature]}
-                                onChange={(e) =>
-                                    setData(temperature, e.target.value)
-                                }
+                                onChange={handleChange}
                                 placeholder="°C"
                                 inputMode="numeric"
-                                onFocus={(e) => handleFocus(e.target.id)}
+                                onFocus={handleFocus}
                             />
 
                             <InputError
