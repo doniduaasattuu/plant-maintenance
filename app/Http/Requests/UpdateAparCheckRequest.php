@@ -28,11 +28,11 @@ class UpdateAparCheckRequest extends FormRequest
 
         return [
             'equipment_id' => ['required', 'exists:App\Models\Equipment,id'],
-            'seal' => ['required', 'exists:App\Models\Goodness,id'],
-            'weight' => ['required', 'exists:App\Models\Goodness,id'],
-            'pressure' => ['required', 'exists:App\Models\Goodness,id'],
-            'body' => ['required', 'exists:App\Models\Rustiness,id'],
-            'remark' => ['nullable'],
+            'is_seal_ok' => ['required', 'boolean'],
+            'is_weight_ok' => ['required', 'boolean'],
+            'is_pressure_ok' => ['required', 'boolean'],
+            'is_body_ok' => ['required', 'boolean'],
+            'remark' => ['nullable', 'string', 'max:255'],
             'checked_by' => ['nullable', 'exists:App\Models\User,id'],
             'updated_at' => ['nullable'],
         ];

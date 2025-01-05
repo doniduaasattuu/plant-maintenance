@@ -56,3 +56,57 @@ export function toFormattedDateTimeString(date) {
 export const isMobile = () => {
     return window.innerWidth <= 768;
 };
+
+export const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+        e.preventDefault();
+    }
+};
+
+export const selectOptions = (type) => {
+    if (type == "operational") {
+        return [
+            {
+                value: 1,
+                label: "Running",
+            },
+            {
+                value: 0,
+                label: "Stopped",
+            },
+        ];
+    } else if (type == "cleanliness") {
+        return [
+            {
+                value: 1,
+                label: "Clean",
+            },
+            {
+                value: 0,
+                label: "Dirty",
+            },
+        ];
+    } else if (type == "goodness") {
+        return [
+            {
+                value: 1,
+                label: "Good",
+            },
+            {
+                value: 0,
+                label: "Not Good",
+            },
+        ];
+    } else {
+        return [
+            {
+                value: 1,
+                label: "Yes",
+            },
+            {
+                value: 0,
+                label: "No",
+            },
+        ];
+    }
+};

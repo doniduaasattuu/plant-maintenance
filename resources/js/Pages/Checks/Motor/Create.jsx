@@ -9,14 +9,12 @@ import { Transition } from "@headlessui/react";
 import { Head, useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import Temperatures from "./Partials/Temperatures";
+import { selectOptions } from "@/Utils/Helper";
 
-export default function Create({
-    auth,
-    equipmentId,
-}) {
+export default function Create({ auth, equipment_id }) {
     const { data, setData, post, errors, processing, recentlySuccessful } =
-        useForm(`MotorCheck:${equipmentId}`, {
-            equipment_id: equipmentId ?? "",
+        useForm(`MotorCheck:${equipment_id}`, {
+            equipment_id: equipment_id ?? "",
             is_operational: 1,
             is_clean: 1,
             number_of_greasing: "",
@@ -44,10 +42,10 @@ export default function Create({
         setInputErrors({ ...inputErrors, [e.target.name]: null });
     };
 
-    function handleChange(e) {
+    const handleChange = (e) => {
         const { name, value } = e.target;
         setData(name, value);
-    }
+    };
 
     function submit(e) {
         e.preventDefault();
@@ -64,7 +62,7 @@ export default function Create({
                     <div className="flex justify-between items-center">
                         <div>
                             <h2 className="font-semibold text-xl leading-tight">
-                                Motor check {equipmentId}
+                                Motor check {equipment_id}
                             </h2>
                             <p className="mt-1 text-sm">
                                 Form daily check of motor equipment.
@@ -79,7 +77,7 @@ export default function Create({
             <div className="py-4">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
                     <form
-                        id={`MotorCheck:${equipmentId}`}
+                        id={`MotorCheck:${equipment_id}`}
                         onSubmit={submit}
                         className="space-y-6"
                     >
@@ -122,24 +120,16 @@ export default function Create({
                                             className="mt-1 block w-full"
                                             value={data.is_operational}
                                             onChange={handleChange}
-                                            options={[
-                                                {
-                                                    value: 1,
-                                                    label: "Running"
-                                                }, {
-                                                    value: 0,
-                                                    label: "Stoped"
-                                                },
-                                            ]}
+                                            options={selectOptions(
+                                                "operational"
+                                            )}
                                             withSelectName={false}
                                             onFocus={handleFocus}
                                         />
 
                                         <InputError
                                             className="mt-2"
-                                            message={
-                                                inputErrors.is_operational
-                                            }
+                                            message={inputErrors.is_operational}
                                         />
                                     </div>
 
@@ -157,16 +147,9 @@ export default function Create({
                                             value={data.is_clean}
                                             onChange={handleChange}
                                             withSelectName={false}
-                                            options={[
-                                                {
-                                                    value: 1,
-                                                    label: "Clean"
-                                                },
-                                                {
-                                                    value: 0,
-                                                    label: "Dirty"
-                                                },
-                                            ]}
+                                            options={selectOptions(
+                                                "cleanliness"
+                                            )}
                                             onFocus={handleFocus}
                                         />
 

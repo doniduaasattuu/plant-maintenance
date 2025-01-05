@@ -47,7 +47,7 @@ class TrendController extends Controller
      */
     public function show(string $equipment_id)
     {
-        $equipment = Equipment::find($equipment_id);
+        $equipment = Equipment::findOrFail($equipment_id);
         $equipmentChecks = EquipmentCheckingForm::where('equipment_id', $equipment_id)
             ->with('formable')
             ->whereBetween('created_at', [Carbon::now()->subYear()->startOfDay(), Carbon::now()])

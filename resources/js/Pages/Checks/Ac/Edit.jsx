@@ -5,74 +5,43 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { selectOptions } from "@/Utils/Helper";
 import { Transition } from "@headlessui/react";
 import { Head, useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
-export default function Edit({
-    auth,
-    can,
-    operationalStatuses,
-    cleanliness,
-    confirmations,
-    goodness,
-    acCheck,
-}) {
+export default function Edit({ auth, can, acCheck }) {
     const equipment_id = acCheck.data.equipment_id;
 
     const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm(`acCheckEdit:${acCheck.data.id}`, {
             equipment_id: acCheck.data.equipment_id ?? "",
-            operational_status_id: acCheck.data.operational_status_id ?? "",
-            leakage: acCheck.data.leakage ?? "",
-            evaporator: acCheck.data.evaporator ?? "",
-            condensor: acCheck.data.condensor ?? "",
-            current_before_cleaning: acCheck.data.current_before_cleaning ?? "",
-            current_after_cleaning: acCheck.data.current_after_cleaning ?? "",
-            temperature: acCheck.data.temperature ?? "",
-            remote: acCheck.data.remote ?? "",
-            compressor_pressure: acCheck.data.compressor_pressure ?? "",
-            cleaning_filter_indoor: acCheck.data.cleaning_filter_indoor ?? "",
-            cleaning_indoor: acCheck.data.cleaning_indoor ?? "",
-            cleaning_outdoor: acCheck.data.cleaning_outdoor ?? "",
+            is_operational: acCheck.data.is_operational ?? "",
+            is_drain_leaking: acCheck.data.is_drain_leaking ?? "",
+            current_load: acCheck.data.current_load ?? "",
+            blowing_temperature: acCheck.data.blowing_temperature ?? "",
+            ambient_temperature: acCheck.data.ambient_temperature ?? "",
+            is_filter_clean: acCheck.data.is_filter_clean ?? "",
+            is_evaporator_clean: acCheck.data.is_evaporator_clean ?? "",
+            is_condensor_clean: acCheck.data.is_condensor_clean ?? "",
+            cleaning_filter: acCheck.data.cleaning_filter ?? "",
+            cleaning_evaporator: acCheck.data.cleaning_evaporator ?? "",
+            cleaning_condensor: acCheck.data.cleaning_condensor ?? "",
         });
 
     const [inputErrors, setInputErrors] = useState(errors);
-
-    operationalStatuses = operationalStatuses.data.map((item) => {
-        return {
-            value: item.id,
-            label: item.keyword,
-        };
-    });
-
-    cleanliness = cleanliness.data.map((item) => {
-        return {
-            value: item.id,
-            label: item.keyword,
-        };
-    });
-
-    confirmations = confirmations.data.map((item) => {
-        return {
-            value: item.id,
-            label: item.keyword,
-        };
-    });
-
-    goodness = goodness.data.map((item) => {
-        return {
-            value: item.id,
-            label: item.keyword,
-        };
-    });
 
     useEffect(() => {
         setInputErrors(errors);
     }, [errors]);
 
-    const handleFocus = (field) => {
-        setInputErrors({ ...inputErrors, [field]: null });
+    const handleFocus = (e) => {
+        setInputErrors({ ...inputErrors, [e.target.name]: null });
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setData(name, value);
     };
 
     function submit(e) {
@@ -91,7 +60,7 @@ export default function Edit({
                     <div className="flex justify-between items-center">
                         <div>
                             <h2 className="font-semibold text-xl leading-tight">
-                                AC check {equipment_id}
+                                Edit Form
                             </h2>
                             <p className="mt-1 text-sm">
                                 Form daily check of air conditioner equipment.
@@ -121,19 +90,11 @@ export default function Edit({
 
                                     <TextInput
                                         id="equipment_id"
+                                        name="equipment_id"
                                         className="mt-1 block w-full"
                                         value={data.equipment_id}
-                                        onChange={(e) =>
-                                            setData(
-                                                "equipment_id",
-                                                e.target.value
-                                            )
-                                        }
                                         required
                                         readOnly={true}
-                                        onFocus={(e) =>
-                                            handleFocus(e.target.id)
-                                        }
                                     />
 
                                     <InputError
@@ -142,128 +103,134 @@ export default function Edit({
                                     />
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-1 sm:gap-2 max-w-xl">
+                                <div className="grid grid-cols-3 gap-1 sm:gap-2 max-w-xl">
                                     {/* OPERATIONAL STATUS */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="operational_status_id"
-                                            value="Status"
+                                            htmlFor="is_operational"
+                                            value="Operational"
                                         />
 
                                         <SelectInput
-                                            id="operational_status_id"
+                                            id="is_operational"
+                                            name="is_operational"
                                             className="mt-1 block w-full"
-                                            value={data.operational_status_id}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "operational_status_id",
-                                                    e.target.value
-                                                )
-                                            }
+                                            value={data.is_operational}
+                                            onChange={handleChange}
                                             withSelectName={false}
-                                            options={operationalStatuses}
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
+                                            options={selectOptions(
+                                                "operational"
+                                            )}
+                                            onFocus={handleFocus}
+                                        />
+
+                                        <InputError
+                                            className="mt-2"
+                                            message={inputErrors.is_operational}
+                                        />
+                                    </div>
+
+                                    {/* IS DRAIN LEAKING */}
+                                    <div>
+                                        <InputLabel
+                                            htmlFor="is_drain_leaking"
+                                            value="Drain Leaking"
+                                        />
+
+                                        <SelectInput
+                                            id="is_drain_leaking"
+                                            name="is_drain_leaking"
+                                            className="mt-1 block w-full"
+                                            value={data.is_drain_leaking}
+                                            onChange={handleChange}
+                                            withSelectName={false}
+                                            options={selectOptions()}
+                                            onFocus={handleFocus}
                                         />
 
                                         <InputError
                                             className="mt-2"
                                             message={
-                                                inputErrors.operational_status_id
+                                                inputErrors.is_drain_leaking
                                             }
                                         />
                                     </div>
 
-                                    {/* LEAKAGE */}
+                                    {/* CURRENT LOAD */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="leakage"
-                                            value="Leakage"
+                                            htmlFor="current_load"
+                                            value="Current load"
                                         />
 
-                                        <SelectInput
-                                            id="leakage"
+                                        <TextInput
+                                            id="current_load"
+                                            name="current_load"
                                             className="mt-1 block w-full"
-                                            value={data.leakage}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "leakage",
-                                                    e.target.value
-                                                )
-                                            }
-                                            withSelectName={false}
-                                            options={confirmations}
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
+                                            value={data.current_load}
+                                            onChange={handleChange}
+                                            inputMode="numeric"
+                                            onFocus={handleFocus}
+                                            placeholder="A"
                                         />
 
                                         <InputError
                                             className="mt-2"
-                                            message={inputErrors.leakage}
+                                            message={inputErrors.current_load}
                                         />
                                     </div>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-1 sm:gap-2 max-w-xl">
-                                    {/* EVAPORATOR */}
+                                    {/* BLOWING TEMPERATURE */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="evaporator"
-                                            value="Evaporator"
+                                            htmlFor="blowing_temperature"
+                                            value="Blower Temperature"
                                         />
 
-                                        <SelectInput
-                                            id="evaporator"
+                                        <TextInput
+                                            id="blowing_temperature"
+                                            name="blowing_temperature"
                                             className="mt-1 block w-full"
-                                            value={data.evaporator}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "evaporator",
-                                                    e.target.value
-                                                )
-                                            }
-                                            withSelectName={false}
-                                            options={cleanliness}
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
+                                            value={data.blowing_temperature}
+                                            onChange={handleChange}
+                                            inputMode="numeric"
+                                            onFocus={handleFocus}
+                                            placeholder="°C"
                                         />
 
                                         <InputError
                                             className="mt-2"
-                                            message={inputErrors.evaporator}
+                                            message={
+                                                inputErrors.blowing_temperature
+                                            }
                                         />
                                     </div>
 
-                                    {/* CONDENSOR */}
+                                    {/* AMBIENT TEMPERATURE */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="condensor"
-                                            value="Condensor"
+                                            htmlFor="ambient_temperature"
+                                            value="Ambient Temperature"
                                         />
 
-                                        <SelectInput
-                                            id="condensor"
+                                        <TextInput
+                                            id="ambient_temperature"
+                                            name="ambient_temperature"
                                             className="mt-1 block w-full"
-                                            value={data.condensor}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "condensor",
-                                                    e.target.value
-                                                )
-                                            }
-                                            withSelectName={false}
-                                            options={cleanliness}
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
+                                            value={data.ambient_temperature}
+                                            onChange={handleChange}
+                                            inputMode="numeric"
+                                            onFocus={handleFocus}
+                                            placeholder="°C"
                                         />
 
                                         <InputError
                                             className="mt-2"
-                                            message={inputErrors.condensor}
+                                            message={
+                                                inputErrors.ambient_temperature
+                                            }
                                         />
                                     </div>
                                 </div>
@@ -273,163 +240,90 @@ export default function Edit({
                         <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
                             <section className="max-w-xl space-y-6">
                                 <h2 className="font-semibold text-lg leading-tight">
-                                    Technical
+                                    Cleanliness
                                 </h2>
-                                <div className="grid grid-cols-2 gap-1 sm:gap-2 max-w-xl">
-                                    {/* CURRENT BEFORE CLEANING */}
-                                    <div>
-                                        <InputLabel
-                                            htmlFor="current_before_cleaning"
-                                            value="Current before cleaning"
-                                        />
-
-                                        <TextInput
-                                            id="current_before_cleaning"
-                                            className="mt-1 block w-full"
-                                            value={data.current_before_cleaning}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "current_before_cleaning",
-                                                    e.target.value
-                                                )
-                                            }
-                                            inputMode="numeric"
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
-                                            placeholder="A"
-                                        />
-
-                                        <InputError
-                                            className="mt-2"
-                                            message={
-                                                inputErrors.current_before_cleaning
-                                            }
-                                        />
-                                    </div>
-
-                                    {/* CURRENT AFTER CLEANING */}
-                                    <div>
-                                        <InputLabel
-                                            htmlFor="current_after_cleaning"
-                                            value="Current after cleaning"
-                                        />
-
-                                        <TextInput
-                                            id="current_after_cleaning"
-                                            className="mt-1 block w-full"
-                                            value={data.current_after_cleaning}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "current_after_cleaning",
-                                                    e.target.value
-                                                )
-                                            }
-                                            inputMode="numeric"
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
-                                            placeholder="A"
-                                        />
-
-                                        <InputError
-                                            className="mt-2"
-                                            message={
-                                                inputErrors.current_after_cleaning
-                                            }
-                                        />
-                                    </div>
-                                </div>
 
                                 <div className="grid grid-cols-3 gap-1 sm:gap-2 max-w-xl">
-                                    {/* TEMPERATURE */}
+                                    {/* IS FILTER CLEAN */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="temperature"
-                                            value="Temperature"
-                                        />
-
-                                        <TextInput
-                                            id="temperature"
-                                            className="mt-1 block w-full"
-                                            value={data.temperature}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "temperature",
-                                                    e.target.value
-                                                )
-                                            }
-                                            inputMode="numeric"
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
-                                            placeholder="°C"
-                                        />
-
-                                        <InputError
-                                            className="mt-2"
-                                            message={inputErrors.temperature}
-                                        />
-                                    </div>
-
-                                    {/* REMOTE */}
-                                    <div>
-                                        <InputLabel
-                                            htmlFor="remote"
-                                            value="Remote"
+                                            htmlFor="is_filter_clean"
+                                            value="Filter"
                                         />
 
                                         <SelectInput
-                                            id="remote"
+                                            id="is_filter_clean"
+                                            name="is_filter_clean"
                                             className="mt-1 block w-full"
-                                            value={data.remote}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "remote",
-                                                    e.target.value
-                                                )
-                                            }
+                                            value={data.is_filter_clean}
+                                            onChange={handleChange}
                                             withSelectName={false}
-                                            options={goodness}
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
-                                        />
-
-                                        <InputError
-                                            className="mt-2"
-                                            message={inputErrors.remote}
-                                        />
-                                    </div>
-
-                                    {/* PRESSURE */}
-                                    <div>
-                                        <InputLabel
-                                            htmlFor="compressor_pressure"
-                                            value="Pressure"
-                                        />
-
-                                        <TextInput
-                                            id="compressor_pressure"
-                                            className="mt-1 block w-full"
-                                            value={data.compressor_pressure}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "compressor_pressure",
-                                                    e.target.value
-                                                )
-                                            }
-                                            inputMode="numeric"
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
-                                            placeholder="Bar"
+                                            options={selectOptions(
+                                                "cleanliness"
+                                            )}
+                                            onFocus={handleFocus}
                                         />
 
                                         <InputError
                                             className="mt-2"
                                             message={
-                                                inputErrors.compressor_pressure
+                                                inputErrors.is_filter_clean
+                                            }
+                                        />
+                                    </div>
+
+                                    {/* IS EVAPORATOR CLEAN */}
+                                    <div>
+                                        <InputLabel
+                                            htmlFor="is_evaporator_clean"
+                                            value="Evaporator"
+                                        />
+
+                                        <SelectInput
+                                            id="is_evaporator_clean"
+                                            name="is_evaporator_clean"
+                                            className="mt-1 block w-full"
+                                            value={data.is_evaporator_clean}
+                                            onChange={handleChange}
+                                            withSelectName={false}
+                                            options={selectOptions(
+                                                "cleanliness"
+                                            )}
+                                            onFocus={handleFocus}
+                                        />
+
+                                        <InputError
+                                            className="mt-2"
+                                            message={
+                                                inputErrors.is_evaporator_clean
+                                            }
+                                        />
+                                    </div>
+
+                                    {/* IS CONDENSOR CLEAN */}
+                                    <div>
+                                        <InputLabel
+                                            htmlFor="is_condensor_clean"
+                                            value="Condensor"
+                                        />
+
+                                        <SelectInput
+                                            id="is_condensor_clean"
+                                            name="is_condensor_clean"
+                                            className="mt-1 block w-full"
+                                            value={data.is_condensor_clean}
+                                            onChange={handleChange}
+                                            withSelectName={false}
+                                            options={selectOptions(
+                                                "cleanliness"
+                                            )}
+                                            onFocus={handleFocus}
+                                        />
+
+                                        <InputError
+                                            className="mt-2"
+                                            message={
+                                                inputErrors.is_condensor_clean
                                             }
                                         />
                                     </div>
@@ -444,98 +338,80 @@ export default function Edit({
                                 </h2>
 
                                 <div className="grid grid-cols-3 gap-1 sm:gap-2 max-w-xl">
-                                    {/* CLEANING FILTER INDOOR */}
+                                    {/* CLEANING FILTER */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="cleaning_filter_indoor"
-                                            value="Filter Indoor"
+                                            htmlFor="cleaning_filter"
+                                            value="Filter"
                                         />
 
                                         <SelectInput
-                                            id="cleaning_filter_indoor"
+                                            id="cleaning_filter"
+                                            name="cleaning_filter"
                                             className="mt-1 block w-full"
-                                            value={data.cleaning_filter_indoor}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "cleaning_filter_indoor",
-                                                    e.target.value
-                                                )
-                                            }
+                                            value={data.cleaning_filter}
+                                            onChange={handleChange}
                                             withSelectName={false}
-                                            options={confirmations}
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
+                                            options={selectOptions()}
+                                            onFocus={handleFocus}
                                         />
 
                                         <InputError
                                             className="mt-2"
                                             message={
-                                                inputErrors.cleaning_filter_indoor
+                                                inputErrors.cleaning_filter
                                             }
                                         />
                                     </div>
 
-                                    {/* CLEANING INDOOR */}
+                                    {/* CLEANING EVAPORATOR */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="cleaning_indoor"
-                                            value="Indoor"
+                                            htmlFor="cleaning_evaporator"
+                                            value="Evaporator"
                                         />
 
                                         <SelectInput
-                                            id="cleaning_indoor"
+                                            id="cleaning_evaporator"
+                                            name="cleaning_evaporator"
                                             className="mt-1 block w-full"
-                                            value={data.cleaning_indoor}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "cleaning_indoor",
-                                                    e.target.value
-                                                )
-                                            }
+                                            value={data.cleaning_evaporator}
+                                            onChange={handleChange}
                                             withSelectName={false}
-                                            options={confirmations}
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
+                                            options={selectOptions()}
+                                            onFocus={handleFocus}
                                         />
 
                                         <InputError
                                             className="mt-2"
                                             message={
-                                                inputErrors.cleaning_indoor
+                                                inputErrors.cleaning_evaporator
                                             }
                                         />
                                     </div>
 
-                                    {/* CLEANING OUTDOOR */}
+                                    {/* CLEANING CONDENSOR */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="cleaning_outdoor"
-                                            value="Outdoor"
+                                            htmlFor="cleaning_condensor"
+                                            value="Condensor"
                                         />
 
                                         <SelectInput
-                                            id="cleaning_outdoor"
+                                            id="cleaning_condensor"
+                                            name="cleaning_condensor"
                                             className="mt-1 block w-full"
-                                            value={data.cleaning_outdoor}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "cleaning_outdoor",
-                                                    e.target.value
-                                                )
-                                            }
+                                            value={data.cleaning_condensor}
+                                            onChange={handleChange}
                                             withSelectName={false}
-                                            options={confirmations}
-                                            onFocus={(e) =>
-                                                handleFocus(e.target.id)
-                                            }
+                                            options={selectOptions()}
+                                            onFocus={handleFocus}
                                         />
 
                                         <InputError
                                             className="mt-2"
                                             message={
-                                                inputErrors.cleaning_outdoor
+                                                inputErrors.cleaning_condensor
                                             }
                                         />
                                     </div>

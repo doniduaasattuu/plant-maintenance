@@ -6,34 +6,26 @@ import SelectInput from "@/Components/SelectInput";
 import Textarea from "@/Components/Textarea";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { selectOptions } from "@/Utils/Helper";
 import { Transition } from "@headlessui/react";
 import { Head, useForm } from "@inertiajs/react";
 
-export default function Create({ auth, can, aparCheck, goodness, rustiness }) {
+export default function Edit({ auth, can, aparCheck }) {
     const equipment_id = aparCheck.data.equipment_id;
     const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm(`AparCheck:${aparCheck.data.equipment_id}`, {
             equipment_id: aparCheck.data.equipment_id ?? "",
-            seal: aparCheck.data.seal ?? "",
-            weight: aparCheck.data.weight ?? "",
-            pressure: aparCheck.data.pressure ?? "",
-            body: aparCheck.data.body ?? "",
+            is_seal_ok: aparCheck.data.is_seal_ok ?? "",
+            is_weight_ok: aparCheck.data.is_weight_ok ?? "",
+            is_pressure_ok: aparCheck.data.is_pressure_ok ?? "",
+            is_body_ok: aparCheck.data.is_body_ok ?? "",
             remark: aparCheck.data.remark ?? "",
         });
 
-    function mapping(object) {
-        const result = object.data.map((item) => {
-            return {
-                value: item.id,
-                label: item.keyword,
-            };
-        });
-
-        return result;
-    }
-
-    goodness = mapping(goodness);
-    rustiness = mapping(rustiness);
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setData(name, value);
+    };
 
     function submit(e) {
         e.preventDefault();
@@ -51,7 +43,7 @@ export default function Create({ auth, can, aparCheck, goodness, rustiness }) {
                     <div className="flex justify-between items-center">
                         <div>
                             <h2 className="font-semibold text-xl leading-tight">
-                                Apar check {equipment_id}
+                                Edit Form
                             </h2>
                             <p className="mt-1 text-sm">
                                 Edit data check of fire extinguisher.
@@ -81,14 +73,9 @@ export default function Create({ auth, can, aparCheck, goodness, rustiness }) {
 
                                     <TextInput
                                         id="equipment_id"
+                                        name="equipment_id"
                                         className="mt-1 block w-full"
                                         value={data.equipment_id}
-                                        onChange={(e) =>
-                                            setData(
-                                                "equipment_id",
-                                                e.target.value
-                                            )
-                                        }
                                         required
                                         readOnly={true}
                                     />
@@ -103,51 +90,46 @@ export default function Create({ auth, can, aparCheck, goodness, rustiness }) {
                                     {/* SEAL */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="seal"
+                                            htmlFor="is_seal_ok"
                                             value="Seal"
                                         />
 
                                         <SelectInput
-                                            id="seal"
+                                            id="is_seal_ok"
+                                            name="is_seal_ok"
                                             className="mt-1 block w-full"
-                                            value={data.seal}
-                                            onChange={(e) =>
-                                                setData("seal", e.target.value)
-                                            }
+                                            value={data.is_seal_ok}
+                                            onChange={handleChange}
                                             withSelectName={false}
-                                            options={goodness}
+                                            options={selectOptions("goodness")}
                                         />
 
                                         <InputError
                                             className="mt-2"
-                                            message={errors.seal}
+                                            message={errors.is_seal_ok}
                                         />
                                     </div>
 
                                     {/* WEIGHT */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="weight"
+                                            htmlFor="is_weight_ok"
                                             value="Weight"
                                         />
 
                                         <SelectInput
-                                            id="weight"
+                                            id="is_weight_ok"
+                                            name="is_weight_ok"
                                             className="mt-1 block w-full"
-                                            value={data.weight}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "weight",
-                                                    e.target.value
-                                                )
-                                            }
+                                            value={data.is_weight_ok}
+                                            onChange={handleChange}
                                             withSelectName={false}
-                                            options={goodness}
+                                            options={selectOptions("goodness")}
                                         />
 
                                         <InputError
                                             className="mt-2"
-                                            message={errors.weight}
+                                            message={errors.is_weight_ok}
                                         />
                                     </div>
                                 </div>
@@ -156,51 +138,46 @@ export default function Create({ auth, can, aparCheck, goodness, rustiness }) {
                                     {/* PRESSURE */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="pressure"
+                                            htmlFor="is_pressure_ok"
                                             value="Pressure"
                                         />
 
                                         <SelectInput
-                                            id="pressure"
+                                            id="is_pressure_ok"
+                                            name="is_pressure_ok"
                                             className="mt-1 block w-full"
-                                            value={data.pressure}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "pressure",
-                                                    e.target.value
-                                                )
-                                            }
+                                            value={data.is_pressure_ok}
+                                            onChange={handleChange}
                                             withSelectName={false}
-                                            options={goodness}
+                                            options={selectOptions("goodness")}
                                         />
 
                                         <InputError
                                             className="mt-2"
-                                            message={errors.pressure}
+                                            message={errors.is_pressure_ok}
                                         />
                                     </div>
 
                                     {/* BODY */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="body"
+                                            htmlFor="is_body_ok"
                                             value="Body"
                                         />
 
                                         <SelectInput
-                                            id="body"
+                                            id="is_body_ok"
+                                            name="is_body_ok"
                                             className="mt-1 block w-full"
-                                            value={data.body}
-                                            onChange={(e) =>
-                                                setData("body", e.target.value)
-                                            }
+                                            value={data.is_body_ok}
+                                            onChange={handleChange}
                                             withSelectName={false}
-                                            options={rustiness}
+                                            options={selectOptions("goodness")}
                                         />
 
                                         <InputError
                                             className="mt-2"
-                                            message={errors.body}
+                                            message={errors.is_body_ok}
                                         />
                                     </div>
                                 </div>
@@ -214,11 +191,10 @@ export default function Create({ auth, can, aparCheck, goodness, rustiness }) {
 
                                     <Textarea
                                         id="remark"
+                                        name="remark"
                                         className="mt-1 block w-full textarea textarea-bordered h-24"
                                         value={data.remark}
-                                        onChange={(e) =>
-                                            setData("remark", e.target.value)
-                                        }
+                                        onChange={handleChange}
                                     />
 
                                     <InputError

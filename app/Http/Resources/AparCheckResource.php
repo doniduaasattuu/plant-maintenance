@@ -21,14 +21,14 @@ class AparCheckResource extends JsonResource
         return [
             'id' => $this->id,
             'equipment_id' => $this->checkingForm->equipment_id,
-            'seal' => GoodnessResource::make(Goodness::find($this->seal)),
-            'weight' => GoodnessResource::make(Goodness::find($this->weight)),
-            'pressure' => GoodnessResource::make(Goodness::find($this->pressure)),
-            'body' => RustinessResource::make(Rustiness::find($this->body)),
+            'is_seal_ok' => $this->is_seal_ok,
+            'is_weight_ok' => $this->is_weight_ok,
+            'is_pressure_ok' => $this->is_pressure_ok,
+            'is_body_ok' => $this->is_body_ok,
             'remark' => $this->remark,
             'checked_by' => UserSimpleResource::make(User::find($this->checked_by)),
-            'created_at' => $this->created_at?->toFormattedDateString(),
-            'updated_at' => $this->updated_at?->toFormattedDateString(),
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

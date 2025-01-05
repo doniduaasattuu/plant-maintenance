@@ -6,8 +6,8 @@ import { Head, useForm } from "@inertiajs/react";
 export default function Show({ auth, motorCheck }) {
     const { data } = useForm(`MotorCheckShow:${motorCheck.data.id}`, {
         equipment_id: motorCheck.data.equipment_id ?? "",
-        operational_status_id: motorCheck.data.operational_status.keyword ?? "",
-        cleanliness_id: motorCheck.data.cleanliness.keyword ?? "",
+        is_operational: motorCheck.data.is_operational ?? "",
+        is_clean: motorCheck.data.is_clean ?? "",
         number_of_greasing: motorCheck.data.number_of_greasing ?? "",
         temperature_de: motorCheck.data.temperature_de ?? "",
         temperature_body: motorCheck.data.temperature_body ?? "",
@@ -16,13 +16,13 @@ export default function Show({ auth, motorCheck }) {
         vibration_deh: motorCheck.data.vibration_deh ?? "",
         vibration_dea: motorCheck.data.vibration_dea ?? "",
         vibration_def: motorCheck.data.vibration_def ?? "",
-        noise_de: motorCheck.data.noise_de.keyword ?? "",
+        is_noisy_de: motorCheck.data.is_noisy_de ?? "",
         vibration_ndev: motorCheck.data.vibration_ndev ?? "",
         vibration_ndeh: motorCheck.data.vibration_ndeh ?? "",
         vibration_ndef: motorCheck.data.vibration_ndef ?? "",
         created_at: motorCheck.data.created_at ?? "",
         checked_by: motorCheck.data.checked_by.full_name ?? "",
-        noise_nde: motorCheck.data.noise_nde.keyword ?? "",
+        is_noisy_nde: motorCheck.data.is_noisy_nde ?? "",
     });
 
     return (
@@ -36,7 +36,7 @@ export default function Show({ auth, motorCheck }) {
                                 Show Motor Check
                             </h2>
                             <p className="mt-1 text-sm">
-                                Displayed single check of motor equipment.
+                                Displayed single check of equipment.
                             </p>
                         </div>
                     </div>
@@ -103,14 +103,18 @@ export default function Show({ auth, motorCheck }) {
                                     {/* OPERATIONAL STATUS */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="operational_status_id"
-                                            value="Status"
+                                            htmlFor="is_operational"
+                                            value="Operational"
                                         />
 
                                         <TextInput
-                                            id="operational_status_id"
+                                            id="is_operational"
                                             className="mt-1 block w-full"
-                                            value={data.operational_status_id}
+                                            value={
+                                                data.is_operational
+                                                    ? "Running"
+                                                    : "Stoped"
+                                            }
                                             readOnly={true}
                                         />
                                     </div>
@@ -118,14 +122,18 @@ export default function Show({ auth, motorCheck }) {
                                     {/* CLEANLINESS */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="cleanliness_id"
+                                            htmlFor="is_clean"
                                             value="Cleanliness"
                                         />
 
                                         <TextInput
-                                            id="cleanliness_id"
+                                            id="is_clean"
                                             className="mt-1 block w-full"
-                                            value={data.cleanliness_id}
+                                            value={
+                                                data.is_clean
+                                                    ? "Clean"
+                                                    : "Dirty"
+                                            }
                                             readOnly={true}
                                         />
                                     </div>
@@ -277,14 +285,14 @@ export default function Show({ auth, motorCheck }) {
                                 {/* NOISE DE */}
                                 <div>
                                     <InputLabel
-                                        htmlFor="noise_de"
+                                        htmlFor="is_noisy_de"
                                         value="Noise DE"
                                     />
 
                                     <TextInput
-                                        id="noise_de"
+                                        id="is_noisy_de"
                                         className="mt-1 block w-full"
-                                        value={data.noise_de}
+                                        value={data.is_noisy_de ? "Yes" : "No"}
                                         readOnly={true}
                                     />
                                 </div>
@@ -348,14 +356,14 @@ export default function Show({ auth, motorCheck }) {
                                 {/* NOISE NDE */}
                                 <div>
                                     <InputLabel
-                                        htmlFor="noise_nde"
+                                        htmlFor="is_noisy_nde"
                                         value="Noise NDE"
                                     />
 
                                     <TextInput
-                                        id="noise_nde"
+                                        id="is_noisy_nde"
                                         className="mt-1 block w-full"
-                                        value={data.noise_nde}
+                                        value={data.is_noisy_nde ? "Yes" : "No"}
                                         readOnly={true}
                                     />
                                 </div>

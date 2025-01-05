@@ -14,16 +14,16 @@ return new class extends Migration
         Schema::create('ac_checks', function (Blueprint $table) {
             $table->id();
             $table->boolean('is_operational')->nullable();
+            $table->boolean('is_drain_leaking')->nullable();
+            $table->decimal('current_load', 5, 2)->nullable();
             $table->decimal('blowing_temperature', 4, 2)->nullable();
             $table->decimal('ambient_temperature', 4, 2)->nullable();
             $table->boolean('is_filter_clean')->nullable();
             $table->boolean('is_evaporator_clean')->nullable();
             $table->boolean('is_condensor_clean')->nullable();
-            $table->boolean('is_drain_leakage')->nullable();
             $table->boolean('cleaning_filter')->nullable();
             $table->boolean('cleaning_evaporator')->nullable();
             $table->boolean('cleaning_condensor')->nullable();
-            $table->decimal('load', 5, 2)->nullable();
             $table->string('checked_by', 8)->nullable();
             $table->timestamps();
 

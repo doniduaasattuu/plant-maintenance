@@ -1,7 +1,14 @@
+import { handleKeyDown } from "@/Utils/Helper";
 import { forwardRef, useEffect, useRef } from "react";
 
 export default forwardRef(function TextInput(
-    { type = "text", className = "", isFocused = false, ...props },
+    {
+        type = "text",
+        className = "",
+        isFocused = false,
+        enterOnSubmit = false,
+        ...props
+    },
     ref
 ) {
     const input = ref ? ref : useRef();
@@ -21,6 +28,7 @@ export default forwardRef(function TextInput(
                 className
             }
             ref={input}
+            onKeyDown={!enterOnSubmit && handleKeyDown}
         />
     );
 });

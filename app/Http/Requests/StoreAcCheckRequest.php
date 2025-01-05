@@ -29,21 +29,18 @@ class StoreAcCheckRequest extends FormRequest
 
         return [
             'equipment_id' => ['required', 'exists:App\Models\Equipment,id'],
-            'operational_status_id' => ['required', 'exists:App\Models\OperationalStatus,id'],
-            'leakage' => ['required', 'exists:App\Models\Confirmation,id'],
-            'evaporator' => ['required', 'exists:App\Models\Confirmation,id'],
-            'condensor' => ['required', 'exists:App\Models\Confirmation,id'],
-            'current_before_cleaning' => ['nullable', 'numeric', 'max:100'],
-            'current_after_cleaning' => ['nullable', 'numeric', 'max:100'],
-            'temperature' => ['nullable', 'numeric'],
-            'remote' => ['required', 'exists:App\Models\Goodness,id'],
-            'compressor_pressure' => ['nullable', 'numeric'],
-            'cleaning_filter_indoor' => ['required', 'exists:App\Models\Confirmation,id'],
-            'cleaning_indoor' => ['required', 'exists:App\Models\Confirmation,id'],
-            'cleaning_outdoor' => ['required', 'exists:App\Models\Confirmation,id'],
+            'is_operational' => ['required', 'boolean'],
+            'is_drain_leaking' => ['required', 'boolean'],
+            'current_load' => ['nullable', 'numeric'],
+            'blowing_temperature' => ['required', 'numeric', 'max:45'],
+            'ambient_temperature' => ['nullable', 'numeric', 'max:45'],
+            'is_filter_clean' => ['required', 'boolean'],
+            'is_evaporator_clean' => ['required', 'boolean'],
+            'is_condensor_clean' => ['required', 'boolean'],
+            'cleaning_filter' => ['required', 'boolean'],
+            'cleaning_evaporator' => ['required', 'boolean'],
+            'cleaning_condensor' => ['required', 'boolean'],
             'checked_by' => ['nullable', 'exists:App\Models\User,id'],
-            'created_at' => ['nullable'],
-            'updated_at' => ['nullable'],
         ];
     }
 }

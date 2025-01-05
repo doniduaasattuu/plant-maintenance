@@ -1,24 +1,25 @@
 import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { Transition } from "@headlessui/react";
 import { Head, useForm } from "@inertiajs/react";
 
 export default function Show({ auth, acCheck }) {
     const { data } = useForm(`acCheckShow:${acCheck.data.id}`, {
         equipment_id: acCheck.data.equipment_id ?? "",
-        operational_status_id: acCheck.data.operational_status.keyword ?? "",
-        leakage: acCheck.data.leakage.keyword ?? "",
-        evaporator: acCheck.data.evaporator.keyword ?? "",
-        condensor: acCheck.data.condensor.keyword ?? "",
-        current_before_cleaning: acCheck.data.current_before_cleaning ?? "",
-        current_after_cleaning: acCheck.data.current_after_cleaning ?? "",
-        temperature: acCheck.data.temperature ?? "",
-        remote: acCheck.data.remote.keyword ?? "",
-        compressor_pressure: acCheck.data.compressor_pressure ?? "",
-        cleaning_filter_indoor:
-            acCheck.data.cleaning_filter_indoor.keyword ?? "",
-        cleaning_indoor: acCheck.data.cleaning_indoor.keyword ?? "",
-        cleaning_outdoor: acCheck.data.cleaning_outdoor.keyword ?? "",
+        is_operational: acCheck.data.is_operational ?? "",
+        is_drain_leaking: acCheck.data.is_drain_leaking ?? "",
+        current_load: acCheck.data.current_load ?? "",
+        blowing_temperature: acCheck.data.blowing_temperature ?? "",
+        ambient_temperature: acCheck.data.ambient_temperature ?? "",
+        is_filter_clean: acCheck.data.is_filter_clean ?? "",
+        is_evaporator_clean: acCheck.data.is_evaporator_clean ?? "",
+        is_condensor_clean: acCheck.data.is_condensor_clean ?? "",
+        cleaning_filter: acCheck.data.cleaning_filter ?? "",
+        cleaning_evaporator: acCheck.data.cleaning_evaporator ?? "",
+        cleaning_condensor: acCheck.data.cleaning_condensor ?? "",
         created_at: acCheck.data.created_at ?? "",
         checked_by: acCheck.data.checked_by.full_name ?? "",
     });
@@ -34,8 +35,7 @@ export default function Show({ auth, acCheck }) {
                                 Show AC Check
                             </h2>
                             <p className="mt-1 text-sm">
-                                Displayed single check of air conditioner
-                                equipment.
+                                Displayed single check of equipment.
                             </p>
                         </div>
                     </div>
@@ -97,66 +97,89 @@ export default function Show({ auth, acCheck }) {
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-1 sm:gap-2 max-w-xl">
+                                <div className="grid grid-cols-3 gap-1 sm:gap-2 max-w-xl">
                                     {/* OPERATIONAL STATUS */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="operational_status_id"
-                                            value="Status"
+                                            htmlFor="is_operational"
+                                            value="Operational"
                                         />
 
                                         <TextInput
-                                            id="operational_status_id"
+                                            id="is_operational"
                                             className="mt-1 block w-full"
-                                            value={data.operational_status_id}
-                                            readOnly
+                                            value={
+                                                data.is_operational
+                                                    ? "Running"
+                                                    : "Stopped"
+                                            }
+                                            readOnly={true}
                                         />
                                     </div>
 
-                                    {/* LEAKAGE */}
+                                    {/* IS DRAIN LEAKING */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="leakage"
-                                            value="Leakage"
+                                            htmlFor="is_drain_leaking"
+                                            value="Drain Leaking"
                                         />
 
                                         <TextInput
-                                            id="leakage"
+                                            id="is_drain_leaking"
                                             className="mt-1 block w-full"
-                                            value={data.leakage}
-                                            readOnly
+                                            value={
+                                                data.is_drain_leaking
+                                                    ? "Yes"
+                                                    : "No"
+                                            }
+                                            readOnly={true}
+                                        />
+                                    </div>
+
+                                    {/* CURRENT LOAD */}
+                                    <div>
+                                        <InputLabel
+                                            htmlFor="current_load"
+                                            value="Current load"
+                                        />
+
+                                        <TextInput
+                                            id="current_load"
+                                            className="mt-1 block w-full"
+                                            value={data.current_load}
+                                            readOnly={true}
                                         />
                                     </div>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-1 sm:gap-2 max-w-xl">
-                                    {/* EVAPORATOR */}
+                                    {/* BLOWING TEMPERATURE */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="evaporator"
-                                            value="Evaporator"
+                                            htmlFor="blowing_temperature"
+                                            value="Blower Temperature"
                                         />
 
                                         <TextInput
-                                            id="evaporator"
+                                            id="blowing_temperature"
                                             className="mt-1 block w-full"
-                                            value={data.evaporator}
-                                            readOnly
+                                            value={data.blowing_temperature}
+                                            readOnly={true}
                                         />
                                     </div>
 
-                                    {/* CONDENSOR */}
+                                    {/* AMBIENT TEMPERATURE */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="condensor"
-                                            value="Condensor"
+                                            htmlFor="ambient_temperature"
+                                            value="Ambient Temperature"
                                         />
 
                                         <TextInput
-                                            id="condensor"
+                                            id="ambient_temperature"
                                             className="mt-1 block w-full"
-                                            value={data.condensor}
-                                            readOnly
+                                            value={data.ambient_temperature}
+                                            readOnly={true}
                                         />
                                     </div>
                                 </div>
@@ -166,83 +189,64 @@ export default function Show({ auth, acCheck }) {
                         <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
                             <section className="max-w-xl space-y-6">
                                 <h2 className="font-semibold text-lg leading-tight">
-                                    Technical
+                                    Cleanliness
                                 </h2>
-                                <div className="grid grid-cols-2 gap-1 sm:gap-2 max-w-xl">
-                                    {/* CURRENT BEFORE CLEANING */}
-                                    <div>
-                                        <InputLabel
-                                            htmlFor="current_before_cleaning"
-                                            value="Current before cleaning"
-                                        />
-
-                                        <TextInput
-                                            id="current_before_cleaning"
-                                            className="mt-1 block w-full"
-                                            value={data.current_before_cleaning}
-                                            readOnly
-                                        />
-                                    </div>
-
-                                    {/* CURRENT AFTER CLEANING */}
-                                    <div>
-                                        <InputLabel
-                                            htmlFor="current_after_cleaning"
-                                            value="Current after cleaning"
-                                        />
-
-                                        <TextInput
-                                            id="current_after_cleaning"
-                                            className="mt-1 block w-full"
-                                            value={data.current_after_cleaning}
-                                            readOnly
-                                        />
-                                    </div>
-                                </div>
 
                                 <div className="grid grid-cols-3 gap-1 sm:gap-2 max-w-xl">
-                                    {/* TEMPERATURE */}
+                                    {/* IS FILTER CLEAN */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="temperature"
-                                            value="Temperature"
+                                            htmlFor="is_filter_clean"
+                                            value="Filter"
                                         />
 
                                         <TextInput
-                                            id="temperature"
+                                            id="is_filter_clean"
                                             className="mt-1 block w-full"
-                                            value={data.temperature}
-                                            readOnly
+                                            value={
+                                                data.is_filter_clean
+                                                    ? "Clean"
+                                                    : "Dirty"
+                                            }
+                                            readOnly={true}
                                         />
                                     </div>
 
-                                    {/* REMOTE */}
+                                    {/* IS EVAPORATOR CLEAN */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="remote"
-                                            value="Remote"
+                                            htmlFor="is_evaporator_clean"
+                                            value="Evaporator"
                                         />
 
                                         <TextInput
-                                            id="remote"
+                                            id="is_evaporator_clean"
                                             className="mt-1 block w-full"
-                                            value={data.remote}
-                                            readOnly
+                                            value={
+                                                data.is_evaporator_clean
+                                                    ? "Clean"
+                                                    : "Dirty"
+                                            }
+                                            readOnly={true}
                                         />
                                     </div>
 
-                                    {/* PRESSURE */}
+                                    {/* IS CONDENSOR CLEAN */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="compressor_pressure"
-                                            value="Pressure"
+                                            htmlFor="is_condensor_clean"
+                                            value="Condensor"
                                         />
 
                                         <TextInput
-                                            id="compressor_pressure"
+                                            id="is_condensor_clean"
                                             className="mt-1 block w-full"
-                                            value={data.compressor_pressure}
-                                            readOnly
+                                            value={
+                                                data.is_condensor_clean
+                                                    ? "Clean"
+                                                    : "Dirty"
+                                            }
+                                            readOnly={true}
                                         />
                                     </div>
                                 </div>
@@ -256,48 +260,60 @@ export default function Show({ auth, acCheck }) {
                                 </h2>
 
                                 <div className="grid grid-cols-3 gap-1 sm:gap-2 max-w-xl">
-                                    {/* CLEANING FILTER INDOOR */}
+                                    {/* CLEANING FILTER */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="cleaning_filter_indoor"
-                                            value="Filter Indoor"
+                                            htmlFor="cleaning_filter"
+                                            value="Filter"
                                         />
 
                                         <TextInput
-                                            id="cleaning_filter_indoor"
+                                            id="cleaning_filter"
                                             className="mt-1 block w-full"
-                                            value={data.cleaning_filter_indoor}
-                                            readOnly
+                                            value={
+                                                data.cleaning_filter
+                                                    ? "Yes"
+                                                    : "No"
+                                            }
+                                            readOnly={true}
                                         />
                                     </div>
 
-                                    {/* CLEANING INDOOR */}
+                                    {/* CLEANING EVAPORATOR */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="cleaning_indoor"
-                                            value="Indoor"
+                                            htmlFor="cleaning_evaporator"
+                                            value="Evaporator"
                                         />
 
                                         <TextInput
-                                            id="cleaning_indoor"
+                                            id="cleaning_evaporator"
                                             className="mt-1 block w-full"
-                                            value={data.cleaning_indoor}
-                                            readOnly
+                                            value={
+                                                data.cleaning_evaporator
+                                                    ? "Yes"
+                                                    : "No"
+                                            }
+                                            readOnly={true}
                                         />
                                     </div>
 
-                                    {/* CLEANING OUTDOOR */}
+                                    {/* CLEANING CONDENSOR */}
                                     <div>
                                         <InputLabel
-                                            htmlFor="cleaning_outdoor"
-                                            value="Outdoor"
+                                            htmlFor="cleaning_condensor"
+                                            value="Condensor"
                                         />
 
                                         <TextInput
-                                            id="cleaning_outdoor"
+                                            id="cleaning_condensor"
                                             className="mt-1 block w-full"
-                                            value={data.cleaning_outdoor}
-                                            readOnly
+                                            value={
+                                                data.cleaning_condensor
+                                                    ? "Yes"
+                                                    : "No"
+                                            }
+                                            readOnly={true}
                                         />
                                     </div>
                                 </div>

@@ -1,38 +1,22 @@
-import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
-import SecondaryButton from "@/Components/SecondaryButton";
 import SelectInput from "@/Components/SelectInput";
 import Textarea from "@/Components/Textarea";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { selectOptions } from "@/Utils/Helper";
-import { Transition } from "@headlessui/react";
 import { Head, useForm } from "@inertiajs/react";
 
-export default function Create({ auth, equipment_id }) {
-    const { data, setData, post, errors, processing, recentlySuccessful } =
-        useForm(`AparCheck:${equipment_id}`, {
-            equipment_id: equipment_id ?? "",
-            is_seal_ok: 1,
-            is_weight_ok: 1,
-            is_pressure_ok: 1,
-            is_body_ok: 1,
-            remark: "",
-        });
+export default function Show({ auth, aparCheck }) {
+    const equipment_id = aparCheck.data.equipment_id;
+    const { data } = useForm(`AparCheck:${aparCheck.data.equipment_id}`, {
+        equipment_id: aparCheck.data.equipment_id ?? "",
+        is_seal_ok: aparCheck.data.is_seal_ok ?? "",
+        is_weight_ok: aparCheck.data.is_weight_ok ?? "",
+        is_pressure_ok: aparCheck.data.is_pressure_ok ?? "",
+        is_body_ok: aparCheck.data.is_body_ok ?? "",
+        remark: aparCheck.data.remark ?? "",
+    });
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setData(name, value);
-    };
-
-    function submit(e) {
-        e.preventDefault();
-        post(route("apar-check.store"), {
-            preserveState: true,
-            replace: true,
-        });
-    }
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -41,10 +25,10 @@ export default function Create({ auth, equipment_id }) {
                     <div className="flex justify-between items-center">
                         <div>
                             <h2 className="font-semibold text-xl leading-tight">
-                                Apar check {equipment_id}
+                                Show Apar Check
                             </h2>
                             <p className="mt-1 text-sm">
-                                Form daily check of fire extinguisher.
+                                Displayed single check of equipment.
                             </p>
                         </div>
                     </div>
@@ -55,9 +39,8 @@ export default function Create({ auth, equipment_id }) {
 
             <div className="py-4">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-                    <form
+                    <section
                         id={`AparCheck:${equipment_id}`}
-                        onSubmit={submit}
                         className="space-y-6"
                     >
                         <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
@@ -77,11 +60,6 @@ export default function Create({ auth, equipment_id }) {
                                         required
                                         readOnly={true}
                                     />
-
-                                    <InputError
-                                        className="mt-2"
-                                        message={errors.equipment_id}
-                                    />
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-1 sm:gap-2 max-w-xl">
@@ -92,19 +70,16 @@ export default function Create({ auth, equipment_id }) {
                                             value="Seal"
                                         />
 
-                                        <SelectInput
+                                        <TextInput
                                             id="is_seal_ok"
                                             name="is_seal_ok"
                                             className="mt-1 block w-full"
-                                            value={data.is_seal_ok}
-                                            onChange={handleChange}
-                                            withSelectName={false}
-                                            options={selectOptions("goodness")}
-                                        />
-
-                                        <InputError
-                                            className="mt-2"
-                                            message={errors.is_seal_ok}
+                                            value={
+                                                data.is_seal_ok
+                                                    ? "Good"
+                                                    : "Not Good"
+                                            }
+                                            readOnly={true}
                                         />
                                     </div>
 
@@ -115,19 +90,16 @@ export default function Create({ auth, equipment_id }) {
                                             value="Weight"
                                         />
 
-                                        <SelectInput
+                                        <TextInput
                                             id="is_weight_ok"
                                             name="is_weight_ok"
                                             className="mt-1 block w-full"
-                                            value={data.is_weight_ok}
-                                            onChange={handleChange}
-                                            withSelectName={false}
-                                            options={selectOptions("goodness")}
-                                        />
-
-                                        <InputError
-                                            className="mt-2"
-                                            message={errors.is_weight_ok}
+                                            value={
+                                                data.is_weight_ok
+                                                    ? "Good"
+                                                    : "Not Good"
+                                            }
+                                            readOnly={true}
                                         />
                                     </div>
                                 </div>
@@ -140,19 +112,16 @@ export default function Create({ auth, equipment_id }) {
                                             value="Pressure"
                                         />
 
-                                        <SelectInput
+                                        <TextInput
                                             id="is_pressure_ok"
                                             name="is_pressure_ok"
                                             className="mt-1 block w-full"
-                                            value={data.is_pressure_ok}
-                                            onChange={handleChange}
-                                            withSelectName={false}
-                                            options={selectOptions("goodness")}
-                                        />
-
-                                        <InputError
-                                            className="mt-2"
-                                            message={errors.is_pressure_ok}
+                                            value={
+                                                data.is_pressure_ok
+                                                    ? "Good"
+                                                    : "Not Good"
+                                            }
+                                            readOnly={true}
                                         />
                                     </div>
 
@@ -163,19 +132,16 @@ export default function Create({ auth, equipment_id }) {
                                             value="Body"
                                         />
 
-                                        <SelectInput
+                                        <TextInput
                                             id="is_body_ok"
                                             name="is_body_ok"
                                             className="mt-1 block w-full"
-                                            value={data.is_body_ok}
-                                            onChange={handleChange}
-                                            withSelectName={false}
-                                            options={selectOptions("goodness")}
-                                        />
-
-                                        <InputError
-                                            className="mt-2"
-                                            message={errors.is_body_ok}
+                                            value={
+                                                data.is_body_ok
+                                                    ? "Good"
+                                                    : "Not Good"
+                                            }
+                                            readOnly={true}
                                         />
                                     </div>
                                 </div>
@@ -192,42 +158,11 @@ export default function Create({ auth, equipment_id }) {
                                         name="remark"
                                         className="mt-1 block w-full textarea textarea-bordered h-24"
                                         value={data.remark}
-                                        onChange={handleChange}
                                     />
-
-                                    <InputError
-                                        className="mt-2"
-                                        message={errors.remark}
-                                    />
-                                </div>
-
-                                <div className="flex items-center gap-4">
-                                    <SecondaryButton
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            window.history.back();
-                                        }}
-                                    >
-                                        Back
-                                    </SecondaryButton>
-
-                                    <PrimaryButton disabled={processing}>
-                                        Save
-                                    </PrimaryButton>
-
-                                    <Transition
-                                        show={recentlySuccessful}
-                                        enter="transition ease-in-out"
-                                        enterFrom="opacity-0"
-                                        leave="transition ease-in-out"
-                                        leaveTo="opacity-0"
-                                    >
-                                        <p className="text-sm">Saved.</p>
-                                    </Transition>
                                 </div>
                             </section>
                         </div>
-                    </form>
+                    </section>
                 </div>
             </div>
         </AuthenticatedLayout>

@@ -9,11 +9,11 @@ import { Transition } from "@headlessui/react";
 import { Head, useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import Temperatures from "./Partials/Temperatures";
+import { selectOptions } from "@/Utils/Helper";
 
-export default function Create({
-    auth,
-    motorCheck,
-}) {
+export default function Edit({ auth, motorCheck }) {
+    console.info(motorCheck);
+
     const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm(`MotorCheckEdit:${motorCheck.data.id}`, {
             equipment_id: motorCheck.data.equipment_id ?? "",
@@ -39,7 +39,6 @@ export default function Create({
     useEffect(() => {
         setInputErrors(errors);
     }, [errors]);
-
 
     const handleFocus = (e) => {
         setInputErrors({ ...inputErrors, [e.target.name]: null });
@@ -125,24 +124,16 @@ export default function Create({
                                             className="mt-1 block w-full"
                                             value={data.is_operational}
                                             onChange={handleChange}
-                                            options={[
-                                                {
-                                                    value: 1,
-                                                    label: "Running"
-                                                }, {
-                                                    value: 0,
-                                                    label: "Stoped"
-                                                },
-                                            ]}
+                                            options={selectOptions(
+                                                "operational"
+                                            )}
                                             withSelectName={false}
                                             onFocus={handleFocus}
                                         />
 
                                         <InputError
                                             className="mt-2"
-                                            message={
-                                                inputErrors.is_operational
-                                            }
+                                            message={inputErrors.is_operational}
                                         />
                                     </div>
 
@@ -159,16 +150,9 @@ export default function Create({
                                             value={data.is_clean}
                                             onChange={handleChange}
                                             withSelectName={false}
-                                            options={[
-                                                {
-                                                    value: 1,
-                                                    label: "Clean"
-                                                },
-                                                {
-                                                    value: 0,
-                                                    label: "Dirty"
-                                                },
-                                            ]}
+                                            options={selectOptions(
+                                                "cleanliness"
+                                            )}
                                             onFocus={handleFocus}
                                         />
 
@@ -322,15 +306,15 @@ export default function Create({
                                 {/* NOISE DE */}
                                 <div>
                                     <InputLabel
-                                        htmlFor="noise_de"
+                                        htmlFor="is_noisy_de"
                                         value="Noise DE"
                                     />
 
                                     <SelectInput
-                                        id="noise_de"
-                                        name="noise_de"
+                                        id="is_noisy_de"
+                                        name="is_noisy_de"
                                         className="mt-1 block w-full"
-                                        value={data.noise_de}
+                                        value={data.is_noisy_de}
                                         onChange={handleChange}
                                         withSelectName={false}
                                         onFocus={handleFocus}
@@ -338,7 +322,7 @@ export default function Create({
 
                                     <InputError
                                         className="mt-2"
-                                        message={inputErrors.noise_de}
+                                        message={inputErrors.is_noisy_de}
                                     />
                                 </div>
                             </section>
@@ -428,15 +412,15 @@ export default function Create({
                                 {/* NOISE NDE */}
                                 <div>
                                     <InputLabel
-                                        htmlFor="noise_nde"
+                                        htmlFor="is_noisy_nde"
                                         value="Noise NDE"
                                     />
 
                                     <SelectInput
-                                        id="noise_nde"
-                                        name="noise_nde"
+                                        id="is_noisy_nde"
+                                        name="is_noisy_nde"
                                         className="mt-1 block w-full"
-                                        value={data.noise_nde}
+                                        value={data.is_noisy_nde}
                                         onChange={handleChange}
                                         withSelectName={false}
                                         onFocus={(e) =>
@@ -446,7 +430,7 @@ export default function Create({
 
                                     <InputError
                                         className="mt-2"
-                                        message={inputErrors.noise_nde}
+                                        message={inputErrors.is_noisy_nde}
                                     />
                                 </div>
 

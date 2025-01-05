@@ -6,12 +6,9 @@ use App\Models\AparCheck;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAparCheckRequest;
 use App\Http\Requests\UpdateAparCheckRequest;
-use App\Http\Resources\GoodnessResource;
-use App\Http\Resources\RustinessResource;
+use App\Http\Resources\AparCheckResource;
 use App\Http\Resources\Simple\AparCheckSimpleResource;
 use App\Models\EquipmentCheckingForm;
-use App\Models\Goodness;
-use App\Models\Rustiness;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -34,13 +31,9 @@ class AparCheckController extends Controller
         Gate::authorize('apar_check_create');
 
         $equipment_id = $request->equipment_id;
-        $goodness = Goodness::all();
-        $rustiness = Rustiness::all();
 
         return Inertia::render('Checks/Apar/Create', [
             'equipment_id' => $equipment_id,
-            'goodness' => GoodnessResource::collection($goodness),
-            'rustiness' => RustinessResource::collection($rustiness),
         ]);
     }
 
@@ -72,7 +65,11 @@ class AparCheckController extends Controller
      */
     public function show(AparCheck $aparCheck)
     {
-        //
+        Gate::authorize('apar_check_show');
+
+        return Inertia::render('Checks/Apar/Show', [
+            'aparCheck' => AparCheckResource::make($aparCheck),
+        ]);
     }
 
     /**
@@ -82,13 +79,8 @@ class AparCheckController extends Controller
     {
         Gate::authorize('apar_check_edit');
 
-        $goodness = Goodness::all();
-        $rustiness = Rustiness::all();
-
         return Inertia::render('Checks/Apar/Edit', [
             'aparCheck' => AparCheckSimpleResource::make($aparCheck),
-            'goodness' => GoodnessResource::collection($goodness),
-            'rustiness' => RustinessResource::collection($rustiness),
         ]);
     }
 

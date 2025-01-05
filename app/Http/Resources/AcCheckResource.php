@@ -3,10 +3,6 @@
 namespace App\Http\Resources;
 
 use App\Http\Resources\Simple\UserSimpleResource;
-use App\Models\Cleanliness;
-use App\Models\Confirmation;
-use App\Models\Goodness;
-use App\Models\OperationalStatus;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -23,21 +19,20 @@ class AcCheckResource extends JsonResource
         return [
             'id' => $this->id,
             'equipment_id' => $this->checkingForm->equipment_id,
-            'operational_status' => OperationalStatusResource::make(OperationalStatus::find($this->operational_status_id)),
-            'leakage' => ConfirmationResource::make(Confirmation::find($this->leakage)),
-            'evaporator' => CleanlinessResource::make(Cleanliness::find($this->evaporator)),
-            'condensor' =>  CleanlinessResource::make(Cleanliness::find($this->condensor)),
-            'current_before_cleaning' => $this->current_before_cleaning,
-            'current_after_cleaning' => $this->current_after_cleaning,
-            'temperature' => $this->temperature,
-            'remote' => GoodnessResource::make(Goodness::find($this->remote)),
-            'compressor_pressure' => $this->compressor_pressure,
-            'cleaning_filter_indoor' => ConfirmationResource::make(Confirmation::find($this->cleaning_filter_indoor)),
-            'cleaning_indoor' => ConfirmationResource::make(Confirmation::find($this->cleaning_indoor)),
-            'cleaning_outdoor' => ConfirmationResource::make(Confirmation::find($this->cleaning_outdoor)),
+            'is_operational' => $this->is_operational,
+            'is_drain_leaking' => $this->is_drain_leaking,
+            'current_load' => $this->current_load,
+            'blowing_temperature' => $this->blowing_temperature,
+            'ambient_temperature' => $this->ambient_temperature,
+            'is_filter_clean' => $this->is_filter_clean,
+            'is_evaporator_clean' => $this->is_evaporator_clean,
+            'is_condensor_clean' => $this->is_condensor_clean,
+            'cleaning_filter' => $this->cleaning_filter,
+            'cleaning_evaporator' => $this->cleaning_evaporator,
+            'cleaning_condensor' => $this->cleaning_condensor,
+            'checked_by' => UserSimpleResource::make(User::find($this->checked_by)),
             'created_at' => $this->created_at?->toFormattedDateString(),
             'updated_at' => $this->updated_at?->toFormattedDateString(),
-            'checked_by' => UserSimpleResource::make(User::find($this->checked_by)),
         ];
     }
 }

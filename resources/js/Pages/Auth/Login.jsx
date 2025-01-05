@@ -62,6 +62,7 @@ export default function Login({ status, canResetPassword }) {
                         autoComplete="current-password"
                         required
                         onChange={(e) => setData("password", e.target.value)}
+                        enterOnSubmit={true}
                     />
 
                     <InputError message={errors.password} className="mt-2" />

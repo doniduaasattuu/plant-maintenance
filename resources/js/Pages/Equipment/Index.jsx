@@ -34,6 +34,7 @@ export default function Index({
             label: classification.description,
         };
     });
+    classifications.sort((a, b) => a.label.localeCompare(b.label));
 
     equipment_status = equipment_status.data.map((status) => {
         return {

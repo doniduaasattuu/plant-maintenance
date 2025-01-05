@@ -30,10 +30,10 @@ class MotorCheckController extends Controller
     {
         Gate::authorize('motor_check_create');
 
-        $equipmentId = $request->equipment_id;
+        $equipment_id = $request->equipment_id;
 
         return Inertia::render('Checks/Motor/Create', [
-            'equipmentId' => $equipmentId,
+            'equipment_id' => $equipment_id,
         ]);
     }
 

@@ -7,18 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAcCheckRequest;
 use App\Http\Requests\UpdateAcCheckRequest;
 use App\Http\Resources\AcCheckResource;
-use App\Http\Resources\CleanlinessResource;
-use App\Http\Resources\ConfirmationResource;
-use App\Http\Resources\GoodnessResource;
-use App\Http\Resources\NormalityResource;
-use App\Http\Resources\OperationalStatusResource;
 use App\Http\Resources\Simple\AcCheckSimpleResource;
-use App\Models\Cleanliness;
-use App\Models\Confirmation;
 use App\Models\EquipmentCheckingForm;
-use App\Models\Goodness;
-use App\Models\Normality;
-use App\Models\OperationalStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -41,17 +31,9 @@ class AcCheckController extends Controller
         Gate::authorize('ac_check_create');
 
         $equipment_id = $request->equipment_id;
-        $operationalStatuses = OperationalStatus::all();
-        $cleanliness = Cleanliness::all();
-        $confirmations = Confirmation::all();
-        $goodness = Goodness::all();
 
         return Inertia::render('Checks/Ac/Create', [
             'equipment_id' => $equipment_id,
-            'operationalStatuses' => OperationalStatusResource::collection($operationalStatuses),
-            'cleanliness' => CleanlinessResource::collection($cleanliness),
-            'confirmations' => ConfirmationResource::collection($confirmations),
-            'goodness' => GoodnessResource::collection($goodness),
         ]);
     }
 
@@ -85,17 +67,8 @@ class AcCheckController extends Controller
     {
         Gate::authorize('ac_check_show');
 
-        $operationalStatuses = OperationalStatus::all();
-        $cleanliness = Cleanliness::all();
-        $confirmations = Confirmation::all();
-        $goodness = Goodness::all();
-
         return Inertia::render('Checks/Ac/Show', [
             'acCheck' => AcCheckResource::make($acCheck),
-            'operationalStatuses' => OperationalStatusResource::collection($operationalStatuses),
-            'cleanliness' => CleanlinessResource::collection($cleanliness),
-            'confirmations' => ConfirmationResource::collection($confirmations),
-            'goodness' => GoodnessResource::collection($goodness),
         ]);
     }
 
@@ -106,17 +79,8 @@ class AcCheckController extends Controller
     {
         Gate::authorize('ac_check_edit');
 
-        $operationalStatuses = OperationalStatus::all();
-        $cleanliness = Cleanliness::all();
-        $confirmations = Confirmation::all();
-        $goodness = Goodness::all();
-
         return Inertia::render('Checks/Ac/Edit', [
             'acCheck' => AcCheckSimpleResource::make($acCheck),
-            'operationalStatuses' => OperationalStatusResource::collection($operationalStatuses),
-            'cleanliness' => CleanlinessResource::collection($cleanliness),
-            'confirmations' => ConfirmationResource::collection($confirmations),
-            'goodness' => GoodnessResource::collection($goodness),
         ]);
     }
 
