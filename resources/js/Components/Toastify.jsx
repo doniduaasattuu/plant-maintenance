@@ -7,7 +7,7 @@ export default function Toastify({ message }) {
         if (message.body && message.body != undefined && message.body != null) {
             toast(message.body, {
                 type: message.type,
-                position: isMobile() ? "top-center" : "bottom-right",
+                position: isMobile() ? "top-center" : "top-right",
             });
         }
 

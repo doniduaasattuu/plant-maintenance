@@ -23,10 +23,10 @@ class AparCheckExport implements FromCollection, WithHeadings
     public function collection()
     {
         $aparChecks = AparCheck::select(
-            'seal',
-            'weight',
-            'pressure',
-            'body',
+            'is_seal_ok',
+            'is_weight_ok',
+            'is_pressure_ok',
+            'is_body_ok',
             'remark',
             'checked_by',
             'created_at',

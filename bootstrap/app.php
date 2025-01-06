@@ -32,7 +32,7 @@ return Application::configure(basePath: dirname(__DIR__))
                     'status' => $statusCode,
                     'title' => $title,
                     'description' => $description
-                ])->toResponse(request())->setStatusCode($statusCode);
+                ])->toResponse(request())->setStatusCode($statusCode == 204 ? 200 : $statusCode);
             }
 
             return $response;

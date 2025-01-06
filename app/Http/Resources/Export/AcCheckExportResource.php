@@ -2,10 +2,6 @@
 
 namespace App\Http\Resources\Export;
 
-use App\Models\Cleanliness;
-use App\Models\Confirmation;
-use App\Models\Goodness;
-use App\Models\OperationalStatus;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -22,18 +18,17 @@ class AcCheckExportResource extends JsonResource
         $user = User::find($this->checked_by);
 
         return [
-            'operational_status_id' => OperationalStatus::find($this->operational_status_id)?->keyword,
-            'leakage' => Confirmation::find($this->leakage)?->keyword,
-            'evaporator' => Cleanliness::find($this->evaporator)?->keyword,
-            'condensor' => Cleanliness::find($this->condensor)?->keyword,
-            'current_before_cleaning' => $this->current_before_cleaning,
-            'current_after_cleaning' => $this->current_after_cleaning,
-            'temperature' => $this->temperature,
-            'remote' => Goodness::find($this->remote)?->keyword,
-            'compressor_pressure' => $this->compressor_pressure,
-            'cleaning_filter_indoor' => Confirmation::find($this->cleaning_filter_indoor)?->keyword,
-            'cleaning_indoor' => Confirmation::find($this->cleaning_indoor)?->keyword,
-            'cleaning_outdoor' => Confirmation::find($this->cleaning_outdoor)?->keyword,
+            'is_operational' => $this->is_operational ? "Running" : "Stopped",
+            'is_drain_leaking' => $this->is_drain_leaking ? "No" : "Leak",
+            'current_load' => $this->current_load,
+            'blowing_temperature' => $this->blowing_temperature,
+            'ambient_temperature' => $this->ambient_temperature,
+            'is_filter_clean' => $this->is_filter_clean ? "Clean" : "Dirty",
+            'is_evaporator_clean' => $this->is_evaporator_clean ? "Clean" : "Dirty",
+            'is_condensor_clean' => $this->is_condensor_clean ? "Clean" : "Dirty",
+            'cleaning_filter' => $this->cleaning_filter ? "Cleaning" : "No",
+            'cleaning_evaporator' => $this->cleaning_evaporator ? "Cleaning" : "No",
+            'cleaning_condensor' => $this->cleaning_condensor ? "Cleaning" : "No",
             'checked_by' => "$user?->first_name $user?->last_name",
             'created_at' => $this->created_at?->toFormattedDateString(),
         ];

@@ -17,12 +17,10 @@ export default function Index({
     can,
     equipment_id,
     operational_status,
-    leakage,
-    evasor,
-    currents,
-    temperature,
-    remote,
-    pressure,
+    is_drain_leaking,
+    temperatures,
+    current_load,
+    cleanliness,
     cleanings,
     links,
     classification_id,
@@ -125,17 +123,17 @@ export default function Index({
                     </div>
                 </div>
 
-                {/* LEAKAGE */}
+                {/* DRAIN LEAKING */}
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="overflow-scroll shadow-lg sm:rounded-lg px-4 py-8 bg-base-200 space-y-6">
                         <h2 className="font-semibold text-xl leading-tight text-center opacity-80">
-                            Leakage
+                            Drain Leakage
                         </h2>
                         <div className="min-w-xs">
                             <ResponsiveContainer width="100%" height={150}>
                                 <AreaChart
                                     syncId={equipment_id}
-                                    data={leakage}
+                                    data={is_drain_leaking}
                                     margin={{
                                         top: 10,
                                         right: 30,
@@ -145,88 +143,7 @@ export default function Index({
                                 >
                                     <defs>
                                         <linearGradient
-                                            id="Leakage"
-                                            x1="0"
-                                            y1="0"
-                                            x2="0"
-                                            y2="1"
-                                        >
-                                            <stop
-                                                offset="5%"
-                                                stopColor="#c1666b"
-                                                stopOpacity={0.8}
-                                            />
-                                            <stop
-                                                offset="95%"
-                                                stopColor="#c1666b"
-                                                stopOpacity={0}
-                                            />
-                                        </linearGradient>
-                                    </defs>
-                                    <XAxis
-                                        tickMargin={12}
-                                        reversed={false}
-                                        tick={{
-                                            fontSize: 13,
-                                        }}
-                                        dataKey="Date"
-                                    />
-                                    <YAxis
-                                        domain={[0, 1]}
-                                        ticks={[0, 1]}
-                                        tickFormatter={(value) =>
-                                            value === 1 ? "Save" : "Leak"
-                                        }
-                                        tick={{
-                                            fontSize: 13,
-                                        }}
-                                    />
-                                    <Legend
-                                        wrapperStyle={{
-                                            fontSize: 14,
-                                            paddingTop: 12,
-                                        }}
-                                    />
-                                    <Tooltip
-                                        formatter={(value) =>
-                                            value === 1 ? "Save" : "Leak"
-                                        }
-                                        contentStyle={{ fontSize: 12 }}
-                                    />
-                                    <Area
-                                        type="step"
-                                        dataKey="Leakage"
-                                        stroke="#c1666b"
-                                        fillOpacity={1}
-                                        fill="url(#Leakage)"
-                                    />
-                                </AreaChart>
-                            </ResponsiveContainer>
-                        </div>
-                    </div>
-                </div>
-
-                {/* EVASOR */}
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="overflow-scroll shadow-lg sm:rounded-lg px-4 py-8 bg-base-200 space-y-6">
-                        <h2 className="font-semibold text-xl leading-tight text-center opacity-80">
-                            Evaporator & Condensor
-                        </h2>
-                        <div className="min-w-xs">
-                            <ResponsiveContainer width="100%" height={150}>
-                                <AreaChart
-                                    syncId={equipment_id}
-                                    data={evasor}
-                                    margin={{
-                                        top: 10,
-                                        right: 30,
-                                        left: 0,
-                                        bottom: 0,
-                                    }}
-                                >
-                                    <defs>
-                                        <linearGradient
-                                            id="Evaporator"
+                                            id="DrainLeak"
                                             x1="0"
                                             y1="0"
                                             x2="0"
@@ -243,24 +160,6 @@ export default function Index({
                                                 stopOpacity={0}
                                             />
                                         </linearGradient>
-                                        <linearGradient
-                                            id="Condensor"
-                                            x1="0"
-                                            y1="0"
-                                            x2="0"
-                                            y2="1"
-                                        >
-                                            <stop
-                                                offset="5%"
-                                                stopColor="#759AAB"
-                                                stopOpacity={0.8}
-                                            />
-                                            <stop
-                                                offset="95%"
-                                                stopColor="#759AAB"
-                                                stopOpacity={0}
-                                            />
-                                        </linearGradient>
                                     </defs>
                                     <XAxis
                                         tickMargin={12}
@@ -274,7 +173,7 @@ export default function Index({
                                         domain={[0, 1]}
                                         ticks={[0, 1]}
                                         tickFormatter={(value) =>
-                                            value === 1 ? "Clean" : "Dirty"
+                                            value === 1 ? "Leak" : "No"
                                         }
                                         tick={{
                                             fontSize: 13,
@@ -288,23 +187,16 @@ export default function Index({
                                     />
                                     <Tooltip
                                         formatter={(value) =>
-                                            value === 1 ? "Clean" : "Dirty"
+                                            value === 1 ? "Leak" : "No"
                                         }
                                         contentStyle={{ fontSize: 12 }}
                                     />
                                     <Area
                                         type="step"
-                                        dataKey="Evaporator"
+                                        dataKey="DrainLeak"
                                         stroke="#82ca9d"
                                         fillOpacity={1}
-                                        fill="url(#Evaporator)"
-                                    />
-                                    <Area
-                                        type="step"
-                                        dataKey="Condensor"
-                                        stroke="#759AAB"
-                                        fillOpacity={1}
-                                        fill="url(#Condensor)"
+                                        fill="url(#DrainLeak)"
                                     />
                                 </AreaChart>
                             </ResponsiveContainer>
@@ -312,17 +204,17 @@ export default function Index({
                     </div>
                 </div>
 
-                {/* CURRENTS */}
+                {/* CURRENT LOAD */}
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="overflow-scroll shadow-lg sm:rounded-lg px-4 py-8 bg-base-200 space-y-6">
                         <h2 className="font-semibold text-xl leading-tight text-center opacity-80">
-                            Currents
+                            Current load
                         </h2>
                         <div className="min-w-xs">
                             <ResponsiveContainer width="100%" height={300}>
                                 <AreaChart
                                     syncId={equipment_id}
-                                    data={currents}
+                                    data={current_load}
                                     margin={{
                                         top: 10,
                                         right: 30,
@@ -332,7 +224,7 @@ export default function Index({
                                 >
                                     <defs>
                                         <linearGradient
-                                            id="Before"
+                                            id="CurrentLoad"
                                             x1="0"
                                             y1="0"
                                             x2="0"
@@ -346,24 +238,6 @@ export default function Index({
                                             <stop
                                                 offset="95%"
                                                 stopColor="#202c59"
-                                                stopOpacity={0}
-                                            />
-                                        </linearGradient>
-                                        <linearGradient
-                                            id="After"
-                                            x1="0"
-                                            y1="0"
-                                            x2="0"
-                                            y2="1"
-                                        >
-                                            <stop
-                                                offset="5%"
-                                                stopColor="#d95d39"
-                                                stopOpacity={0.8}
-                                            />
-                                            <stop
-                                                offset="95%"
-                                                stopColor="#d95d39"
                                                 stopOpacity={0}
                                             />
                                         </linearGradient>
@@ -377,7 +251,7 @@ export default function Index({
                                         dataKey="Date"
                                     />
                                     <YAxis
-                                        domain={[0, 20]}
+                                        // domain={[0, 20]}
                                         type="number"
                                         tick={{
                                             fontSize: 13,
@@ -393,17 +267,10 @@ export default function Index({
                                     <Tooltip contentStyle={{ fontSize: 12 }} />
                                     <Area
                                         type="monotone"
-                                        dataKey="Before"
+                                        dataKey="CurrentLoad"
                                         stroke="#103f81"
                                         fillOpacity={1}
-                                        fill="url(#Before)"
-                                    />
-                                    <Area
-                                        type="monotone"
-                                        dataKey="After"
-                                        stroke="#d95d39"
-                                        fillOpacity={1}
-                                        fill="url(#After)"
+                                        fill="url(#CurrentLoad)"
                                     />
                                 </AreaChart>
                             </ResponsiveContainer>
@@ -411,17 +278,17 @@ export default function Index({
                     </div>
                 </div>
 
-                {/* TEMPERATURE */}
+                {/* TEMPERATURES */}
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="overflow-scroll shadow-lg sm:rounded-lg px-4 py-8 bg-base-200 space-y-6">
                         <h2 className="font-semibold text-xl leading-tight text-center opacity-80">
-                            Temperature
+                            Temperatures
                         </h2>
                         <div className="min-w-xs">
                             <ResponsiveContainer width="100%" height={300}>
                                 <AreaChart
                                     syncId={equipment_id}
-                                    data={temperature}
+                                    data={temperatures}
                                     margin={{
                                         top: 10,
                                         right: 30,
@@ -431,7 +298,7 @@ export default function Index({
                                 >
                                     <defs>
                                         <linearGradient
-                                            id="Temperature"
+                                            id="Blowing"
                                             x1="0"
                                             y1="0"
                                             x2="0"
@@ -445,6 +312,24 @@ export default function Index({
                                             <stop
                                                 offset="95%"
                                                 stopColor="#8884d8"
+                                                stopOpacity={0}
+                                            />
+                                        </linearGradient>
+                                        <linearGradient
+                                            id="Ambient"
+                                            x1="0"
+                                            y1="0"
+                                            x2="0"
+                                            y2="1"
+                                        >
+                                            <stop
+                                                offset="5%"
+                                                stopColor="#82ca9d"
+                                                stopOpacity={0.8}
+                                            />
+                                            <stop
+                                                offset="95%"
+                                                stopColor="#82ca9d"
                                                 stopOpacity={0}
                                             />
                                         </linearGradient>
@@ -472,10 +357,17 @@ export default function Index({
                                     <Tooltip contentStyle={{ fontSize: 12 }} />
                                     <Area
                                         type="monotone"
-                                        dataKey="Temperature"
+                                        dataKey="Blowing"
                                         stroke="#8884d8"
                                         fillOpacity={1}
-                                        fill="url(#Temperature)"
+                                        fill="url(#Blowing)"
+                                    />
+                                    <Area
+                                        type="monotone"
+                                        dataKey="Ambient"
+                                        stroke="#82ca9d"
+                                        fillOpacity={1}
+                                        fill="url(#Ambient)"
                                     />
                                 </AreaChart>
                             </ResponsiveContainer>
@@ -483,17 +375,17 @@ export default function Index({
                     </div>
                 </div>
 
-                {/* REMOTE */}
+                {/* CLEANLINESS */}
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="overflow-scroll shadow-lg sm:rounded-lg px-4 py-8 bg-base-200 space-y-6">
                         <h2 className="font-semibold text-xl leading-tight text-center opacity-80">
-                            Remote
+                            Cleanliness
                         </h2>
                         <div className="min-w-xs">
                             <ResponsiveContainer width="100%" height={150}>
                                 <AreaChart
                                     syncId={equipment_id}
-                                    data={remote}
+                                    data={cleanliness}
                                     margin={{
                                         top: 10,
                                         right: 30,
@@ -503,7 +395,7 @@ export default function Index({
                                 >
                                     <defs>
                                         <linearGradient
-                                            id="Remote"
+                                            id="Filter"
                                             x1="0"
                                             y1="0"
                                             x2="0"
@@ -517,6 +409,42 @@ export default function Index({
                                             <stop
                                                 offset="95%"
                                                 stopColor="#82ca9d"
+                                                stopOpacity={0}
+                                            />
+                                        </linearGradient>
+                                        <linearGradient
+                                            id="Evaporator"
+                                            x1="0"
+                                            y1="0"
+                                            x2="0"
+                                            y2="1"
+                                        >
+                                            <stop
+                                                offset="5%"
+                                                stopColor="#759AAB"
+                                                stopOpacity={0.8}
+                                            />
+                                            <stop
+                                                offset="95%"
+                                                stopColor="#759AAB"
+                                                stopOpacity={0}
+                                            />
+                                        </linearGradient>
+                                        <linearGradient
+                                            id="Condensor"
+                                            x1="0"
+                                            y1="0"
+                                            x2="0"
+                                            y2="1"
+                                        >
+                                            <stop
+                                                offset="5%"
+                                                stopColor="#d95d39"
+                                                stopOpacity={0.8}
+                                            />
+                                            <stop
+                                                offset="95%"
+                                                stopColor="#d95d39"
                                                 stopOpacity={0}
                                             />
                                         </linearGradient>
@@ -533,7 +461,7 @@ export default function Index({
                                         domain={[0, 1]}
                                         ticks={[0, 1]}
                                         tickFormatter={(value) =>
-                                            value === 1 ? "Good" : "Bad"
+                                            value === 1 ? "Clean" : "Dirty"
                                         }
                                         tick={{
                                             fontSize: 13,
@@ -547,88 +475,30 @@ export default function Index({
                                     />
                                     <Tooltip
                                         formatter={(value) =>
-                                            value === 1 ? "Good" : "Bad"
+                                            value === 1 ? "Clean" : "Dirty"
                                         }
                                         contentStyle={{ fontSize: 12 }}
                                     />
                                     <Area
                                         type="step"
-                                        dataKey="Remote"
+                                        dataKey="Filter"
                                         stroke="#82ca9d"
                                         fillOpacity={1}
-                                        fill="url(#Remote)"
+                                        fill="url(#Filter)"
                                     />
-                                </AreaChart>
-                            </ResponsiveContainer>
-                        </div>
-                    </div>
-                </div>
-
-                {/* PRESSURE */}
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="overflow-scroll shadow-lg sm:rounded-lg px-4 py-8 bg-base-200 space-y-6">
-                        <h2 className="font-semibold text-xl leading-tight text-center opacity-80">
-                            Pressure
-                        </h2>
-                        <div className="min-w-xs">
-                            <ResponsiveContainer width="100%" height={300}>
-                                <AreaChart
-                                    syncId={equipment_id}
-                                    data={pressure}
-                                    margin={{
-                                        top: 10,
-                                        right: 30,
-                                        left: 0,
-                                        bottom: 0,
-                                    }}
-                                >
-                                    <defs>
-                                        <linearGradient
-                                            id="Pressure"
-                                            x1="0"
-                                            y1="0"
-                                            x2="0"
-                                            y2="1"
-                                        >
-                                            <stop
-                                                offset="5%"
-                                                stopColor="#8884d8"
-                                                stopOpacity={0.8}
-                                            />
-                                            <stop
-                                                offset="95%"
-                                                stopColor="#8884d8"
-                                                stopOpacity={0}
-                                            />
-                                        </linearGradient>
-                                    </defs>
-                                    <XAxis
-                                        tickMargin={12}
-                                        reversed={false}
-                                        tick={{
-                                            fontSize: 13,
-                                        }}
-                                        dataKey="Date"
-                                    />
-                                    <YAxis
-                                        tick={{
-                                            fontSize: 13,
-                                        }}
-                                    />
-                                    <CartesianGrid strokeDasharray="4 4" />
-                                    <Legend
-                                        wrapperStyle={{
-                                            fontSize: 14,
-                                            paddingTop: 12,
-                                        }}
-                                    />
-                                    <Tooltip contentStyle={{ fontSize: 12 }} />
                                     <Area
-                                        type="monotone"
-                                        dataKey="Pressure"
-                                        stroke="#8884d8"
+                                        type="step"
+                                        dataKey="Evaporator"
+                                        stroke="#759AAB"
                                         fillOpacity={1}
-                                        fill="url(#Pressure)"
+                                        fill="url(#Evaporator)"
+                                    />
+                                    <Area
+                                        type="step"
+                                        dataKey="Condensor"
+                                        stroke="#d95d39"
+                                        fillOpacity={1}
+                                        fill="url(#Condensor)"
                                     />
                                 </AreaChart>
                             </ResponsiveContainer>
@@ -656,7 +526,7 @@ export default function Index({
                                 >
                                     <defs>
                                         <linearGradient
-                                            id="Filter_Indoor"
+                                            id="Filter"
                                             x1="0"
                                             y1="0"
                                             x2="0"
@@ -674,7 +544,7 @@ export default function Index({
                                             />
                                         </linearGradient>
                                         <linearGradient
-                                            id="Indoor"
+                                            id="Evaporator"
                                             x1="0"
                                             y1="0"
                                             x2="0"
@@ -692,7 +562,7 @@ export default function Index({
                                             />
                                         </linearGradient>
                                         <linearGradient
-                                            id="Outdoor"
+                                            id="Condensor"
                                             x1="0"
                                             y1="0"
                                             x2="0"
@@ -722,7 +592,7 @@ export default function Index({
                                         domain={[0, 1]}
                                         ticks={[0, 1]}
                                         tickFormatter={(value) =>
-                                            value === 1 ? "Clean" : "Dirty"
+                                            value === 1 ? "Yes" : "No"
                                         }
                                         tick={{
                                             fontSize: 13,
@@ -736,30 +606,30 @@ export default function Index({
                                     />
                                     <Tooltip
                                         formatter={(value) =>
-                                            value === 1 ? "Clean" : "Dirty"
+                                            value === 1 ? "Yes" : "No"
                                         }
                                         contentStyle={{ fontSize: 12 }}
                                     />
                                     <Area
                                         type="step"
-                                        dataKey="Filter_Indoor"
+                                        dataKey="Filter"
                                         stroke="#82ca9d"
                                         fillOpacity={1}
-                                        fill="url(#Filter_Indoor)"
+                                        fill="url(#Filter)"
                                     />
                                     <Area
                                         type="step"
-                                        dataKey="Indoor"
+                                        dataKey="Evaporator"
                                         stroke="#759AAB"
                                         fillOpacity={1}
-                                        fill="url(#Indoor)"
+                                        fill="url(#Evaporator)"
                                     />
                                     <Area
                                         type="step"
-                                        dataKey="Outdoor"
+                                        dataKey="Condensor"
                                         stroke="#d95d39"
                                         fillOpacity={1}
-                                        fill="url(#Outdoor)"
+                                        fill="url(#Condensor)"
                                     />
                                 </AreaChart>
                             </ResponsiveContainer>

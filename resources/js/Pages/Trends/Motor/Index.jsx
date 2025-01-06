@@ -431,6 +431,7 @@ export default function Index({
                                         dataKey="Date"
                                     />
                                     <YAxis
+                                        domain={[0, 45]}
                                         tick={{
                                             fontSize: 13,
                                         }}
@@ -527,7 +528,7 @@ export default function Index({
                                         domain={[0, 1]}
                                         ticks={[0, 1]}
                                         tickFormatter={(value) =>
-                                            value === 1 ? "Good" : "Bad"
+                                            value === 1 ? "Normal" : "Abnormal"
                                         }
                                         tick={{
                                             fontSize: 13,
@@ -541,7 +542,7 @@ export default function Index({
                                     />
                                     <Tooltip
                                         formatter={(value) =>
-                                            value === 1 ? "Good" : "Bad"
+                                            value === 1 ? "Normal" : "Abnormal"
                                         }
                                         contentStyle={{ fontSize: 12 }}
                                     />
@@ -641,6 +642,7 @@ export default function Index({
                                         dataKey="Date"
                                     />
                                     <YAxis
+                                        domain={[0, 45]}
                                         tick={{
                                             fontSize: 13,
                                         }}
@@ -730,7 +732,7 @@ export default function Index({
                                         domain={[0, 1]}
                                         ticks={[0, 1]}
                                         tickFormatter={(value) =>
-                                            value === 1 ? "Good" : "Bad"
+                                            value === 1 ? "Noise" : "Normal"
                                         }
                                         tick={{
                                             fontSize: 13,
@@ -744,7 +746,7 @@ export default function Index({
                                     />
                                     <Tooltip
                                         formatter={(value) =>
-                                            value === 1 ? "Good" : "Bad"
+                                            value === 1 ? "Noise" : "Normal"
                                         }
                                         contentStyle={{ fontSize: 12 }}
                                     />

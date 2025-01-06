@@ -45,8 +45,10 @@ return [
         "description" => "The server successfully processed the request and is instructing the client to reset the document view.",
     ],
     206 => [
-        "title" => "Partial Content",
-        "description" => "The server is delivering only part of the resource due to a range header sent by the client.",
+        "title" => "No Content",
+        "description" => "The request was successful, but there is no content to return.",
+        // "title" => "Partial Content",
+        // "description" => "The server is delivering only part of the resource due to a range header sent by the client.",
     ],
     207 => [
         "title" => "Multi-Status",

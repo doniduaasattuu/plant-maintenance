@@ -2,9 +2,6 @@
 
 namespace App\Http\Resources\Export;
 
-use App\Models\Cleanliness;
-use App\Models\Normality;
-use App\Models\OperationalStatus;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -21,8 +18,8 @@ class MotorCheckExportResource extends JsonResource
         $user = User::find($this->checked_by);
 
         return [
-            'operational_status_id' => OperationalStatus::find($this->operational_status_id)?->keyword,
-            'cleanliness_id' => Cleanliness::find($this->cleanliness_id)?->keyword,
+            'is_operational' => $this->is_operational ? "Running" : "Stopped",
+            'is_clean' => $this->is_clean ? "Clean" : "Dirty",
             'number_of_greasing' => $this->number_of_greasing,
             'temperature_de' => $this->temperature_de,
             'temperature_body' => $this->temperature_body,
@@ -31,11 +28,11 @@ class MotorCheckExportResource extends JsonResource
             'vibration_deh' => $this->vibration_deh,
             'vibration_dea' => $this->vibration_dea,
             'vibration_def' => $this->vibration_def,
-            'noise_de' => Normality::find($this->noise_de)?->keyword,
+            'is_noisy_de' => $this->is_noisy_de ? "Noise" : "Normal",
             'vibration_ndev' => $this->vibration_ndev,
             'vibration_ndeh' => $this->vibration_ndeh,
             'vibration_ndef' => $this->vibration_ndef,
-            'noise_nde' => Normality::find($this->noise_nde)?->keyword,
+            'is_noisy_nde' => $this->is_noisy_nde ? "Noise" : "Normal",
             'checked_by' => "$user?->first_name $user?->last_name",
             'created_at' => $this->created_at?->toFormattedDateString(),
         ];

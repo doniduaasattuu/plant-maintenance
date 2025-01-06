@@ -23,8 +23,8 @@ class MotorChecksExport implements FromCollection, WithHeadings
     public function collection()
     {
         $motorChecks = MotorCheck::select(
-            'operational_status_id',
-            'cleanliness_id',
+            'is_operational',
+            'is_clean',
             'number_of_greasing',
             'temperature_de',
             'temperature_body',
@@ -33,11 +33,11 @@ class MotorChecksExport implements FromCollection, WithHeadings
             'vibration_deh',
             'vibration_dea',
             'vibration_def',
-            'noise_de',
+            'is_noisy_de',
             'vibration_ndev',
             'vibration_ndeh',
             'vibration_ndef',
-            'noise_nde',
+            'is_noisy_nde',
             'checked_by',
             'created_at',
         )

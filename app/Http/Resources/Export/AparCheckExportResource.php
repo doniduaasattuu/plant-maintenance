@@ -20,10 +20,10 @@ class AparCheckExportResource extends JsonResource
         $user = User::find($this->checked_by);
 
         return [
-            'seal' => Goodness::find($this->seal)?->keyword,
-            'weight' => Goodness::find($this->weight)?->keyword,
-            'pressure' => Goodness::find($this->pressure)?->keyword,
-            'body' => Rustiness::find($this->body)?->keyword,
+            'is_seal_ok' => $this->is_seal_ok ? 'Good' : 'Not Good',
+            'is_weight_ok' => $this->is_weight_ok ? 'Good' : 'Not Good',
+            'is_pressure_ok' => $this->is_pressure_ok ? 'Good' : 'Not Good',
+            'is_body_ok' => $this->is_body_ok ? 'Good' : 'Not Good',
             'remark' => $this->remark,
             'checked_by' => "$user?->first_name $user?->last_name",
             'created_at' => $this->created_at?->toFormattedDateString(),
