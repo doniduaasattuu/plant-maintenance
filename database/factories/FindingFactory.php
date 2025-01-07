@@ -28,8 +28,6 @@ class FindingFactory extends Factory
             'functional_location_id' => $equipment->functional_location_id,
             'description' => fake()->sentence(),
             'notification' => '100' . fake()->numerify('#####'),
-            'attachment_before' => "findings/" . uniqid() . '.png',
-            'attachment_after' => $status == 2 ? "findings/" . uniqid() . '.png' : null,
             'reported_by' => User::all()->random()->id,
             'closed_by' => $status == 2 ? User::all()->random()->id : null,
             'created_at' => now()->subDay(),

@@ -2,8 +2,10 @@
 
 namespace App\Http\Resources\Simple;
 
+use App\Http\Resources\FindingAttachmentResource;
 use App\Http\Resources\FindingStatusResource;
 use App\Http\Resources\Simple\UserSimpleResource;
+use App\Models\Finding;
 use App\Models\FindingStatus;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -25,8 +27,7 @@ class FindingSimpleResource extends JsonResource
             'functional_location_id' => $this->functional_location_id,
             'description' => $this->description,
             'notification' => $this->notification,
-            'attachment_before' => $this->attachment_before,
-            'attachment_after' => $this->attachment_after,
+            'attachments' => FindingAttachmentResource::collection($this->whenLoaded('attachments')),
             'reported_by' => UserSimpleResource::make(User::find($this->reported_by)),
             'closed_by' =>  UserSimpleResource::make(User::find($this->closed_by)),
             'created_at' => $this->created_at?->toFormattedDateString(),

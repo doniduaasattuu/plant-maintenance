@@ -169,14 +169,6 @@ export default function Index({ auth, can, findings, findingStatuses }) {
                     <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
                         <div className="overflow-x-auto ">
                             <table className="table min-w-max">
-                                <thead>
-                                    <tr>
-                                        <th>Status</th>
-                                        <th>Description</th>
-                                        <th>Attachment</th>
-                                        <th>Reported by</th>
-                                    </tr>
-                                </thead>
                                 <tbody>
                                     {findings.data.map((finding) => {
                                         return (
@@ -184,7 +176,36 @@ export default function Index({ auth, can, findings, findingStatuses }) {
                                                 className="border-b-base-300"
                                                 key={finding.id}
                                             >
-                                                <td className="w-24">
+                                                <td>
+                                                    <div className="carousel rounded-box w-24 h-24">
+                                                        {finding.attachments.map((attachment) => (
+                                                            <div className="carousel-item w-full">
+                                                                <img
+                                                                    src={`/storage/${attachment.file_path}`}
+                                                                    className="w-full"
+                                                                    alt="Tailwind CSS Carousel component" />
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <div
+                                                        className={`badge ${finding
+                                                            .finding_status
+                                                            .id == 2
+                                                            ? "text-green-500"
+                                                            : "text-red-500"
+                                                            }`}
+                                                    >
+                                                        {
+                                                            finding
+                                                                .finding_status
+                                                                ?.keyword
+                                                        }
+                                                    </div>
+                                                </td>
+                                                {/* <td className="w-24">
                                                     {finding.equipment_id}
                                                     <br />
                                                     <span
@@ -206,9 +227,8 @@ export default function Index({ auth, can, findings, findingStatuses }) {
                                                     <p className="text-balance">
                                                         {finding.description}
                                                     </p>
-                                                </td>
-
-                                                <td>
+                                                </td> */}
+                                                {/* <td>
                                                     {finding.attachment_before && (
                                                         <span
                                                             className="link"
@@ -238,8 +258,9 @@ export default function Index({ auth, can, findings, findingStatuses }) {
                                                             After
                                                         </span>
                                                     )}
-                                                </td>
-                                                <td className="min-w-34">
+                                                </td> */}
+
+                                                {/* <td className="min-w-34">
                                                     {`${finding.reported_by
                                                         ?.first_name
                                                         } ${finding.reported_by
@@ -249,10 +270,11 @@ export default function Index({ auth, can, findings, findingStatuses }) {
                                                     <span className="opacity-50">
                                                         {finding.created_at}
                                                     </span>
-                                                </td>
+                                                </td> */}
 
-                                                {(can.finding_edit ||
-                                                    finding.canUpdate) && (
+                                                {/* {
+                                                    (can.finding_edit ||
+                                                        finding.canUpdate) && (
                                                         <td
                                                             onClick={() => {
                                                                 editFinding(
@@ -271,9 +293,11 @@ export default function Index({ auth, can, findings, findingStatuses }) {
                                                                 <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
                                                             </svg>
                                                         </td>
-                                                    )}
-                                                {(can.finding_delete ||
-                                                    finding.canDelete) && (
+                                                    )
+                                                }
+                                                {
+                                                    (can.finding_delete ||
+                                                        finding.canDelete) && (
                                                         <td
                                                             onClick={() =>
                                                                 openDeleteConfirm(
@@ -295,7 +319,8 @@ export default function Index({ auth, can, findings, findingStatuses }) {
                                                                 />
                                                             </svg>
                                                         </td>
-                                                    )}
+                                                    )
+                                                } */}
 
                                             </tr>
                                         );
@@ -310,6 +335,6 @@ export default function Index({ auth, can, findings, findingStatuses }) {
                     )}
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </AuthenticatedLayout >
     );
 }

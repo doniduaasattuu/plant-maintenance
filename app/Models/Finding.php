@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 
 class Finding extends Model
@@ -25,8 +27,6 @@ class Finding extends Model
         'functional_location_id',
         'description',
         'notification',
-        'attachment_before',
-        'attachment_after',
         'reported_by',
         'closed_by',
         'created_at',
@@ -36,6 +36,21 @@ class Finding extends Model
     public function equipment(): BelongsTo
     {
         return $this->belongsTo(Equipment::class, 'equipment_id', 'id');
+    }
+
+    public function attachments(): HasMany
+    {
+        return $this->hasMany(FindingAttachment::class, 'finding_id', 'id');
+    }
+
+    public function beforeAttachments(): Collection
+    {
+        return $this->attachments()->where('type', 'before');
+    }
+
+    public function afterAttachments(): Collection
+    {
+        return $this->attachments()->where('type', 'after');
     }
 
     public function scopeSearch(Builder $builder, Request $request)

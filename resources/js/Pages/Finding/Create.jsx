@@ -45,8 +45,8 @@ export default function Create({
         functional_location_id: functional_location_id ?? "",
         description: "",
         notification: "",
-        attachment_before: "",
-        attachment_after: "",
+        attachment_before: [],
+        attachment_after: [],
         created_at: date(),
         updated_at: "",
     });
@@ -60,32 +60,30 @@ export default function Create({
         });
     }
 
-    // VALIDATE FILE SIZE
-    let [fileSize0, setFileSize0] = useState("");
-    let [fileSize1, setFileSize1] = useState("");
+    const [inputErrors, setInputErrors] = useState(errors);
 
-    function validateFileSize(e, setter, field) {
-        errors[field] = "";
-        setter("");
+    useEffect(() => {
+        setInputErrors(errors);
+    }, [errors]);
 
-        if (e.target.files[0].size > uploadMaxFilesize) {
-            errors.attachment = `The attachment field must not be greater than ${uploadMaxFilesize / 1024
-                } kilobytes.`;
-        } else {
-            setter(
-                `File size: ${Math.round(
-                    e.target.files[0].size / 1024
-                )} kilobytes.`
-            );
-        }
-        setData(field, e.target.files[0]);
-    }
+    const handleFocus = (e) => {
+        setInputErrors({ ...inputErrors, [e.target.name]: null });
+    };
 
-    function resetAttachmentAfterField() {
-        setData("attachment_after", "");
-        document.getElementById("attachment_after").value = "";
-        setFileSize1("");
-    }
+    // function validateFileSize(e, field) {
+    //     errors[field] = "";
+
+    //     const files = e.target.files;
+
+    //     for (let i = 0; i < files.length; i++) {
+    //         if (files[i].size > uploadMaxFilesize) {
+    //             errors.field = `The attachment field must not be greater than ${uploadMaxFilesize / 1024
+    //                 } kilobytes.`;
+    //         }
+    //     }
+    //     setData(field, files);
+    //     console.info(files);
+    // }
 
     function resetUpdatedAtField() {
         setData("updated_at", "");
@@ -94,7 +92,6 @@ export default function Create({
 
     function resetFieldsValue() {
         resetUpdatedAtField();
-        resetAttachmentAfterField();
     }
 
     useEffect(() => {
@@ -124,6 +121,7 @@ export default function Create({
 
                             <form
                                 id="CreateFinding"
+                                name="CreateFinding"
                                 onSubmit={submit}
                                 className="mt-6 space-y-6"
                             >
@@ -135,6 +133,7 @@ export default function Create({
                                     />
                                     <SelectInput
                                         id="finding_status_id"
+                                        name="finding_status_id"
                                         className="mt-1 block w-sm"
                                         value={data.finding_status_id}
                                         withSelectName={false}
@@ -163,6 +162,7 @@ export default function Create({
 
                                     <TextInput
                                         id="equipment_id"
+                                        name="equipment_id"
                                         className="mt-1 block w-full"
                                         value={data.equipment_id}
                                         onChange={(e) =>
@@ -190,6 +190,7 @@ export default function Create({
 
                                     <TextInput
                                         id="functional_location_id"
+                                        name="functional_location_id"
                                         className="mt-1 block w-full"
                                         value={data.functional_location_id}
                                         onChange={(e) =>
@@ -217,6 +218,7 @@ export default function Create({
 
                                     <TextInput
                                         id="notification"
+                                        name="notification"
                                         className="mt-1 block w-full"
                                         value={data.notification}
                                         onChange={(e) =>
@@ -246,6 +248,7 @@ export default function Create({
 
                                         <Textarea
                                             id="description"
+                                            name="description"
                                             className="mt-1 block w-full textarea textarea-bordered h-24"
                                             placeholder="Finding description"
                                             value={data.description}
@@ -276,30 +279,28 @@ export default function Create({
                                         <FileInput
                                             accept="image/png, image/jpeg, image/jpg"
                                             id="attachment_before"
+                                            name="attachment_before"
                                             className="mt-1 block w-full"
                                             required
-                                            onChange={(e) =>
-                                                validateFileSize(
-                                                    e,
-                                                    setFileSize0,
-                                                    "attachment_before"
-                                                )
-                                            }
+                                            multiple
+                                            onChange={(e) => {
+                                                const files = Array.from(e.target.files);
+                                                setData('attachment_before', files);
+                                            }}
+                                            onFocus={handleFocus}
                                         />
 
-                                        {!errors.attachment_before ? (
-                                            <InputHelper
-                                                className="mt-2"
-                                                message={fileSize0}
-                                            />
-                                        ) : (
-                                            <InputError
-                                                className="mt-2"
-                                                message={
-                                                    errors.attachment_before
-                                                }
-                                            />
-                                        )}
+                                        {errors &&
+                                            Object.keys(errors)
+                                                .filter((key) => key.startsWith('attachment_before')) // Only show errors for attachment_before
+                                                .map((key, index) => (
+                                                    <InputError
+                                                        key={index}
+                                                        className="mt-2"
+                                                        message={errors[key]} // Display the error message for the specific file
+                                                    />
+                                                ))}
+
                                     </label>
                                 </div>
 
@@ -317,11 +318,11 @@ export default function Create({
                                     <FileInput
                                         accept="image/png, image/jpeg, image/jpg"
                                         id="attachment_after"
+                                        name="attachment_after"
                                         className="mt-1 block w-full"
                                         onChange={(e) =>
                                             validateFileSize(
                                                 e,
-                                                setFileSize1,
                                                 "attachment_after"
                                             )
                                         }
@@ -329,17 +330,16 @@ export default function Create({
                                         required={data.finding_status_id == 2}
                                     />
 
-                                    {!errors.attachment_after ? (
-                                        <InputHelper
-                                            className="mt-2"
-                                            message={fileSize1}
-                                        />
-                                    ) : (
-                                        <InputError
-                                            className="mt-2"
-                                            message={errors.attachment_after}
-                                        />
-                                    )}
+                                    {errors &&
+                                        Object.keys(errors)
+                                            .filter((key) => key.startsWith('attachment_after')) // Only show errors for attachment_after
+                                            .map((key, index) => (
+                                                <InputError
+                                                    key={index}
+                                                    className="mt-2"
+                                                    message={errors[key]} // Display the error message for the specific file
+                                                />
+                                            ))}
                                 </label>
 
                                 {/* CREATED AT */}
@@ -351,6 +351,7 @@ export default function Create({
 
                                     <DateInput
                                         id="created_at"
+                                        name="created_at"
                                         type="date"
                                         className="mt-1 block w-full"
                                         value={data.created_at}
@@ -382,6 +383,7 @@ export default function Create({
 
                                     <DateInput
                                         id="updated_at"
+                                        name="updated_at"
                                         type="date"
                                         className="mt-1 block w-full"
                                         onChange={(e) =>
