@@ -284,15 +284,24 @@ export default function Create({
                                             required
                                             multiple
                                             onChange={(e) => {
-                                                const files = Array.from(e.target.files);
-                                                setData('attachment_before', files);
+                                                const files = Array.from(
+                                                    e.target.files
+                                                );
+                                                setData(
+                                                    "attachment_before",
+                                                    files
+                                                );
                                             }}
                                             onFocus={handleFocus}
                                         />
 
                                         {errors &&
                                             Object.keys(errors)
-                                                .filter((key) => key.startsWith('attachment_before')) // Only show errors for attachment_before
+                                                .filter((key) =>
+                                                    key.startsWith(
+                                                        "attachment_before"
+                                                    )
+                                                ) // Only show errors for attachment_before
                                                 .map((key, index) => (
                                                     <InputError
                                                         key={index}
@@ -300,7 +309,6 @@ export default function Create({
                                                         message={errors[key]} // Display the error message for the specific file
                                                     />
                                                 ))}
-
                                     </label>
                                 </div>
 
@@ -320,19 +328,24 @@ export default function Create({
                                         id="attachment_after"
                                         name="attachment_after"
                                         className="mt-1 block w-full"
-                                        onChange={(e) =>
-                                            validateFileSize(
-                                                e,
-                                                "attachment_after"
-                                            )
-                                        }
+                                        onChange={(e) => {
+                                            const files = Array.from(
+                                                e.target.files
+                                            );
+                                            setData("attachment_after", files);
+                                        }}
                                         disabled={data.finding_status_id != 2}
                                         required={data.finding_status_id == 2}
+                                        multiple
                                     />
 
                                     {errors &&
                                         Object.keys(errors)
-                                            .filter((key) => key.startsWith('attachment_after')) // Only show errors for attachment_after
+                                            .filter((key) =>
+                                                key.startsWith(
+                                                    "attachment_after"
+                                                )
+                                            ) // Only show errors for attachment_after
                                             .map((key, index) => (
                                                 <InputError
                                                     key={index}

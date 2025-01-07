@@ -31,7 +31,7 @@ export default function Edit({ auth, can, finding, findingStatuses }) {
         functional_location_id: finding.data.functional_location?.id ?? "",
         description: finding.data.description ?? "",
         notification: finding.data.notification ?? "",
-        attachment_after: "",
+        attachment_after: [],
         updated_at: date() ?? "",
     });
 
@@ -65,33 +65,9 @@ export default function Edit({ auth, can, finding, findingStatuses }) {
         );
     }
 
-    // VALIDATE FILE SIZE
-    let [fileSize1, setFileSize1] = useState("");
-
-    function validateFileSize(e, setter, field) {
-        errors[field] = "";
-        setter("");
-
-        if (e.target.files[0].size > uploadMaxFilesize) {
-            errors[field] = `The ${field.replace(
-                "_",
-                " "
-            )} field must not be greater than ${uploadMaxFilesize / 1024
-                } kilobytes.`;
-        } else {
-            setter(
-                `File size: ${Math.round(
-                    e.target.files[0].size / 1024
-                )} kilobytes.`
-            );
-        }
-        setData(field, e.target.files[0]);
-    }
-
     function resetAttachmentAfterField() {
         setData("attachment_after", "");
         document.getElementById("attachment_after").value = "";
-        setFileSize1("");
     }
 
     function resetUpdatedAtField() {
@@ -285,28 +261,33 @@ export default function Edit({ auth, can, finding, findingStatuses }) {
                                     <FileInput
                                         accept="image/png, image/jpeg, image/jpg"
                                         id="attachment_after"
+                                        name="attachment_after"
                                         className="mt-1 block w-full"
-                                        onChange={(e) =>
-                                            validateFileSize(
-                                                e,
-                                                setFileSize1,
-                                                "attachment_after"
-                                            )
-                                        }
+                                        onChange={(e) => {
+                                            const files = Array.from(
+                                                e.target.files
+                                            );
+                                            setData("attachment_after", files);
+                                        }}
                                         disabled={data.finding_status_id != 2}
+                                        required={data.finding_status_id == 2}
+                                        multiple
                                     />
 
-                                    {!errors.attachment_after ? (
-                                        <InputHelper
-                                            className="mt-2"
-                                            message={fileSize1}
-                                        />
-                                    ) : (
-                                        <InputError
-                                            className="mt-2"
-                                            message={errors.attachment_after}
-                                        />
-                                    )}
+                                    {errors &&
+                                        Object.keys(errors)
+                                            .filter((key) =>
+                                                key.startsWith(
+                                                    "attachment_after"
+                                                )
+                                            ) // Only show errors for attachment_after
+                                            .map((key, index) => (
+                                                <InputError
+                                                    key={index}
+                                                    className="mt-2"
+                                                    message={errors[key]} // Display the error message for the specific file
+                                                />
+                                            ))}
                                 </label>
 
                                 {/* CREATED AT */}

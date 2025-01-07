@@ -34,7 +34,7 @@ class UpdateFindingRequest extends FormRequest
             'functional_location_id' => ['nullable', 'exists:App\Models\FunctionalLocation,id'],
             'notification' => ['nullable', 'digits:8', 'numeric'],
             'description' => ['required'],
-            'attachment_after' => ['nullable', 'image', 'prohibited_if:finding_status_id,1', "max:$upload_max_filesize"],
+            'attachment_after.*' => ['nullable', 'image', 'prohibited_if:finding_status_id,1', "max:$upload_max_filesize"],
             'closed_by' => ['nullable', 'required_if:finding_status_id,2', 'prohibited_if:finding_status_id,1', 'exists:App\Models\User,id'],
             'updated_at' => ['nullable'],
         ];

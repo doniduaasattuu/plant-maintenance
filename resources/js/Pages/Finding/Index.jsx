@@ -7,9 +7,7 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { isMobile } from "@/Utils/Helper";
 import { Head, Link, router } from "@inertiajs/react";
-import {
-    useEffect, useMemo, useRef, useState
-} from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 export default function Index({ auth, can, findings, findingStatuses }) {
     const initialRender = useRef(true);
@@ -166,167 +164,91 @@ export default function Index({ auth, can, findings, findingStatuses }) {
                             />
                         </div>
                     </div>
-                    <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
-                        <div className="overflow-x-auto ">
-                            <table className="table min-w-max">
-                                <tbody>
-                                    {findings.data.map((finding) => {
-                                        return (
-                                            <tr
-                                                className="border-b-base-300"
-                                                key={finding.id}
-                                            >
-                                                <td>
-                                                    <div className="carousel rounded-box w-24 h-24">
-                                                        {finding.attachments.map((attachment) => (
-                                                            <div className="carousel-item w-full">
-                                                                <img
-                                                                    src={`/storage/${attachment.file_path}`}
-                                                                    className="w-full"
-                                                                    alt="Tailwind CSS Carousel component" />
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </td>
-
-                                                <td>
-                                                    <div
-                                                        className={`badge ${finding
-                                                            .finding_status
-                                                            .id == 2
-                                                            ? "text-green-500"
-                                                            : "text-red-500"
-                                                            }`}
-                                                    >
-                                                        {
-                                                            finding
-                                                                .finding_status
-                                                                ?.keyword
-                                                        }
-                                                    </div>
-                                                </td>
-                                                {/* <td className="w-24">
-                                                    {finding.equipment_id}
-                                                    <br />
-                                                    <span
-                                                        className={`badge ${finding
-                                                            .finding_status
-                                                            .id == 2
-                                                            ? "text-green-500"
-                                                            : "text-red-500"
-                                                            }`}
-                                                    >
-                                                        {
-                                                            finding
-                                                                .finding_status
-                                                                ?.keyword
-                                                        }
-                                                    </span>
-                                                </td>
-                                                <td className="max-w-sm">
-                                                    <p className="text-balance">
-                                                        {finding.description}
-                                                    </p>
-                                                </td> */}
-                                                {/* <td>
-                                                    {finding.attachment_before && (
-                                                        <span
-                                                            className="link"
-                                                            onClick={(e) =>
-                                                                finding.attachment_before
-                                                                    ? handleAttachment(
-                                                                        finding.attachment_before
-                                                                    )
-                                                                    : undefined
-                                                            }
-                                                        >
-                                                            Before
-                                                        </span>
-                                                    )}
-                                                    <br />
-                                                    {finding.attachment_after && (
-                                                        <span
-                                                            className="link"
-                                                            onClick={(e) =>
-                                                                finding.attachment_after
-                                                                    ? handleAttachment(
-                                                                        finding.attachment_after
-                                                                    )
-                                                                    : undefined
-                                                            }
-                                                        >
-                                                            After
-                                                        </span>
-                                                    )}
-                                                </td> */}
-
-                                                {/* <td className="min-w-34">
-                                                    {`${finding.reported_by
-                                                        ?.first_name
-                                                        } ${finding.reported_by
-                                                            ?.last_name ?? ""
-                                                        }`}
-                                                    <br />
-                                                    <span className="opacity-50">
-                                                        {finding.created_at}
-                                                    </span>
-                                                </td> */}
-
-                                                {/* {
-                                                    (can.finding_edit ||
-                                                        finding.canUpdate) && (
-                                                        <td
-                                                            onClick={() => {
-                                                                editFinding(
-                                                                    finding.id
-                                                                );
-                                                            }}
-                                                            className="w-12 text-center text-blue-500 cursor-pointer"
-                                                        >
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                viewBox="0 0 20 20"
-                                                                fill="currentColor"
-                                                                className="size-5"
-                                                            >
-                                                                <path d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
-                                                                <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
-                                                            </svg>
-                                                        </td>
+                    <div className="p-4 sm:p-4 bg-base-200 shadow sm:rounded-lg">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-3">
+                            {findings.data.map((finding) => {
+                                return (
+                                    <div className="card bg-base-100 w-auto shadow-xl rounded-box space-y-2">
+                                        {finding.attachments.length < 1 ? (
+                                            <div className="carousel rounded-t-box p-3">
+                                                <img
+                                                    className="carousel-item w-full h-52 object-cover"
+                                                    src={`/storage/assets/photos/users/person.png`}
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div className="carousel rounded-t-box relative">
+                                                {finding.attachments.map(
+                                                    (attachment) => (
+                                                        <img
+                                                            className="carousel-item object-cover h-64 sm:h-52 w-full"
+                                                            src={`/storage/${attachment.file_path}`}
+                                                        />
                                                     )
-                                                }
-                                                {
-                                                    (can.finding_delete ||
-                                                        finding.canDelete) && (
-                                                        <td
-                                                            onClick={() =>
-                                                                openDeleteConfirm(
-                                                                    finding.id
-                                                                )
-                                                            }
-                                                            className="w-12 text-center text-red-500 cursor-pointer"
-                                                        >
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                viewBox="0 0 20 20"
-                                                                fill="currentColor"
-                                                                className="size-5"
-                                                            >
-                                                                <path
-                                                                    fillRule="evenodd"
-                                                                    d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
-                                                                    clipRule="evenodd"
-                                                                />
-                                                            </svg>
-                                                        </td>
-                                                    )
-                                                } */}
-
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
+                                                )}
+                                            </div>
+                                        )}
+                                        <div className="card-body p-4 space-y-2">
+                                            <h2 className="card-title">
+                                                {finding.equipment_id}
+                                                <div
+                                                    className={`badge rounded-box ${
+                                                        finding.finding_status
+                                                            .keyword === "Open"
+                                                            ? " badge-secondary"
+                                                            : " badge-primary"
+                                                    }`}
+                                                >
+                                                    {
+                                                        finding.finding_status
+                                                            .keyword
+                                                    }
+                                                </div>
+                                            </h2>
+                                            <p>{finding.description}</p>
+                                            <div className="card-actions justify-end space-x-2">
+                                                <div
+                                                    onClick={() => {
+                                                        editFinding(finding.id);
+                                                    }}
+                                                    className="text-center text-blue-500 cursor-pointer"
+                                                >
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 20 20"
+                                                        fill="currentColor"
+                                                        className="size-5"
+                                                    >
+                                                        <path d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
+                                                        <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
+                                                    </svg>
+                                                </div>
+                                                <div
+                                                    onClick={() =>
+                                                        openDeleteConfirm(
+                                                            finding.id
+                                                        )
+                                                    }
+                                                    className="text-center text-red-500 cursor-pointer"
+                                                >
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 20 20"
+                                                        fill="currentColor"
+                                                        className="size-5"
+                                                    >
+                                                        <path
+                                                            fillRule="evenodd"
+                                                            d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
+                                                            clipRule="evenodd"
+                                                        />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
 
@@ -335,6 +257,6 @@ export default function Index({ auth, can, findings, findingStatuses }) {
                     )}
                 </div>
             </div>
-        </AuthenticatedLayout >
+        </AuthenticatedLayout>
     );
 }

@@ -34,7 +34,7 @@ class FindingController extends Controller
         $findings = Finding::search($request)
             ->with('attachments')
             ->orderBy('id', 'DESC')
-            ->paginate(1)
+            ->paginate(8)
             ->withQueryString();
 
         $findingStatuses = FindingStatus::all();
@@ -166,13 +166,23 @@ class FindingController extends Controller
 
         if ($request->hasFile('attachment_after')) {
 
-            if ($finding->attachment_after) {
-                Storage::disk('public')->delete($finding->attachment_after);
-            }
+            // if ($finding->attachment_after) {
+            //     Storage::disk('public')->delete($finding->attachment_after);
+            // }
 
-            $attachmentAfter = fake()->uuid() .  '.' . strtolower($request->file('attachment_after')->extension());
-            $pathAfter = $request->file('attachment_after')->storeAs('findings', $attachmentAfter, 'public');
-            $validated['attachment_after'] = $pathAfter;
+            // $attachmentAfter = fake()->uuid() .  '.' . strtolower($request->file('attachment_after')->extension());
+            // $pathAfter = $request->file('attachment_after')->storeAs('findings', $attachmentAfter, 'public');
+            // $validated['attachment_after'] = $pathAfter;
+            foreach ($request->file('attachment_after') as $file) {
+                $fileName = fake()->uuid() . '.' . strtolower($file->extension());
+                $filePath = $file->storeAs('findings', $fileName, 'public');
+
+                FindingAttachment::create([
+                    'finding_id' => $finding->id,
+                    'type' => 'after',
+                    'file_path' => $filePath,
+                ]);
+            }
         }
 
         $finding->update($validated);
