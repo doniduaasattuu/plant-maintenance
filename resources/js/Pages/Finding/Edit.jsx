@@ -14,8 +14,15 @@ import { useState } from "react";
 import DateInput from "@/Components/DateInput";
 import { date } from "@/Utils/Helper";
 import { useEffect } from "react";
+import { useRef } from "react";
 
-export default function Edit({ auth, can, finding, findingStatuses }) {
+export default function Edit({
+    auth,
+    can,
+    finding,
+    findingStatuses,
+    currentPage,
+}) {
     const uploadMaxFilesize = usePage().props.upload_max_filesize * 1024;
 
     findingStatuses = findingStatuses.data.map((status) => {
@@ -24,6 +31,8 @@ export default function Edit({ auth, can, finding, findingStatuses }) {
             label: status.keyword,
         };
     });
+
+    const successUpdate = useRef(false);
 
     const { data, setData } = useForm(`EditFinding:${finding.data.id}`, {
         finding_status_id: finding.data.status.id ?? 1,
@@ -60,6 +69,7 @@ export default function Edit({ auth, can, finding, findingStatuses }) {
                 },
                 onFinish: (e) => {
                     setProcessing(false);
+                    successUpdate.current = true;
                 },
             }
         );
@@ -91,19 +101,23 @@ export default function Edit({ auth, can, finding, findingStatuses }) {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl leading-tight">
-                    Create Finding
+                    Edit Finding
                 </h2>
             }
         >
-            <Head title="Create finding" />
+            <Head title="Edit finding" />
 
             <div className="py-4">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
                     <div className="p-4 sm:p-8 bg-base-200 shadow sm:rounded-lg">
                         <section className="max-w-xl">
-                            <h2 className="text-lg font-medium">New Finding</h2>
+                            <h2 className="text-lg font-medium">
+                                Edit Finding
+                            </h2>
 
-                            <p className="mt-1 text-sm">Create new finding.</p>
+                            <p className="mt-1 text-sm">
+                                Update single finding.
+                            </p>
 
                             <form
                                 id={`EditFinding:${finding.data.id}`}
@@ -289,36 +303,6 @@ export default function Edit({ auth, can, finding, findingStatuses }) {
                                                 />
                                             ))}
                                 </label>
-
-                                {/* CREATED AT */}
-                                {/* <div>
-                                    <InputLabel
-                                        htmlFor="created_at"
-                                        value="Date created*"
-                                    />
-
-                                    <DateInput
-                                        id="created_at"
-                                        type="date"
-                                        className="mt-1 block w-full"
-                                        value={data.created_at}
-                                        onChange={(e) =>
-                                            setData(
-                                                "created_at",
-                                                toFormattedDateTimeString(
-                                                    e.target.value
-                                                )
-                                            )
-                                        }
-                                        required
-                                    />
-
-                                    <InputError
-                                        className="mt-2"
-                                        message={errors.created_at}
-                                    />
-                                </div> */}
-
                                 {/* UPDATED AT */}
                                 <div>
                                     <InputLabel
@@ -356,7 +340,12 @@ export default function Edit({ auth, can, finding, findingStatuses }) {
                                         <SecondaryButton
                                             onClick={(e) => {
                                                 e.preventDefault();
-                                                window.history.back();
+                                                if (successUpdate.current) {
+                                                    window.location.href =
+                                                        currentPage;
+                                                } else {
+                                                    window.history.back();
+                                                }
                                             }}
                                         >
                                             Back

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Request;
 
 class Finding extends Model
@@ -36,6 +37,11 @@ class Finding extends Model
     public function equipment(): BelongsTo
     {
         return $this->belongsTo(Equipment::class, 'equipment_id', 'id');
+    }
+
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class,  'id', 'reported_by');
     }
 
     public function attachments(): HasMany
@@ -71,7 +77,7 @@ class Finding extends Model
                             ->orWhere('closed_by', 'LIKE', "%{$search}%")
                             ->orWhere('description', 'LIKE', "%{$search}%")
                             ->orWhere(function ($query) use ($search) {
-                                $query->whereRelation('users', 'first_name', 'LIKE', "%{$search}%");
+                                $query->whereRelation('user', 'first_name', 'LIKE', "%{$search}%");
                             });
                     });
             })
@@ -84,7 +90,7 @@ class Finding extends Model
                     ->orWhere('closed_by', 'LIKE', "%{$search}%")
                     ->orWhere('description', 'LIKE', "%{$search}%")
                     ->orWhere(function ($query) use ($search) {
-                        $query->whereRelation('users', 'first_name', 'LIKE', "%{$search}%");
+                        $query->whereRelation('user', 'first_name', 'LIKE', "%{$search}%");
                     });
             })
             ->when($finding_status_id && is_null($search), function ($query) use ($finding_status_id) {

@@ -26,7 +26,6 @@ class FindingController extends Controller
 
         if ($request->expectsJson()) {
             $findings = Finding::search($request)
-                ->with("attachments")
                 ->get();
 
             return response()->json($findings);
@@ -74,11 +73,7 @@ class FindingController extends Controller
 
         if ($request->hasFile('attachment_before') && !$request->hasFile('attachment_after')) {
 
-            // OPEN FINDING
-            // $attachmentBefore = fake()->uuid() .  '.' . strtolower($request->file('attachment_before')->extension());
-            // $pathBefore = $request->file('attachment_before')->storeAs('findings', $attachmentBefore, 'public');
-            // $validated['attachment_before'] = $pathBefore;
-
+            // #OPEN FINDING
             foreach ($request->file('attachment_before') as $file) {
                 $fileName = fake()->uuid() . '.' . strtolower($file->extension());
                 $filePath = $file->storeAs('findings', $fileName, 'public');
@@ -91,7 +86,7 @@ class FindingController extends Controller
             }
         } else if ($request->hasFile('attachment_before') && $request->hasFile('attachment_after')) {
 
-            // CLOSED FINDING
+            // #CLOSED FINDING
             // ATTACHMENT BEFORE
             foreach ($request->file('attachment_before') as $file) {
                 $fileName = fake()->uuid() . '.' . strtolower($file->extension());
@@ -103,9 +98,6 @@ class FindingController extends Controller
                     'file_path' => $filePath,
                 ]);
             }
-            // $attachmentBefore = fake()->uuid() .  '.' . strtolower($request->file('attachment_before')->extension());
-            // $pathBefore = $request->file('attachment_before')->storeAs('findings', $attachmentBefore, 'public');
-            // $validated['attachment_before'] = $pathBefore;
 
             // ATTACHMENT AFTER
             foreach ($request->file('attachment_after') as $file) {
@@ -118,9 +110,6 @@ class FindingController extends Controller
                     'file_path' => $filePath,
                 ]);
             }
-            // $attachmentAfter = fake()->uuid() .  '.' . strtolower($request->file('attachment_after')->extension());
-            // $pathAfter = $request->file('attachment_after')->storeAs('findings', $attachmentAfter, 'public');
-            // $validated['attachment_after'] = $pathAfter;
         }
 
 
@@ -140,7 +129,7 @@ class FindingController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Finding $finding)
+    public function edit(Request $request, Finding $finding)
     {
         if (!Gate::allows('finding_edit') && !Gate::allows('update', $finding)) {
             abort(403);
@@ -151,6 +140,7 @@ class FindingController extends Controller
         return Inertia::render('Finding/Edit', [
             'finding' => FindingResource::make($finding),
             'findingStatuses' => FindingStatusResource::collection($findingStatuses),
+            'currentPage' => $request->currentPage,
         ]);
     }
 
@@ -167,13 +157,6 @@ class FindingController extends Controller
 
         if ($request->hasFile('attachment_after')) {
 
-            // if ($finding->attachment_after) {
-            //     Storage::disk('public')->delete($finding->attachment_after);
-            // }
-
-            // $attachmentAfter = fake()->uuid() .  '.' . strtolower($request->file('attachment_after')->extension());
-            // $pathAfter = $request->file('attachment_after')->storeAs('findings', $attachmentAfter, 'public');
-            // $validated['attachment_after'] = $pathAfter;
             foreach ($request->file('attachment_after') as $file) {
                 $fileName = fake()->uuid() . '.' . strtolower($file->extension());
                 $filePath = $file->storeAs('findings', $fileName, 'public');
