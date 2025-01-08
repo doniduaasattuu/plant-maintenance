@@ -26,6 +26,7 @@ class FindingController extends Controller
 
         if ($request->expectsJson()) {
             $findings = Finding::search($request)
+                ->with("attachments")
                 ->get();
 
             return response()->json($findings);
