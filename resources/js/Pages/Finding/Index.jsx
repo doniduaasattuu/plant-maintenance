@@ -88,6 +88,11 @@ export default function Index({ auth, can, findings, findingStatuses }) {
         setIsOpen(true);
     };
 
+    // SHOW FINDING
+    function handleShowFinding(id) {
+        router.get(route("findings.show", id));
+    }
+
     // EDIT FINDING
     function handleEditFinding(id) {
         router.get(route("findings.edit", id), {
@@ -196,10 +201,10 @@ export default function Index({ auth, can, findings, findingStatuses }) {
                                         </div>
                                     )}
                                     <div className="card-body p-4 space-y-2">
-                                        <h2 className="card-title text-opacity-65">
+                                        <h2 className="card-title font-extrabold text-lg text-opacity-65">
                                             {finding.equipment_id}
                                             <div
-                                                className={`badge rounded-box ${
+                                                className={`badge badge-sm rounded-box ${
                                                     finding.finding_status
                                                         .keyword === "Open"
                                                         ? " badge-secondary"
@@ -215,7 +220,14 @@ export default function Index({ auth, can, findings, findingStatuses }) {
                                                 {finding.notification}
                                             </div>
                                             <div className="card-actions space-x-1 justify-end">
-                                                <div className="text-center text-green-500 cursor-pointer">
+                                                <div
+                                                    onClick={() =>
+                                                        handleShowFinding(
+                                                            finding.id
+                                                        )
+                                                    }
+                                                    className="text-center text-green-500 cursor-pointer"
+                                                >
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="currentColor"

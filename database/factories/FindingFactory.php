@@ -19,7 +19,7 @@ class FindingFactory extends Factory
      */
     public function definition(): array
     {
-        $equipment = Equipment::where('equipment_status_id', 2)->first();
+        $equipment = Equipment::where('equipment_status_id', 2)->get()->random();
         $status = FindingStatus::all()->random()->id;
 
         return [

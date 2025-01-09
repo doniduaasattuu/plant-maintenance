@@ -112,7 +112,6 @@ class FindingController extends Controller
             }
         }
 
-
         return redirect()
             ->route('findings.index')
             ->with('success', 'Successfully created');
@@ -123,7 +122,12 @@ class FindingController extends Controller
      */
     public function show(Finding $finding)
     {
-        //
+        Gate::authorize('finding_show');
+        $finding->load('attachments');
+
+        return Inertia::render('Finding/Show', [
+            'finding' => FindingResource::make($finding),
+        ]);
     }
 
     /**
